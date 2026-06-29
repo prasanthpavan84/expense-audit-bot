@@ -1,0 +1,110 @@
+================================================================================
+              EXPENSEAUDITBOT — 3-MINUTE LIVE DEMO SCRIPT
+================================================================================
+
+TOTAL TIME: ~3 minutes
+TOOLS NEEDED: Terminal, Browser (localhost:18081)
+
+================================================================================
+[0:00 – 0:30]  INTRO
+================================================================================
+
+"Hi, I'm [Your Name] and this is ExpenseAuditBot — a multi-agent system
+ that automates corporate expense auditing using Google's Agent Development
+ Kit 2.0 and the Model Context Protocol.
+
+ The problem: manual expense auditing is slow, inconsistent, and risky.
+ Sensitive data like credit-card numbers can leak, and policy violations
+ slip through.
+
+ ExpenseAuditBot solves this with a secure, multi-agent pipeline that
+ extracts receipt details, checks corporate policies, scrubs PII,
+ and escalates big-ticket items for human approval — all automatically."
+
+================================================================================
+[0:30 – 0:50]  ARCHITECTURE WALKTHROUGH
+================================================================================
+
+(Show the architecture diagram or the Mermaid chart in the README.)
+
+"Here's how it works:
+
+ 1. User input hits the Security Checkpoint first — it redacts credit
+    cards, emails, and SSNs, and blocks prompt-injection attempts.
+
+ 2. Clean input goes to the Audit Orchestrator, which delegates to two
+    specialist sub-agents:
+    - Receipt Extractor: pulls structured data from the receipt text
+    - Policy Verifier: checks amounts against corporate limits and
+      vendor restrictions using the MCP Server
+
+ 3. A routing node decides the outcome:
+    - Under $200 and compliant → auto-approved
+    - Over $200 → pauses for human review
+    - Policy violation → auto-denied
+
+ Let me show you all three paths live."
+
+================================================================================
+[0:50 – 1:30]  SCENARIO A — AUTO-APPROVED
+================================================================================
+
+(Type or paste into the ADK Playground chat:)
+
+  Please audit this expense: Lunch with a client at Pizza Hut on
+  2026-06-25. Total amount: $35.50 USD. Merchant: Pizza Hut.
+  Items: 2 Pizzas, 1 Salad, 2 Sodas.
+
+"This is a $35.50 lunch — well under the $50 meals limit. Watch the
+ agent extract the details, verify the policy, and auto-approve it."
+
+(Point out the structured output: merchant, category, amount, status.)
+
+================================================================================
+[1:30 – 2:15]  SCENARIO B — HUMAN-IN-THE-LOOP
+================================================================================
+
+(Start a new session. Type or paste:)
+
+  Please audit this expense: Hotel stay for 3 nights during tech
+  conference. Merchant: Hilton Hotels. Date: 2026-06-28.
+  Total amount: $280.00 USD. Items: Room charge.
+
+"This $280 hotel charge is policy-compliant, but it exceeds the $200
+ threshold. The agent pauses and asks ME — the human auditor — whether
+ to approve or deny."
+
+(The playground shows a prompt. Type:  approve — looks good, conference was pre-authorized.)
+
+"Once I approve, the workflow continues and finalizes the report.
+ This is human-in-the-loop escalation built right into the ADK graph."
+
+================================================================================
+[2:15 – 2:50]  SCENARIO C — AUTO-DENIED
+================================================================================
+
+(Start a new session. Type or paste:)
+
+  Please audit this expense: Team celebratory drinks at Gold Club Bar
+  on 2026-06-27. Total amount: $90.00 USD. Items: Beer, cocktails.
+
+"The vendor name contains 'Bar' — a restricted category in our MCP
+ policy server. The agent auto-denies this immediately. No human
+ review needed; the system enforces the rules."
+
+(Point out the denial reason in the output.)
+
+================================================================================
+[2:50 – 3:00]  CLOSING
+================================================================================
+
+"To summarize: ExpenseAuditBot uses ADK 2.0 workflows, MCP tooling,
+ PII protection, and human-in-the-loop to create a production-grade
+ expense audit pipeline. It's secure, extensible, and ready to
+ integrate with real corporate systems.
+
+ Thank you!"
+
+================================================================================
+                           END OF DEMO SCRIPT
+================================================================================

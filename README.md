@@ -117,9 +117,9 @@ graph TD
 
 ## Assets
 
-- **Workflow Architecture Diagram**: [architecture_diagram.png](file:///c:/Users/prasa/OneDrive/Desktop/New%20folder/akd-workspace/expense-audit-bot/assets/architecture_diagram.png)
-- **Cover Page Banner**: [cover_page_banner.png](file:///c:/Users/prasa/OneDrive/Desktop/New%20folder/akd-workspace/expense-audit-bot/assets/cover_page_banner.png)
+- **Workflow Architecture Diagram**: ![Architecture Diagram](assets/architecture_diagram.png)
+- **Cover Page Banner**: ![Cover Banner](assets/cover_page_banner.png)
 
 ## Demo Script
 
-The timed, spoken presentation script can be found here: [DEMO_SCRIPT.txt](file:///c:/Users/prasa/OneDrive/Desktop/New%20folder/akd-workspace/expense-audit-bot/DEMO_SCRIPT.txt).
+The timed, spoken presentation script can be found here: [DEMO_SCRIPT.txt](DEMO_SCRIPT.txt).
