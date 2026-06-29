@@ -100,7 +100,7 @@ graph TD
    git add .
    git commit -m "Initial commit: expense-audit-bot ADK agent"
    git branch -M main
-   git remote add origin https://github.com/<your-username>/expense-audit-bot.git
+   git remote add origin https://github.com/pavanprasanth84/expense-audit-bot.git
    git push -u origin main
    ```
 
