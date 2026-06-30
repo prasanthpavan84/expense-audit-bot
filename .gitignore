@@ -33,3 +33,5 @@ terraform.tfstate.backup
 
 # Artifacts & traces
 artifacts/
+scratch/
+.google-agents-cli/

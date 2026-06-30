@@ -65,7 +65,7 @@ known-first-party = ["app", "frontend"]
 # See: https://docs.astral.sh/ty/
 
 [tool.ty.environment]
-python-version = "3.10"
+python-version = "3.11"
 
 [tool.ty.src]
 exclude = [".venv/**"]
@@ -80,6 +80,7 @@ invalid-return-type = "ignore"
 possibly-missing-attribute = "ignore"
 not-subscriptable = "ignore"
 deprecated = "ignore"
+unknown-argument = "ignore"
 
 [tool.codespell]
 ignore-words-list = "rouge"

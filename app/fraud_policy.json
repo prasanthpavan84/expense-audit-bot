@@ -1,0 +1,30 @@
+{
+  "weights": {
+    "restricted_vendor": 40,
+    "excessive_amount": 20,
+    "weekend_anomaly": 15,
+    "duplicate_claim_history": 30,
+    "duplicate_claim_session": 30,
+    "repeated_merchant_30days": 15,
+    "just_under_threshold": 25,
+    "manipulated_receipt": 60,
+    "low_ocr_confidence": 20,
+    "outlier_spending": 30,
+    "fake_merchant": 20
+  },
+  "thresholds": {
+    "review_limit_usd": 200.0,
+    "review_limit_inr": 16600.0,
+    "ocr_confidence_warning": 0.7,
+    "high_risk_score": 60,
+    "medium_risk_score": 30
+  },
+  "fake_merchant_keywords": [
+    "test merchant",
+    "dummy store",
+    "fake corp",
+    "unknown vendor",
+    "sample store",
+    "john doe"
+  ]
+}
