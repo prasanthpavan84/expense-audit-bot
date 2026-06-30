@@ -32,6 +32,16 @@ async def mock_generate_content_async(self, llm_request, stream=False):
 
 class TestMultiExpenseIntegration:
     async def run_multi_audit(self):
+        # Reset database.json to prevent duplicate claim errors from previous test runs
+        project_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        db_path = os.path.join(project_dir, "app", "database.json")
+        try:
+            import json
+            with open(db_path, "w") as f:
+                json.dump([], f)
+        except Exception:
+            pass
+
         old_mock = os.environ.get("MOCK_LLM")
         os.environ["MOCK_LLM"] = "False"
         

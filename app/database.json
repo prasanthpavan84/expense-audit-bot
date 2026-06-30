@@ -13,22 +13,6 @@
     ],
     "status": "Approved",
     "fraud_score": 0,
-    "claimed_at": "2026-06-30T04:01:19.589056Z"
-  },
-  {
-    "id": "exp-2026-06-30-2",
-    "employee_id": "EMP102",
-    "department": "Engineering",
-    "merchant": "Uber",
-    "date": "2026-06-25",
-    "amount": 25.0,
-    "currency": "USD",
-    "category": "Taxi",
-    "items": [
-      "Item 1"
-    ],
-    "status": "Approved",
-    "fraud_score": 0,
-    "claimed_at": "2026-06-30T04:06:26.637260Z"
+    "claimed_at": "2026-06-30T05:35:39.745443Z"
   }
 ]

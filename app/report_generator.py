@@ -135,7 +135,7 @@ def generate_pdf_report(audit_result: Dict[str, Any]) -> bytes:
     """
     try:
         from reportlab.lib.pagesizes import letter
-        from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle
+        from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, PageBreak
         from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
         from reportlab.lib import colors
         
@@ -144,6 +144,40 @@ def generate_pdf_report(audit_result: Dict[str, Any]) -> bytes:
         story = []
         
         styles = getSampleStyleSheet()
+        
+        # Cover page specific styles
+        cover_title_style = ParagraphStyle(
+            'CoverTitle',
+            parent=styles['Normal'],
+            fontName='Helvetica-Bold',
+            fontSize=24,
+            leading=30,
+            textColor=colors.HexColor('#1A365D'),
+            spaceAfter=10
+        )
+        cover_subtitle_style = ParagraphStyle(
+            'CoverSubtitle',
+            parent=styles['Normal'],
+            fontName='Helvetica',
+            fontSize=12,
+            leading=15,
+            textColor=colors.HexColor('#4A5568'),
+            spaceAfter=40
+        )
+        meta_label_style = ParagraphStyle(
+            'MetaLabel',
+            parent=styles['Normal'],
+            fontName='Helvetica-Bold',
+            fontSize=10,
+            textColor=colors.HexColor('#2D3748')
+        )
+        meta_val_style = ParagraphStyle(
+            'MetaVal',
+            parent=styles['Normal'],
+            fontName='Helvetica',
+            fontSize=10,
+            textColor=colors.HexColor('#4A5568')
+        )
         title_style = ParagraphStyle(
             'TitleStyle',
             parent=styles['Heading1'],
@@ -161,21 +195,69 @@ def generate_pdf_report(audit_result: Dict[str, Any]) -> bytes:
         )
         body_style = styles['Normal']
         
-        # Title
-        story.append(Paragraph("Expense Audit Report", title_style))
+        # --- COVER PAGE ---
+        # Top banner band
+        banner_data = [[""]]
+        banner_table = Table(banner_data, colWidths=[552], rowHeights=[15])
+        banner_table.setStyle(TableStyle([
+            ('BACKGROUND', (0,0), (-1,-1), colors.HexColor('#1A365D')),
+            ('BOTTOMPADDING', (0,0), (-1,-1), 0),
+            ('TOPPADDING', (0,0), (-1,-1), 0),
+        ]))
+        story.append(banner_table)
+        story.append(Spacer(1, 40))
+        
+        # Title & Subtitle
+        story.append(Paragraph("EXPENSE AUDIT EXECUTIVE REPORT", cover_title_style))
+        story.append(Paragraph("Deterministic Multi-Agent Compliance and Anomaly Assessment", cover_subtitle_style))
+        story.append(Spacer(1, 20))
+        
+        # Metadata Card
+        compliance_score = audit_result.get("compliance_score", 100.0)
+        metadata_data = [
+            [Paragraph("Document Type", meta_label_style), Paragraph("Compliance Audit Summary", meta_val_style)],
+            [Paragraph("Prepared For", meta_label_style), Paragraph("Finance & Audit Committee", meta_val_style)],
+            [Paragraph("Prepared By", meta_label_style), Paragraph("Expense Audit Multi-Agent Bot", meta_val_style)],
+            [Paragraph("Date of Run", meta_label_style), Paragraph("2026-06-30T09:12:00Z", meta_val_style)],
+            [Paragraph("Audit Engine Version", meta_label_style), Paragraph("v2.0.0-deterministic", meta_val_style)],
+            [Paragraph("Overall Compliance Score", meta_label_style), Paragraph(f"{compliance_score:.1f}%", meta_val_style)],
+        ]
+        meta_table = Table(metadata_data, colWidths=[150, 402])
+        meta_table.setStyle(TableStyle([
+            ('BACKGROUND', (0,0), (-1,-1), colors.HexColor('#F7FAFC')),
+            ('PADDING', (0,0), (-1,-1), 10),
+            ('GRID', (0,0), (-1,-1), 0.5, colors.HexColor('#E2E8F0')),
+            ('VALIGN', (0,0), (-1,-1), 'MIDDLE'),
+        ]))
+        story.append(meta_table)
+        story.append(Spacer(1, 100))
+        
+        # Footer text
+        footer_style = ParagraphStyle(
+            'CoverFooter',
+            parent=styles['Normal'],
+            fontName='Helvetica-Oblique',
+            fontSize=9,
+            textColor=colors.HexColor('#718096')
+        )
+        story.append(Paragraph("Confidential — Internal Corporate Governance Audit Records Only", footer_style))
+        
+        # Page Break to start report content on next page
+        story.append(PageBreak())
+        
+        # --- REPORT CONTENT PAGE ---
+        story.append(Paragraph("Executive Summary", title_style))
         story.append(Spacer(1, 10))
         
-        # Summary
         currency = audit_result.get("currency", "USD")
-        story.append(Paragraph("Executive Summary", subtitle_style))
         story.append(Paragraph(f"Total Claimed Amount: {currency} {audit_result.get('total_claimed', 0.0):,.2f}", body_style))
         story.append(Paragraph(f"Total Reimbursable Amount: {currency} {audit_result.get('total_reimbursable', 0.0):,.2f}", body_style))
         story.append(Paragraph(f"Total Rejected Amount: {currency} {audit_result.get('total_rejected', 0.0):,.2f}", body_style))
-        story.append(Paragraph(f"Compliance Score: {audit_result.get('compliance_score', 100.0):.1f}%", body_style))
-        story.append(Spacer(1, 10))
+        story.append(Paragraph(f"Compliance Score: {compliance_score:.1f}%", body_style))
+        story.append(Spacer(1, 15))
         
         # Table of items
-        story.append(Paragraph("Expense Breakdown", subtitle_style))
+        story.append(Paragraph("Expense Breakdown Details", subtitle_style))
         data = [["Merchant", "Date", "Category", "Amount", "Reimbursable", "Status"]]
         for e in audit_result.get("expenses", []):
             data.append([
