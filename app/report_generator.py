@@ -212,9 +212,9 @@ def generate_pdf_report(audit_result: Dict[str, Any]) -> bytes:
         story.append(Paragraph("Deterministic Multi-Agent Compliance and Anomaly Assessment", cover_subtitle_style))
         
         # Add Professional Cover page Image Asset
-        img_path = os.path.join(os.path.dirname(__file__), "assets", "coverpage_diagram.png")
+        img_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "assets", "cover_page_banner.png")
         if os.path.exists(img_path):
-            story.append(Image(img_path, width=280, height=130))
+            story.append(Image(img_path, width=450, height=100))
             story.append(Spacer(1, 20))
         else:
             story.append(Spacer(1, 20))
