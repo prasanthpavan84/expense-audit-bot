@@ -135,7 +135,7 @@ def generate_pdf_report(audit_result: Dict[str, Any]) -> bytes:
     """
     try:
         from reportlab.lib.pagesizes import letter
-        from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, PageBreak
+        from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, PageBreak, Image
         from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
         from reportlab.lib import colors
         
@@ -162,7 +162,7 @@ def generate_pdf_report(audit_result: Dict[str, Any]) -> bytes:
             fontSize=12,
             leading=15,
             textColor=colors.HexColor('#4A5568'),
-            spaceAfter=40
+            spaceAfter=25
         )
         meta_label_style = ParagraphStyle(
             'MetaLabel',
@@ -210,7 +210,14 @@ def generate_pdf_report(audit_result: Dict[str, Any]) -> bytes:
         # Title & Subtitle
         story.append(Paragraph("EXPENSE AUDIT EXECUTIVE REPORT", cover_title_style))
         story.append(Paragraph("Deterministic Multi-Agent Compliance and Anomaly Assessment", cover_subtitle_style))
-        story.append(Spacer(1, 20))
+        
+        # Add Professional Cover page Image Asset
+        img_path = os.path.join(os.path.dirname(__file__), "assets", "coverpage_diagram.png")
+        if os.path.exists(img_path):
+            story.append(Image(img_path, width=280, height=130))
+            story.append(Spacer(1, 20))
+        else:
+            story.append(Spacer(1, 20))
         
         # Metadata Card
         compliance_score = audit_result.get("compliance_score", 100.0)
