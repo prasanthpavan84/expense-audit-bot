@@ -9,7 +9,8 @@ _project_dir = Path(__file__).resolve().parent.parent
 _workspace_root = _project_dir.parent
 load_dotenv(_workspace_root / ".env")  # workspace root .env
 load_dotenv(_project_dir / ".env", override=True)  # project .env overrides if present
-os.environ.setdefault("GOOGLE_GENAI_USE_VERTEXAI", "False")  # Gemini API key only
+os.environ.setdefault("GOOGLE_GENAI_USE_ENTERPRISE", "False")  # Gemini API key only
+os.environ.setdefault("GOOGLE_GENAI_USE_VERTEXAI", "False")  # Keep legacy key for older ADK compatibility
 
 
 @dataclass

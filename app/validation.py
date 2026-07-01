@@ -62,8 +62,11 @@ def check_hallucination(extracted: Dict[str, Any], raw_text: str) -> List[str]:
     # 1. Merchant Check
     merchant = extracted.get("merchant", "")
     if merchant and merchant.lower() != "unknown" and merchant.lower() != "other":
-        words = [w.strip() for w in re.split(r"\s+", merchant.lower()) if len(w.strip()) > 1]
-        if words and not any(word in text_lower for word in words):
+        # Remove punctuation for matching
+        clean_text_for_merchant = re.sub(r"[^\w\s]", " ", text_lower)
+        clean_merchant = re.sub(r"[^\w\s]", " ", merchant.lower())
+        words = [w.strip() for w in re.split(r"\s+", clean_merchant) if len(w.strip()) > 1]
+        if words and not any(word in clean_text_for_merchant for word in words):
             errors.append(f"Extracted merchant '{merchant}' was not found in the original text (possible hallucination).")
             
     # 2. Amount Check
@@ -79,8 +82,10 @@ def check_hallucination(extracted: Dict[str, Any], raw_text: str) -> List[str]:
                 
     return errors
 
-def validate_single_expense(expense: Dict[str, Any], raw_text: str, history: List[Dict[str, Any]] = None) -> List[str]:
+def validate_single_expense(expense: Dict[str, Any], raw_text: str, history: List[Dict[str, Any]] = None, session_id: str = None) -> List[str]:
     errors = []
+    if session_id:
+        print(f"AUDIT_TRACE: [Session: {session_id}] Validating expense: {expense.get('merchant')} - {expense.get('amount')}")
     
     # 1. Amounts Check (Hard Error)
     amount = expense.get("amount")
@@ -146,14 +151,14 @@ def validate_single_expense(expense: Dict[str, Any], raw_text: str, history: Lis
         if merchant_lower != "unknown" and date_str != "unknown":
             for past in history:
                 if (str(past.get("merchant")).lower() == merchant_lower and 
-                    str(past.get("date")) == date_str and 
-                    abs(float(past.get("amount", 0)) - amt) < 0.01):
+                     str(past.get("date")) == date_str and 
+                     abs(float(past.get("amount", 0)) - amt) < 0.01):
                     errors.append(f"Duplicate Claim Error: An identical expense from '{expense.get('merchant')}' on {date_str} for {expense.get('currency')} {amt:.2f} has already been submitted.")
                     break
                 
     return errors
 
-def validate_expenses(expenses: List[Dict[str, Any]], raw_text: str, history: List[Dict[str, Any]] = None) -> List[str]:
+def validate_expenses(expenses: List[Dict[str, Any]], raw_text: str, history: List[Dict[str, Any]] = None, session_id: str = None) -> List[str]:
     if not expenses:
         if raw_text and not re.search(r"\d+", raw_text):
             return ["Validation Error: No expense items or numerical amounts detected in input."]
@@ -163,7 +168,7 @@ def validate_expenses(expenses: List[Dict[str, Any]], raw_text: str, history: Li
     
     seen = set()
     for idx, exp in enumerate(expenses):
-        exp_errors = validate_single_expense(exp, raw_text, history)
+        exp_errors = validate_single_expense(exp, raw_text, history, session_id)
         if exp_errors:
             all_errors.extend([f"Expense #{idx+1}: {err}" for err in exp_errors])
             

@@ -541,10 +541,33 @@ def security_checkpoint(ctx: Context, node_input: Any = None) -> Event:
     pii_found = []
 
     # 1. Credit Cards
-    cc_regex = r"\b(?:\d[ -]*?){13,16}\b"
-    if re.search(cc_regex, scrubbed_text):
-        scrubbed_text = re.sub(cc_regex, "[REDACTED_CREDIT_CARD]", scrubbed_text)
-        pii_found.append("credit_card")
+    cc_regex = r"\b(?:\d[ -]*?){13,19}\b"
+    
+    def is_valid_luhn(card_number: str) -> bool:
+        digits = [int(d) for d in re.sub(r"\D", "", card_number)]
+        if len(digits) < 13 or len(digits) > 19:
+            return False
+        checksum = 0
+        reverse_digits = digits[::-1]
+        for i, digit in enumerate(reverse_digits):
+            if i % 2 == 1:
+                double_digit = digit * 2
+                if double_digit > 9:
+                    double_digit -= 9
+                checksum += double_digit
+            else:
+                checksum += digit
+        return checksum % 10 == 0
+
+    def cc_replacer(match):
+        val = match.group(0)
+        clean_val = re.sub(r"\D", "", val)
+        if is_valid_luhn(clean_val):
+            pii_found.append("credit_card")
+            return "[REDACTED_CREDIT_CARD]"
+        return val
+
+    scrubbed_text = re.sub(cc_regex, cc_replacer, scrubbed_text)
 
     # 2. Email Address
     email_regex = r"\b[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}\b"
@@ -912,7 +935,7 @@ async def calculator(ctx: Context, node_input: str) -> Event:
             "category": item["category"]
         })
         
-    validation_errs = validate_expenses(simulated_expenses, text)
+    validation_errs = validate_expenses(simulated_expenses, text, session_id=ctx.session.id)
     if validation_errs:
         formatted_response = f"""### Expense Summary
 Validation Failure
@@ -960,7 +983,7 @@ None
         }
         
         allowed, reimb, rej, item_violations, notes = evaluate_policy(
-            expense_item, role="Associate", justification=justification
+            expense_item, role="Associate", justification=justification, session_id=ctx.session.id
         )
         
         total_claimed += claimed
@@ -1067,7 +1090,7 @@ async def audit_orchestrator_node(ctx: Context, node_input: str) -> Event:
     # -------------------------------------------------------------------------
     # Step 6: Validation
     # -------------------------------------------------------------------------
-    validation_errs = validate_expenses(expenses_raw, raw_text, full_history)
+    validation_errs = validate_expenses(expenses_raw, raw_text, full_history, session_id=ctx.session.id)
     if validation_errs:
         currency = "USD"
         if expenses_raw:
@@ -1139,7 +1162,7 @@ None
     justification = detect_business_exceptions(raw_text)
     for exp in expenses_raw:
         allowed, reimb, rej, violations, notes = evaluate_policy(
-            exp, role=exp.get("employee_id", "Associate"), justification=justification
+            exp, role=exp.get("employee_id", "Associate"), justification=justification, session_id=ctx.session.id
         )
         policy_results.append((allowed, reimb, rej, violations, notes))
 
@@ -1240,7 +1263,7 @@ None
     # -------------------------------------------------------------------------
     overall_score = 100.0
     if len(audited_expenses) > 0:
-        overall_score = (sum(1 for e in audited_expenses if e["status"] in ["Approved", "Approved with Exception"]) / len(audited_expenses)) * 100.0
+        overall_score = (sum(1 for e in audited_expenses if e["status"] in ["Approved", "Approved with Exception", "Approved by Auditor"]) / len(audited_expenses)) * 100.0
 
     report_data = {
         "expenses": audited_expenses,
@@ -1335,6 +1358,8 @@ def finalize_expense(ctx: Context, node_input: str):
             "items": ["Item 1"],
             "status": status_val,
             "fraud_score": exp.get("fraud_score", 0),
+            "reimbursable": exp.get("reimbursable", exp.get("amount")),
+            "rejected": exp.get("rejected", 0.0),
             "claimed_at": datetime.datetime.utcnow().isoformat() + "Z"
         }
         

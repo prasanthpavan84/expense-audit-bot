@@ -32,12 +32,13 @@ async def mock_generate_content_async(self, llm_request, stream=False):
 
 class TestMultiExpenseIntegration:
     async def run_multi_audit(self):
-        # Reset database.json to prevent duplicate claim errors from previous test runs
+        # Set database path to a separate temporary integration test file
         project_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-        db_path = os.path.join(project_dir, "app", "database.json")
+        temp_db_path = os.path.join(project_dir, "tests", "integration", "temp_database.json")
+        os.environ["DATABASE_PATH"] = temp_db_path
         try:
             import json
-            with open(db_path, "w") as f:
+            with open(temp_db_path, "w") as f:
                 json.dump([], f)
         except Exception:
             pass
@@ -69,12 +70,22 @@ class TestMultiExpenseIntegration:
                     for part in event.content.parts:
                         if part.text:
                             full_text += part.text + "\n"
-                            
+                             
         await runner.close()
+        
+        # Clean up
         if old_mock is not None:
             os.environ["MOCK_LLM"] = old_mock
         elif "MOCK_LLM" in os.environ:
             del os.environ["MOCK_LLM"]
+            
+        if os.path.exists(temp_db_path):
+            try:
+                os.remove(temp_db_path)
+            except Exception:
+                pass
+        if "DATABASE_PATH" in os.environ:
+            del os.environ["DATABASE_PATH"]
         return full_text
 
 def test_multi_expense_workflow():

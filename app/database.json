@@ -13,6 +13,8 @@
     ],
     "status": "Approved",
     "fraud_score": 0,
-    "claimed_at": "2026-06-30T05:35:39.745443Z"
+    "reimbursable": 35.5,
+    "rejected": 0.0,
+    "claimed_at": "2026-06-30T17:27:38.246904Z"
   }
 ]

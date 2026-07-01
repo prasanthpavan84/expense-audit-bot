@@ -5,12 +5,9 @@ from app.query_engine import execute_query, load_database, save_database
 
 class TestQueryEngine(unittest.TestCase):
     def setUp(self):
-        # Backup existing database.json
-        self.db_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "app", "database.json")
-        self.backup_data = None
-        if os.path.exists(self.db_path):
-            with open(self.db_path, "r") as f:
-                self.backup_data = json.load(f)
+        # Set database path to a separate temporary test file
+        self.test_db_path = os.path.join(os.path.dirname(__file__), "test_database.json")
+        os.environ["DATABASE_PATH"] = self.test_db_path
                 
         # Setup temporary test database content
         self.test_data = [
@@ -63,16 +60,18 @@ class TestQueryEngine(unittest.TestCase):
                 "fraud_score": 50
             }
         ]
-        with open(self.db_path, "w") as f:
+        with open(self.test_db_path, "w") as f:
             json.dump(self.test_data, f, indent=2)
 
     def tearDown(self):
-        # Restore backup database
-        if self.backup_data is not None:
-            with open(self.db_path, "w") as f:
-                json.dump(self.backup_data, f, indent=2)
-        elif os.path.exists(self.db_path):
-            os.remove(self.db_path)
+        # Remove temporary test database file and clean env variable
+        if os.path.exists(self.test_db_path):
+            try:
+                os.remove(self.test_db_path)
+            except Exception:
+                pass
+        if "DATABASE_PATH" in os.environ:
+            del os.environ["DATABASE_PATH"]
 
     def test_filter_by_category(self):
         query = {

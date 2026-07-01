@@ -1,24 +1,32 @@
 import json
 import os
+import threading
 from typing import List, Dict, Any, Optional
 
+db_lock = threading.Lock()
+
+def get_db_path() -> str:
+    return os.getenv("DATABASE_PATH", os.path.join(os.path.dirname(__file__), "database.json"))
+
 def load_database() -> List[Dict[str, Any]]:
-    db_path = os.path.join(os.path.dirname(__file__), "database.json")
+    db_path = get_db_path()
     if os.path.exists(db_path):
-        try:
-            with open(db_path, "r") as f:
-                return json.load(f)
-        except Exception:
-            pass
+        with db_lock:
+            try:
+                with open(db_path, "r") as f:
+                    return json.load(f)
+            except Exception:
+                pass
     return []
 
 def save_database(data: List[Dict[str, Any]]) -> None:
-    db_path = os.path.join(os.path.dirname(__file__), "database.json")
-    try:
-        with open(db_path, "w") as f:
-            json.dump(data, f, indent=2)
-    except Exception:
-        pass
+    db_path = get_db_path()
+    with db_lock:
+        try:
+            with open(db_path, "w") as f:
+                json.dump(data, f, indent=2)
+        except Exception:
+            pass
 
 def add_expense_to_db(expense: Dict[str, Any]) -> None:
     db = load_database()
@@ -69,16 +77,24 @@ def execute_query(query_params: Dict[str, Any]) -> Dict[str, Any]:
             # Amount min
             amt_min = query_params.get("amount_min")
             if amt_min is not None:
-                exp_amt = float(exp.get("amount", 0.0))
-                if exp_amt < float(amt_min):
-                    continue
+                try:
+                    val_min = float(str(amt_min).replace(",", ""))
+                    exp_amt = float(exp.get("amount", 0.0))
+                    if exp_amt < val_min:
+                        continue
+                except (ValueError, TypeError):
+                    pass
                     
             # Amount max
             amt_max = query_params.get("amount_max")
             if amt_max is not None:
-                exp_amt = float(exp.get("amount", 0.0))
-                if exp_amt > float(amt_max):
-                    continue
+                try:
+                    val_max = float(str(amt_max).replace(",", ""))
+                    exp_amt = float(exp.get("amount", 0.0))
+                    if exp_amt > val_max:
+                        continue
+                except (ValueError, TypeError):
+                    pass
                     
             # Employee match
             emp_id = query_params.get("employee_id")
@@ -131,14 +147,23 @@ def execute_query(query_params: Dict[str, Any]) -> Dict[str, Any]:
             
             depts[dept]["total_claimed"] += amt_usd
             depts[dept]["count"] += 1
-            if exp.get("status") in ["Approved", "Approved with Exception", "Approved by Auditor"]:
-                depts[dept]["reimbursable"] += amt_usd
-            elif exp.get("status") == "Partially Approved":
-                # For partial, assume allowed/reimbursable is capped
-                depts[dept]["reimbursable"] += amt_usd * 0.7  # approximation for comparison
-                depts[dept]["rejected"] += amt_usd * 0.3
+            
+            reimb_val = exp.get("reimbursable")
+            rej_val = exp.get("rejected")
+            if reimb_val is not None and rej_val is not None:
+                reimb_usd = float(reimb_val) * rate
+                rej_usd = float(rej_val) * rate
+                depts[dept]["reimbursable"] += reimb_usd
+                depts[dept]["rejected"] += rej_usd
             else:
-                depts[dept]["rejected"] += amt_usd
+                if exp.get("status") in ["Approved", "Approved with Exception", "Approved by Auditor"]:
+                    depts[dept]["reimbursable"] += amt_usd
+                elif exp.get("status") == "Partially Approved":
+                    # For partial, assume allowed/reimbursable is capped
+                    depts[dept]["reimbursable"] += amt_usd * 0.7  # approximation for comparison
+                    depts[dept]["rejected"] += amt_usd * 0.3
+                else:
+                    depts[dept]["rejected"] += amt_usd
                 
             fraud = exp.get("fraud_score", 0)
             depts[dept]["fraud_scores"].append(fraud)

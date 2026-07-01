@@ -51,7 +51,8 @@ def load_company_policy() -> Dict[str, Any]:
 def evaluate_policy(
     expense: Dict[str, Any], 
     role: str = "Associate", 
-    justification: str = None
+    justification: str = None,
+    session_id: str = None
 ) -> Tuple[float, float, float, List[str], str]:
     """
     Evaluates an expense against corporate policies deterministically.
@@ -66,6 +67,9 @@ def evaluate_policy(
     claimed_amount = float(expense.get("amount", 0.0))
     currency = expense.get("currency", "USD").upper()
     
+    if session_id:
+        print(f"AUDIT_TRACE: [Session: {session_id}] Evaluating policy for category: {category} - claimed: {claimed_amount}")
+        
     violations = []
     notes = []
     
