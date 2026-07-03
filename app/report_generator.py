@@ -95,6 +95,12 @@ def generate_markdown_report(audit_result: Dict[str, Any]) -> str:
     md.append("### Clear Reasoning")
     md.append(reasoning)
     
+    # Append JSON block for format validation
+    md.append("")
+    md.append("```json")
+    md.append(json.dumps(audit_result, indent=2))
+    md.append("```")
+    
     return "\n".join(md)
 
 def generate_csv_report(audit_result: Dict[str, Any]) -> str:

@@ -1,0 +1,8 @@
+{
+  "Expense": ["Analyze", "Edit", "Compare", "Explain", "Delete"],
+  "Policy": ["Lookup", "Validate"],
+  "Audit": ["Run", "Review"],
+  "Reporting": ["Generate", "Summarize"],
+  "Conversation": [],
+  "Unknown": []
+}

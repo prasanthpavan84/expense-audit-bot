@@ -1,0 +1,12 @@
+{
+  "intent_router": ["intent_classification"],
+  "receipt_extractor": ["extraction"],
+  "policy_agent": ["policy_lookup"],
+  "fraud_agent": ["fraud_detection"],
+  "validation_agent": ["validation"],
+  "report_agent": ["report_generation"],
+  "query_agent": ["query"],
+  "hallucination_agent": ["hallucination_guard"],
+  "reflection_agent": ["reflection"],
+  "security_agent": ["security_check"]
+}

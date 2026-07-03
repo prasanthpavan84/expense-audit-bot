@@ -1,0 +1,7 @@
+hotel_limit_per_night: 200
+conference_approval_required: true
+manager_override_allowed: true
+employee_levels:
+  junior: 1
+  senior: 2
+  lead: 3

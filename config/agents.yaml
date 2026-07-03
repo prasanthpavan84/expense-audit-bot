@@ -1,0 +1,55 @@
+agents:
+  ocr_agent:
+    version: "1.0"
+    description: "OCR extraction agent"
+    class_path: "app.agents.ocr.OcrAgent"
+    max_concurrency: 5
+    timeout_seconds: 30
+    retry_policy:
+      max_attempts: 3
+      backoff_factor: 1.5
+  validation_agent:
+    version: "1.0"
+    description: "Expense validation agent"
+    class_path: "app.agents.validation.ValidationAgent"
+    max_concurrency: 5
+    timeout_seconds: 20
+    retry_policy:
+      max_attempts: 2
+      backoff_factor: 2.0
+  policy_agent:
+    version: "1.0"
+    description: "Policy checking agent"
+    class_path: "app.agents.policy.PolicyAgent"
+    max_concurrency: 3
+    timeout_seconds: 25
+    retry_policy:
+      max_attempts: 2
+      backoff_factor: 1.5
+  fraud_agent:
+    version: "1.0"
+    description: "Fraud detection agent"
+    class_path: "app.agents.fraud.FraudAgent"
+    max_concurrency: 3
+    timeout_seconds: 25
+    retry_policy:
+      max_attempts: 2
+      backoff_factor: 1.5
+  reflection_agent:
+    version: "1.0"
+    description: "Reflection and reasoning agent"
+    class_path: "app.agents.reflection.ReflectionAgent"
+    max_concurrency: 2
+    timeout_seconds: 30
+    retry_policy:
+      max_attempts: 3
+      backoff_factor: 1.5
+  report_agent:
+    version: "1.0"
+    description: "Report generation agent"
+    class_path: "app.agents.report.ReportAgent"
+    max_concurrency: 2
+    timeout_seconds: 30
+    retry_policy:
+      max_attempts: 1
+      backoff_factor: 1.0

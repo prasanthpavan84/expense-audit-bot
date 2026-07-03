@@ -5,7 +5,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 
 # Load workspace root .env first (fallback), then project .env (overrides)
-_project_dir = Path(__file__).resolve().parent.parent
+_project_dir = Path(__file__).resolve().parent.parent.parent
 _workspace_root = _project_dir.parent
 load_dotenv(_workspace_root / ".env")  # workspace root .env
 load_dotenv(_project_dir / ".env", override=True)  # project .env overrides if present

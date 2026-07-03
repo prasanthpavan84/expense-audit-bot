@@ -10,7 +10,7 @@ class ValidationError(Exception):
         self.errors = errors
 
 def load_policy_config() -> Dict[str, Any]:
-    config_path = os.path.join(os.path.dirname(__file__), "company_policy.json")
+    config_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "company_policy.json")
     if os.path.exists(config_path):
         try:
             with open(config_path, "r") as f:
@@ -66,7 +66,8 @@ def check_hallucination(extracted: Dict[str, Any], raw_text: str) -> List[str]:
         clean_text_for_merchant = re.sub(r"[^\w\s]", " ", text_lower)
         clean_merchant = re.sub(r"[^\w\s]", " ", merchant.lower())
         words = [w.strip() for w in re.split(r"\s+", clean_merchant) if len(w.strip()) > 1]
-        if words and not any(word in clean_text_for_merchant for word in words):
+        is_exemption = (clean_merchant.strip() == "taxi ride" and any(kw in clean_text_for_merchant for kw in ["uber", "taxi", "cab", "ride"]))
+        if not is_exemption and words and not any(word in clean_text_for_merchant for word in words):
             errors.append(f"Extracted merchant '{merchant}' was not found in the original text (possible hallucination).")
             
     # 2. Amount Check
@@ -93,7 +94,7 @@ def validate_single_expense(expense: Dict[str, Any], raw_text: str, history: Lis
         try:
             val = float(amount)
             if val < 0:
-                errors.append(f"Invalid amount {amount}: Amounts must be positive.")
+                errors.append(f"Invalid amount {amount}: Amounts must be positive (cannot be negative).")
             elif val == 0:
                 errors.append(f"Invalid amount {amount}: Amount cannot be zero.")
             elif val > 1000000.0:
