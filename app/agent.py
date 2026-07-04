@@ -233,10 +233,36 @@ class MockGemini(Gemini):
             )
             yield response
         else:
-            async for response in super().generate_content_async(
-                llm_request, stream=stream
-            ):
-                yield response
+            import asyncio
+            max_attempts = 5
+            backoff_sec = 6.0
+            for attempt in range(max_attempts):
+                try:
+                    async for response in super().generate_content_async(
+                        llm_request, stream=stream
+                    ):
+                        yield response
+                    return
+                except Exception as e:
+                    err_msg = str(e)
+                    is_rate_limit = "429" in err_msg or "RESOURCE_EXHAUSTED" in err_msg or "quota" in err_msg.lower()
+                    if is_rate_limit and attempt < 8:
+                        import re
+                        delay = 15.0
+                        delay_match = re.search(r"retry(?:ing)? in (\d+(?:\.\d+)?)s", err_msg, re.IGNORECASE)
+                        if not delay_match:
+                            delay_match = re.search(r"retryDelay':\s*'(\d+s?)'", err_msg, re.IGNORECASE)
+                        if delay_match:
+                            try:
+                                delay = float(delay_match.group(1).replace("s", "")) + 1.5
+                            except Exception:
+                                pass
+                        else:
+                            delay = 12.0 * (1.5 ** attempt)
+                        print(f"RATE LIMIT (429) DETECTED. Sleeping for {delay:.2f}s before retry {attempt+1}/8...")
+                        await asyncio.sleep(delay)
+                    else:
+                        raise e
 
 
 # Initialize model

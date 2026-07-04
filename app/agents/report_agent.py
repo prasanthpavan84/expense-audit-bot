@@ -1,12 +1,12 @@
 import uuid
-from datetime import datetime
+import datetime
 from core.agents.base_agent import BaseAgent
+from core.validation.schemas import AgentResult, WorkflowContext
 from core.metadata.capability import capability
-from core.validation.schemas import WorkflowContext, AgentResult
+from app.report_generator import generate_markdown_report, generate_csv_report
 from domain.report import Report
 from domain.expense import Expense
-from app.report_generator import generate_markdown_report, generate_csv_report
-
+from typing import Optional
 
 @capability(
     name="report_agent",
@@ -15,110 +15,127 @@ from app.report_generator import generate_markdown_report, generate_csv_report
     outputs=["report"]
 )
 class ReportAgent(BaseAgent):
-    """Report generation agent compiling audit outcomes into a structured Report."""
-
-    def initialize(self) -> None:
-        super().initialize()
-        self.logger.info("Report agent initialized.")
+    """Report Agent generates final reports in Markdown or CSV formats."""
 
     def execute(self, context: WorkflowContext) -> AgentResult:
-        receipt = context.receipt
-        policy_res = context.policy_res
-        fraud_res = context.fraud_res
-        validation_errors = context.metadata.get("validation_errors", [])
+        self.logger.info("Report Agent generating output reports.")
+        
+        # 1. Retrieve elements from context/metadata
+        receipt = context.get("receipt")
+        policy_res = context.get("policy_res")
+        fraud_res = context.get("fraud_res")
+        validation_errors = context.get("validation_errors", [])
+        
+        # Convert policy_res to dict if it's a PolicyResult object
+        if hasattr(policy_res, "model_dump"):
+            policy_res_dict = policy_res.model_dump()
+        elif isinstance(policy_res, dict):
+            policy_res_dict = policy_res
+        else:
+            policy_res_dict = {}
 
-        # Construct pure Domain Expense model
-        expense_id = str(uuid.uuid4())
-        
-        is_approved = True
-        violations = []
-        
-        if validation_errors:
+        # Pull reflection details
+        reflection_critique = context.metadata.get("reflection_critique")
+        needs_review = context.metadata.get("needs_human_review", False)
+        review_reason = context.metadata.get("human_review_reason")
+
+        # Map details for report structure
+        merchant = receipt.merchant_name if receipt else "Unknown"
+        amount = receipt.amount if receipt else 0.0
+        currency = receipt.currency if receipt else "USD"
+        date_val = receipt.date if receipt else "Unknown"
+
+        is_approved = not validation_errors
+        if policy_res_dict and policy_res_dict.get("violations"):
             is_approved = False
-            violations.extend(validation_errors)
-        
-        if policy_res:
-            violations.extend(policy_res.violations)
-            if not policy_res.is_compliant:
-                is_approved = False
+        if fraud_res and fraud_res.score > 0.7:
+            is_approved = False
 
-        if fraud_res:
-            if fraud_res.score > 0.7:
-                is_approved = False
-                violations.append(f"High fraud risk ({fraud_res.score:.2f})")
+        status_str = "APPROVED" if is_approved and not needs_review else "REJECTED"
 
-        category = "Other"
-        if receipt:
-            if hasattr(receipt, "category") and receipt.category:
-                category = receipt.category
-            else:
-                merchant_lower = receipt.merchant_name.lower()
-                text_lower = receipt.raw_text.lower() if receipt.raw_text else ""
-                if "meal" in text_lower or "food" in text_lower or "starbucks" in merchant_lower:
-                    category = "Meals"
-                elif "hotel" in text_lower or "stay" in text_lower or "hilton" in merchant_lower:
-                    category = "Hotel"
-                elif "uber" in merchant_lower or "taxi" in merchant_lower or "ride" in merchant_lower:
-                    category = "Taxi"
-                elif "flight" in text_lower:
-                    category = "Flight"
-                elif "software" in text_lower:
-                    category = "Software"
-
-        expense = Expense(
-            id=expense_id,
-            employee_id="EMP102",  # Default test employee
-            merchant=receipt.merchant_name if receipt else "Unknown",
-            date=receipt.date if receipt else "Unknown",
-            amount=receipt.amount if receipt else 0.0,
-            currency=receipt.currency if receipt else "USD",
-            category=category,
-            items=receipt.items if receipt else [],
-            justification=context.input,
-            policy_result=policy_res,
-            fraud_result=fraud_res
+        # Build domain Expense model
+        expense_obj = Expense(
+            id=str(uuid.uuid4()),
+            employee_id=context.metadata.get("employee_id", "EMP-001"),
+            merchant=merchant,
+            amount=amount,
+            currency=currency,
+            date=date_val,
+            category=getattr(receipt, "category", "Other") if receipt else "Other"
         )
 
-        total_claimed = expense.amount
-        total_reimbursable = expense.amount if is_approved else 0.0
-        total_rejected = 0.0 if is_approved else expense.amount
+        # 2. Build explanation summary
+        summary_lines = []
+        if is_approved:
+            summary_lines.append("Expense complies with all policy checks.")
+        else:
+            summary_lines.append("Expense flagged for rejection.")
 
-        # Standard dictionary format for report generator integration
-        exp_dict = expense.model_dump()
-        exp_dict["is_approved"] = is_approved
-        exp_dict["fraud_score"] = (fraud_res.score * 100) if fraud_res else 0.0
-        exp_dict["fraud_reason"] = "High Risk" if (fraud_res and fraud_res.score > 0.7) else ""
-        exp_dict["violations"] = violations
-        exp_dict["reimbursable"] = total_reimbursable
-        exp_dict["rejected"] = total_rejected
-        exp_dict["status"] = "Approved" if is_approved else "Rejected"
+        if policy_res_dict and policy_res_dict.get("violations"):
+            summary_lines.append(f"Policy violations found: {', '.join(policy_res_dict['violations'])}")
+        if fraud_res and fraud_res.indicators:
+            summary_lines.append(f"Fraud flags: {', '.join(fraud_res.indicators)}")
+        if needs_review:
+            summary_lines.append(f"Escalated to human review: {review_reason}")
+        if reflection_critique:
+            summary_lines.append(f"Critique: {reflection_critique}")
 
-        audit_result = {
-            "expenses": [exp_dict],
-            "total_claimed": total_claimed,
-            "total_reimbursable": total_reimbursable,
-            "total_rejected": total_rejected,
-            "currency": expense.currency,
-            "compliance_score": 100.0 if is_approved else 0.0
+        summary = "\n".join(summary_lines)
+
+        # 3. Generate outputs
+        report_format = context.metadata.get("report_format", "markdown").lower()
+        
+        claimed = receipt.amount if receipt else 0.0
+        reimbursable = policy_res_dict.get("reimbursable_amount", claimed) if policy_res_dict else claimed
+        rejected = policy_res_dict.get("rejected_amount", 0.0) if policy_res_dict else 0.0
+        fraud_score = int(fraud_res.score * 100) if fraud_res else 0
+        violations = policy_res_dict.get("violations", []) if policy_res_dict else []
+        
+        expense_item = {
+            "merchant": merchant,
+            "date": date_val,
+            "category": expense_obj.category,
+            "amount": amount,
+            "reimbursable": reimbursable,
+            "rejected": rejected,
+            "fraud_score": fraud_score,
+            "fraud_reason": fraud_res.explanation if fraud_res else "",
+            "status": status_str,
+            "violations": violations
         }
 
-        report_format = context.metadata.get("report_format", "markdown")
-        if report_format == "csv":
-            summary = generate_csv_report(audit_result)
-        else:
-            summary = generate_markdown_report(audit_result)
+        audit_result = {
+            "expenses": [expense_item],
+            "total_claimed": amount,
+            "total_reimbursable": reimbursable,
+            "total_rejected": rejected,
+            "currency": currency,
+            "compliance_score": max(0.0, min(100.0, 100.0 - (10.0 * len(violations)) - (fraud_score * 0.5))),
+            "decision": status_str,
+            "reasoning": summary
+        }
 
+        if report_format == "csv":
+            report_content = generate_csv_report(audit_result)
+        else:
+            report_content = generate_markdown_report(audit_result)
+
+        # 4. Save and return report
         report = Report(
             id=str(uuid.uuid4()),
-            created_at=datetime.utcnow().isoformat(),
-            expenses=[expense],
-            summary=summary,
-            status="APPROVED" if is_approved else "REJECTED"
+            audit_id=context.metadata.get("audit_id", str(uuid.uuid4())),
+            created_at=datetime.datetime.now(datetime.timezone.utc).isoformat(),
+            format=report_format,
+            content=report_content,
+            status="APPROVED" if is_approved and not needs_review else "REJECTED"
         )
+
+        context.metadata["report"] = report.model_dump()
+        context.metadata["response"] = summary
 
         return AgentResult(
             status="SUCCESS",
             output=report,
             confidence=1.0,
-            explanation="Report generated successfully."
+            explanation=summary
         )

@@ -1,9 +1,10 @@
 from core.agents.base_agent import BaseAgent
+from core.validation.schemas import AgentResult, WorkflowContext
 from core.metadata.capability import capability
-from core.validation.schemas import WorkflowContext, AgentResult
-from app.policy_engine import evaluate_policy
+from app.services.policy_service import PolicyService
 from domain.policy import PolicyResult
-
+from app.core.config_manager import config
+from typing import Optional
 
 @capability(
     name="policy_agent",
@@ -12,48 +13,66 @@ from domain.policy import PolicyResult
     outputs=["policy_res"]
 )
 class PolicyAgent(BaseAgent):
-    """Policy evaluation agent that assesses an expense against corporate rules."""
+    """Policy Agent evaluates receipts against corporate policy using PolicyService."""
 
-    def initialize(self) -> None:
-        super().initialize()
-        self.logger.info("Policy agent initialized.")
+    def __init__(self, policy_service: Optional[PolicyService] = None, **kwargs):
+        super().__init__(**kwargs)
+        self.policy_service = policy_service or PolicyService()
 
     def execute(self, context: WorkflowContext) -> AgentResult:
-        if not context.receipt:
+        self.logger.info("Policy Agent evaluating policy.")
+        receipt = context.get("receipt")
+        if not receipt:
             return AgentResult(
                 status="FAILED",
                 output=None,
                 confidence=0.0,
-                explanation="Policy evaluation failed: receipt is missing."
+                explanation="Policy check failed: receipt is missing."
             )
 
-        receipt_dict = context.receipt.model_dump()
-        allowed, reimbursable, rejected, violations, notes_str = evaluate_policy(receipt_dict)
+        receipt_dict = receipt.model_dump()
+        role = context.metadata.get("user_role", "Associate")
+        justification = context.metadata.get("justification")
+        
+        # Load prompt version
+        version = config.prompt_versions.get("policy_agent", "v1")
 
-        if not notes_str or notes_str == "No policy deviations found.":
-            notes_list = []
-        else:
-            # Split by '.' but keep the parts as strings. Filter out empty strings.
-            notes_list = [n.strip() for n in notes_str.split(".") if n.strip()]
+        try:
+            allowed, reimbursable, rejected, violations, notes_str = self.policy_service.evaluate(
+                receipt_dict, role, justification, policy_version=version
+            )
+            
+            # Save results to context metadata
+            context.metadata["policy_checks"] = {v: True for v in violations}
+            context.metadata["policy_violations"] = violations
+            context.metadata["allowed_amount"] = allowed
+            context.metadata["reimbursable_amount"] = reimbursable
+            context.metadata["rejected_amount"] = rejected
+            
+            # Format output
+            status = "SUCCESS" if not violations else "FAILED"
+            explanation = "Policy compliance passed." if not violations else f"Policy violations: {'; '.join(violations)}"
 
-        policy_res = PolicyResult(
-            violations=violations,
-            allowed_amount=allowed,
-            reimbursable_amount=reimbursable,
-            rejected_amount=rejected,
-            notes=notes_list
-        )
+            notes_list = [notes_str] if isinstance(notes_str, str) else notes_str
 
-        status = "SUCCESS" if policy_res.is_compliant else "FAILED"
-        explanation = (
-            "Policy evaluation passed."
-            if policy_res.is_compliant
-            else f"Policy violations: {'; '.join(violations)}"
-        )
+            policy_result_obj = PolicyResult(
+                violations=violations,
+                allowed_amount=allowed,
+                reimbursable_amount=reimbursable,
+                rejected_amount=rejected,
+                notes=notes_list
+            )
 
-        return AgentResult(
-            status=status,
-            output=policy_res,
-            confidence=1.0,
-            explanation=explanation
-        )
+            return AgentResult(
+                status=status,
+                output=policy_result_obj,
+                confidence=1.0,
+                explanation=explanation
+            )
+        except Exception as e:
+            return AgentResult(
+                status="FAILED",
+                output=None,
+                confidence=0.0,
+                explanation=f"Policy check failed: {str(e)}"
+            )

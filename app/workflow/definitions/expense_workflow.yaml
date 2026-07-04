@@ -1,0 +1,12 @@
+workflows:
+  AUDIT:
+    - receipt_extractor
+    - policy_agent
+    - fraud_agent
+    - reasoning_agent
+    - reflection_agent
+    - report_agent
+  POLICY:
+    - policy_agent
+  QUERY:
+    - query_agent

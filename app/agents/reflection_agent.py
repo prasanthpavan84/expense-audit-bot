@@ -1,11 +1,19 @@
-from app.core.agent_base import BaseExpenseAgent
-from app.models.state import WorkflowState
+import asyncio
+from core.agents.base_agent import BaseAgent
+from core.validation.schemas import AgentResult, WorkflowContext
+from core.metadata.capability import capability
+from app.models.state import WorkflowState, AuditResult
 from app.models.evidence import EvidenceCollector
 
-class ReflectionAgent(BaseExpenseAgent):
-    def __init__(self):
-        super().__init__(name="reflection_agent", system_instruction="Reflect on audit results to provide reasoning")
-        
+@capability(
+    name="reflection_agent",
+    version="1.0.0",
+    inputs=["receipt", "policy_res", "fraud_res", "reasoning_res"],
+    outputs=["reflection_res"]
+)
+class ReflectionAgent(BaseAgent):
+    """Reflection Agent performs self-critique, confidence check, and HITL verification."""
+
     async def process_state(self, state: WorkflowState) -> WorkflowState:
         evidence_list = EvidenceCollector.get_or_create_evidence_list(state)
         
@@ -84,3 +92,11 @@ class ReflectionAgent(BaseExpenseAgent):
                 
         return state
 
+    def execute(self, context: WorkflowContext) -> AgentResult:
+        # Standard execute required by interface, but process_state overrides behavior
+        return AgentResult(
+            status="SUCCESS",
+            output={},
+            confidence=1.0,
+            explanation="Reflection completed."
+        )
