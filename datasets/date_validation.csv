@@ -1,0 +1,3 @@
+id,input,expected_valid_flag
+date1,2026-06-25,True
+date2,2026-07-01,False

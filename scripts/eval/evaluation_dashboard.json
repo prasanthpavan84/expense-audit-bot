@@ -1,0 +1,134 @@
+{
+  "dashboard_title": "AI Expense Audit Agent evaluation dashboard",
+  "summary": {
+    "overall_score": 31.999999999999996,
+    "pass_rate": 0.7272727272727273,
+    "total_cases": 66,
+    "passed": 48,
+    "failed": 18,
+    "latency": {
+      "average": 3.5206588940186934,
+      "median": 4.662283897399902,
+      "p95": 5.750779151916504,
+      "p99": 11.805451178550715,
+      "min": 0.0,
+      "max": 12.311649799346924
+    },
+    "category_accuracies": {
+      "Intent Classification": 0.2,
+      "Expense Extraction": 0.0,
+      "Policy Compliance": 0.0,
+      "Financial Calculations": 0.0,
+      "Reasoning": 0.0,
+      "Hallucination": 0.5,
+      "Validation": 0.0,
+      "Security": 1.0,
+      "OCR Accuracy": 1.0,
+      "Performance": 1.0,
+      "Robustness": 1.0,
+      "Enterprise Readiness": 1.0
+    }
+  },
+  "failures": [
+    {
+      "dataset": "intent_classification.csv",
+      "case_id": "ic2",
+      "input": "What is the policy limit for meals and lodging?",
+      "output": "What is the policy limit for meals and lodging?\n### Expense Summary\nGeneral Policy Inquiry\n\n### Poli",
+      "passed": false,
+      "reason": "Intent mismatch: expected POLICY, got AUDIT",
+      "latency_sec": "0.01",
+      "memory_mb": "0.00"
+    },
+    {
+      "dataset": "intent_classification.csv",
+      "case_id": "ic3",
+      "input": "Compare spending trends between Engineering and Sales departments.",
+      "output": "Compare spending trends between Engineering and Sales departments.\n### Expense Summary\nStructured Na",
+      "passed": false,
+      "reason": "Intent mismatch: expected QUERY, got AUDIT",
+      "latency_sec": "0.00",
+      "memory_mb": "0.00"
+    },
+    {
+      "dataset": "intent_classification.csv",
+      "case_id": "ic4",
+      "input": "Calculate the total sum of $50 and $120 and $30.",
+      "output": "Calculate the total sum of $50 and $120 and $30.\n### Expense Summary\nValidation Failure\n\n### Policy ",
+      "passed": false,
+      "reason": "Intent mismatch: expected CALCULATE, got AUDIT",
+      "latency_sec": "0.01",
+      "memory_mb": "0.00"
+    },
+    {
+      "dataset": "intent_classification.csv",
+      "case_id": "ic5",
+      "input": "Extract all text and key-value pairs from this receipt description.",
+      "output": "Extract all text and key-value pairs from this receipt description.\n### Expense Summary\n* **Merchant",
+      "passed": false,
+      "reason": "Intent mismatch: expected EXTRACT, got AUDIT",
+      "latency_sec": "12.31",
+      "memory_mb": "0.05"
+    },
+    {
+      "dataset": "expense_extraction.csv",
+      "case_id": "ee1",
+      "input": "Subway meals on 2026-06-25. Merchant Subway. Amount $15.50. Subtotal $14.00. Tax $1.50. Employee: Jo",
+      "output": "Subway meals on 2026-06-25. Merchant Subway. Amount $15.50. Subtotal $14.00. Tax $1.50. Employee: Jo",
+      "passed": false,
+      "reason": "No expenses extracted from text.",
+      "latency_sec": "0.00",
+      "memory_mb": "0.00"
+    },
+    {
+      "dataset": "expense_extraction.csv",
+      "case_id": "ee2",
+      "input": "Uber ride on 2026-06-25. Merchant: Uber. Amount: $25.00. Employee: EMP102.",
+      "output": "Uber ride on 2026-06-25. Merchant: Uber. Amount: $25.00. Employee: EMP102.\n# Expense Audit Executive",
+      "passed": false,
+      "reason": "No expenses extracted from text.",
+      "latency_sec": "5.74",
+      "memory_mb": "0.01"
+    },
+    {
+      "dataset": "policy_compliance.csv",
+      "case_id": "pc1",
+      "input": "Lunch at Pizza Hut on 2026-06-25. Total amount: $35.50 USD.",
+      "output": "Lunch at Pizza Hut on 2026-06-25. Total amount: $35.50 USD.\n### Expense Summary\nValidation Failure\n\n",
+      "passed": false,
+      "reason": "No expenses extracted to verify compliance.",
+      "latency_sec": "0.00",
+      "memory_mb": "0.00"
+    },
+    {
+      "dataset": "policy_compliance.csv",
+      "case_id": "pc2",
+      "input": "Dinner at Gold Club Bar on 2026-06-27. Total amount: $90.00 USD. Items: Beer, cocktails.",
+      "output": "Dinner at Gold Club Bar on 2026-06-27. Total amount: $90.00 USD. Items: Beer, cocktails.\n### Expense",
+      "passed": false,
+      "reason": "No expenses extracted to verify compliance.",
+      "latency_sec": "0.00",
+      "memory_mb": "0.00"
+    },
+    {
+      "dataset": "policy_compliance.csv",
+      "case_id": "pc3",
+      "input": "Lunch at Pizza Hut on 2026-06-25. Total amount: $75.00 USD.",
+      "output": "Lunch at Pizza Hut on 2026-06-25. Total amount: $75.00 USD.\n### Expense Summary\nValidation Failure\n\n",
+      "passed": false,
+      "reason": "No expenses extracted to verify compliance.",
+      "latency_sec": "0.00",
+      "memory_mb": "0.00"
+    },
+    {
+      "dataset": "financial_calculations.csv",
+      "case_id": "fc1",
+      "input": "Pizza Hut total $35.50. Subtotal $30.00. Tax $5.50.",
+      "output": "Pizza Hut total $35.50. Subtotal $30.00. Tax $5.50.\n### Expense Summary\nValidation Failure\n\n### Poli",
+      "passed": false,
+      "reason": "No expenses extracted for financial evaluation.",
+      "latency_sec": "0.01",
+      "memory_mb": "0.00"
+    }
+  ]
+}

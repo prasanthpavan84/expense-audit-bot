@@ -1,0 +1,4 @@
+id,input,expected_score,expected_reasoning_keywords
+re1,Pizza Hut total $75.00. Attended annual tech conference as speaker.,5,Conference Justification
+re2,Dinner at Gold Club Bar total $120.00. CEO approved.,5,Executive Approval Justification
+re3,Subway dinner total $20.00.,4,Meals policy

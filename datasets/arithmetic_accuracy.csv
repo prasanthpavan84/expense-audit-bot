@@ -1,0 +1,2 @@
+id,input,expected_math_accuracy
+ari1,Meals: 2 Pizzas ($25) and 1 Salad ($10) and 2 Sodas ($5) total $40.,1.0

@@ -1,0 +1,3 @@
+id,input,expected_reimbursement_amount
+reimb1,Subway meals $15.50 on 2026-06-25.,15.50
+reimb2,Hilton stay $150 and meals $70 (meals limit $50).,200.00

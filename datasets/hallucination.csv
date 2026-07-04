@@ -1,0 +1,3 @@
+id,input,expected_is_hallucination,expected_hallucination_type
+h1,Subway total $15.50 on 2026-06-25.,False,None
+h2,McDonalds total $15.50 on 2026-06-25. (Note: input says Pizza Hut),True,Merchant mismatch

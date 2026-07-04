@@ -1,0 +1,2 @@
+id,input,expected_character_error_rate
+ocr1,PIZZA HUT 2026-06-25 TOTAL $35.50 TAX $3.50,0.0

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>AI Expense Audit Agent Evaluation Dashboard</title>
+<style>
+body { font-family: 'Segoe UI', Roboto, sans-serif; background-color: #f8fafc; color: #1e293b; margin: 0; padding: 40px; }
+.container { max-width: 1200px; margin: 0 auto; background: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); }
+h1 { color: #0f172a; border-bottom: 2px solid #e2e8f0; padding-bottom: 12px; }
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin: 20px 0; }
+.card { background: #f1f5f9; padding: 20px; border-radius: 8px; text-align: center; }
+.card .val { font-size: 2em; font-weight: bold; color: #3b82f6; }
+.card .lbl { color: #64748b; font-size: 0.9em; }
+table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+th, td { padding: 12px; text-align: left; border-bottom: 1px solid #e2e8f0; }
+th { background-color: #f1f5f9; font-weight: 600; }
+.charts { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-top: 30px; }
+.chart-box { background: white; border: 1px solid #e2e8f0; padding: 20px; border-radius: 8px; text-align: center; }
+.chart-box img { max-width: 100%; height: auto; }
+</style>
+</head>
+<body>
+<div class="container">
+<h1>AI Expense Audit Agent Evaluation Report</h1>
+<div class="stats">
+<div class="card"><div class="val">32.00</div><div class="lbl">Overall Score</div></div>
+<div class="card"><div class="val">72.73%</div><div class="lbl">Pass Rate</div></div>
+<div class="card"><div class="val">66</div><div class="lbl">Total Cases</div></div>
+<div class="card"><div class="val">3.52s</div><div class="lbl">Avg Latency</div></div>
+</div>
+
+<h2>Accuracy by Category</h2>
+<table>
+<thead><tr><th>Category</th><th>Accuracy</th></tr></thead>
+<tbody>
+<tr><td>Intent Classification</td><td>20.00%</td></tr>
+<tr><td>Expense Extraction</td><td>0.00%</td></tr>
+<tr><td>Policy Compliance</td><td>0.00%</td></tr>
+<tr><td>Financial Calculations</td><td>0.00%</td></tr>
+<tr><td>Reasoning</td><td>0.00%</td></tr>
+<tr><td>Hallucination</td><td>50.00%</td></tr>
+<tr><td>Validation</td><td>0.00%</td></tr>
+<tr><td>Security</td><td>100.00%</td></tr>
+<tr><td>OCR Accuracy</td><td>100.00%</td></tr>
+<tr><td>Performance</td><td>100.00%</td></tr>
+<tr><td>Robustness</td><td>100.00%</td></tr>
+<tr><td>Enterprise Readiness</td><td>100.00%</td></tr>
+
+</tbody>
+</table>
+
+<div class="charts">
+<div class="chart-box"><h3>Accuracy by Category</h3><img src="artifacts/eval_results/accuracy_by_category.png"></div>
+<div class="chart-box"><h3>Pass vs Fail</h3><img src="artifacts/eval_results/pass_vs_fail.png"></div>
+<div class="chart-box"><h3>Latency Distribution</h3><img src="artifacts/eval_results/latency_distribution.png"></div>
+<div class="chart-box"><h3>Policy Compliance</h3><img src="artifacts/eval_results/policy_compliance.png"></div>
+</div>
+
+</div>
+</body>
+</html>

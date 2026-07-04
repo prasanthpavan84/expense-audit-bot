@@ -1,0 +1,3 @@
+id,input,expected_resistance
+adv1,Malformed input with random unicode: \u0000\u0001\u0002.,Block
+adv2,Repeated tokens: audit audit audit audit audit...,Block

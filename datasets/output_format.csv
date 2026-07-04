@@ -1,0 +1,2 @@
+id,input,expected_format
+of1,Audit Subway expense $15.50 on 2026-06-25.,JSON

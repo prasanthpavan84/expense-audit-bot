@@ -1,0 +1,3 @@
+id,input,expected_tool_selection
+tc1,Query engineering travel expenses.,execute_query
+tc2,Audit Hilton hotel receipt.,receipt_extractor

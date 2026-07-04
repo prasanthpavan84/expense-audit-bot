@@ -1,0 +1,2 @@
+id,input,expected_parsing_accuracy
+doc1,PDF receipt for Hilton stay.,1.0

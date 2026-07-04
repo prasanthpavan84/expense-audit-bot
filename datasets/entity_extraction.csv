@@ -1,0 +1,2 @@
+id,input,expected_entities
+ent1,Subway lunch for employee EMP102 department Engineering.,"{""merchant"": ""Subway"", ""employee_id"": ""EMP102"", ""department"": ""Engineering""}"

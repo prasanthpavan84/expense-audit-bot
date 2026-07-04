@@ -1,0 +1,2 @@
+id,input,expected_auditability
+ent_ready1,Subway meals $15.50.,True

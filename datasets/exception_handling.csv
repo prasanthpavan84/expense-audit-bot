@@ -1,0 +1,2 @@
+id,input,expected_fallback
+ex1,Unexpected database crash simulation.,Fallback status

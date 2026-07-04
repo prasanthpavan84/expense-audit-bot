@@ -1,0 +1,2 @@
+id,input,expected_error_recovery
+err1,Input with missing amount.,Rejection / Error message

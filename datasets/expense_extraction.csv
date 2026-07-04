@@ -1,0 +1,3 @@
+id,input,expected_merchant,expected_vendor,expected_amount,expected_subtotal,expected_tax,expected_currency,expected_date,expected_receipt_number,expected_expense_type,expected_category,expected_employee_name,expected_location,expected_payment_method
+ee1,Subway meals on 2026-06-25. Merchant Subway. Amount $15.50. Subtotal $14.00. Tax $1.50. Employee: John Doe. Location: Boston. Card payment.,Subway,Subway,15.50,14.00,1.50,USD,2026-06-25,Unknown,Meals,Meals,John Doe,Boston,Card
+ee2,Uber ride on 2026-06-25. Merchant: Uber. Amount: $25.00. Employee: EMP102.,Taxi ride,Uber,25.00,25.00,0.00,USD,2026-06-25,Unknown,Taxi,Taxi,EMP102,Unknown,Unknown

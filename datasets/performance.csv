@@ -1,0 +1,2 @@
+id,input,expected_throughput
+perf1,Audit multiple receipts.,2.0

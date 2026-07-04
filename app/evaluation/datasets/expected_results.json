@@ -1,0 +1,3002 @@
+{
+  "norm_001": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 10.93,
+    "expected_currency": "USD"
+  },
+  "norm_002": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 11.86,
+    "expected_currency": "USD"
+  },
+  "norm_003": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 12.79,
+    "expected_currency": "USD"
+  },
+  "norm_004": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 13.72,
+    "expected_currency": "USD"
+  },
+  "norm_005": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 14.65,
+    "expected_currency": "USD"
+  },
+  "norm_006": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 15.58,
+    "expected_currency": "USD"
+  },
+  "norm_007": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 16.51,
+    "expected_currency": "USD"
+  },
+  "norm_008": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 17.44,
+    "expected_currency": "USD"
+  },
+  "norm_009": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 18.37,
+    "expected_currency": "USD"
+  },
+  "norm_010": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 19.3,
+    "expected_currency": "USD"
+  },
+  "norm_011": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 20.23,
+    "expected_currency": "USD"
+  },
+  "norm_012": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 21.16,
+    "expected_currency": "USD"
+  },
+  "norm_013": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 22.09,
+    "expected_currency": "USD"
+  },
+  "norm_014": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 23.02,
+    "expected_currency": "USD"
+  },
+  "norm_015": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 23.95,
+    "expected_currency": "USD"
+  },
+  "norm_016": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 24.88,
+    "expected_currency": "USD"
+  },
+  "norm_017": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 25.81,
+    "expected_currency": "USD"
+  },
+  "norm_018": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 26.74,
+    "expected_currency": "USD"
+  },
+  "norm_019": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 27.67,
+    "expected_currency": "USD"
+  },
+  "norm_020": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 28.6,
+    "expected_currency": "USD"
+  },
+  "norm_021": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 29.53,
+    "expected_currency": "USD"
+  },
+  "norm_022": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 30.46,
+    "expected_currency": "USD"
+  },
+  "norm_023": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 31.39,
+    "expected_currency": "USD"
+  },
+  "norm_024": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 32.32,
+    "expected_currency": "USD"
+  },
+  "norm_025": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 33.25,
+    "expected_currency": "USD"
+  },
+  "norm_026": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 34.18,
+    "expected_currency": "USD"
+  },
+  "norm_027": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 35.11,
+    "expected_currency": "USD"
+  },
+  "norm_028": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 36.04,
+    "expected_currency": "USD"
+  },
+  "norm_029": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 36.97,
+    "expected_currency": "USD"
+  },
+  "norm_030": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 37.9,
+    "expected_currency": "USD"
+  },
+  "norm_031": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 38.83,
+    "expected_currency": "USD"
+  },
+  "norm_032": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 39.76,
+    "expected_currency": "USD"
+  },
+  "norm_033": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 40.69,
+    "expected_currency": "USD"
+  },
+  "norm_034": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 41.62,
+    "expected_currency": "USD"
+  },
+  "norm_035": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 42.55,
+    "expected_currency": "USD"
+  },
+  "norm_036": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 43.48,
+    "expected_currency": "USD"
+  },
+  "norm_037": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 44.41,
+    "expected_currency": "USD"
+  },
+  "norm_038": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 45.34,
+    "expected_currency": "USD"
+  },
+  "norm_039": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 46.27,
+    "expected_currency": "USD"
+  },
+  "norm_040": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 47.2,
+    "expected_currency": "USD"
+  },
+  "norm_041": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 48.13,
+    "expected_currency": "USD"
+  },
+  "norm_042": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 49.06,
+    "expected_currency": "USD"
+  },
+  "norm_043": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 49.99,
+    "expected_currency": "USD"
+  },
+  "norm_044": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 10.92,
+    "expected_currency": "USD"
+  },
+  "norm_045": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 11.85,
+    "expected_currency": "USD"
+  },
+  "norm_046": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 12.78,
+    "expected_currency": "USD"
+  },
+  "norm_047": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 13.71,
+    "expected_currency": "USD"
+  },
+  "norm_048": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 14.64,
+    "expected_currency": "USD"
+  },
+  "norm_049": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 15.57,
+    "expected_currency": "USD"
+  },
+  "norm_050": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 16.5,
+    "expected_currency": "USD"
+  },
+  "norm_051": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 17.43,
+    "expected_currency": "USD"
+  },
+  "norm_052": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 18.36,
+    "expected_currency": "USD"
+  },
+  "norm_053": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 19.29,
+    "expected_currency": "USD"
+  },
+  "norm_054": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 20.22,
+    "expected_currency": "USD"
+  },
+  "norm_055": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 21.15,
+    "expected_currency": "USD"
+  },
+  "norm_056": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 22.08,
+    "expected_currency": "USD"
+  },
+  "norm_057": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 23.01,
+    "expected_currency": "USD"
+  },
+  "norm_058": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 23.94,
+    "expected_currency": "USD"
+  },
+  "norm_059": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 24.87,
+    "expected_currency": "USD"
+  },
+  "norm_060": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 25.8,
+    "expected_currency": "USD"
+  },
+  "norm_061": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 26.73,
+    "expected_currency": "USD"
+  },
+  "norm_062": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 27.66,
+    "expected_currency": "USD"
+  },
+  "norm_063": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 28.59,
+    "expected_currency": "USD"
+  },
+  "norm_064": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 29.52,
+    "expected_currency": "USD"
+  },
+  "norm_065": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 30.45,
+    "expected_currency": "USD"
+  },
+  "norm_066": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 31.38,
+    "expected_currency": "USD"
+  },
+  "norm_067": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 32.31,
+    "expected_currency": "USD"
+  },
+  "norm_068": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 33.24,
+    "expected_currency": "USD"
+  },
+  "norm_069": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 34.17,
+    "expected_currency": "USD"
+  },
+  "norm_070": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 35.1,
+    "expected_currency": "USD"
+  },
+  "norm_071": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 36.03,
+    "expected_currency": "USD"
+  },
+  "norm_072": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 36.96,
+    "expected_currency": "USD"
+  },
+  "norm_073": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 37.89,
+    "expected_currency": "USD"
+  },
+  "norm_074": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 38.82,
+    "expected_currency": "USD"
+  },
+  "norm_075": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 39.75,
+    "expected_currency": "USD"
+  },
+  "norm_076": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 40.68,
+    "expected_currency": "USD"
+  },
+  "norm_077": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 41.61,
+    "expected_currency": "USD"
+  },
+  "norm_078": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 42.54,
+    "expected_currency": "USD"
+  },
+  "norm_079": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 43.47,
+    "expected_currency": "USD"
+  },
+  "norm_080": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 44.4,
+    "expected_currency": "USD"
+  },
+  "norm_081": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 45.33,
+    "expected_currency": "USD"
+  },
+  "norm_082": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 46.26,
+    "expected_currency": "USD"
+  },
+  "norm_083": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 47.19,
+    "expected_currency": "USD"
+  },
+  "norm_084": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 48.12,
+    "expected_currency": "USD"
+  },
+  "norm_085": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 49.05,
+    "expected_currency": "USD"
+  },
+  "norm_086": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 49.98,
+    "expected_currency": "USD"
+  },
+  "norm_087": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 10.91,
+    "expected_currency": "USD"
+  },
+  "norm_088": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 11.84,
+    "expected_currency": "USD"
+  },
+  "norm_089": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 12.77,
+    "expected_currency": "USD"
+  },
+  "norm_090": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 13.7,
+    "expected_currency": "USD"
+  },
+  "norm_091": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 14.63,
+    "expected_currency": "USD"
+  },
+  "norm_092": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 15.56,
+    "expected_currency": "USD"
+  },
+  "norm_093": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 16.49,
+    "expected_currency": "USD"
+  },
+  "norm_094": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 17.42,
+    "expected_currency": "USD"
+  },
+  "norm_095": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 18.35,
+    "expected_currency": "USD"
+  },
+  "norm_096": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 19.28,
+    "expected_currency": "USD"
+  },
+  "norm_097": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 20.21,
+    "expected_currency": "USD"
+  },
+  "norm_098": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 21.14,
+    "expected_currency": "USD"
+  },
+  "norm_099": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 22.07,
+    "expected_currency": "USD"
+  },
+  "norm_100": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 23.0,
+    "expected_currency": "USD"
+  },
+  "norm_101": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 23.93,
+    "expected_currency": "USD"
+  },
+  "norm_102": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 24.86,
+    "expected_currency": "USD"
+  },
+  "norm_103": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 25.79,
+    "expected_currency": "USD"
+  },
+  "norm_104": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 26.72,
+    "expected_currency": "USD"
+  },
+  "norm_105": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 27.65,
+    "expected_currency": "USD"
+  },
+  "norm_106": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 28.58,
+    "expected_currency": "USD"
+  },
+  "norm_107": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 29.51,
+    "expected_currency": "USD"
+  },
+  "norm_108": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 30.44,
+    "expected_currency": "USD"
+  },
+  "norm_109": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 31.37,
+    "expected_currency": "USD"
+  },
+  "norm_110": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 32.3,
+    "expected_currency": "USD"
+  },
+  "norm_111": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 33.23,
+    "expected_currency": "USD"
+  },
+  "norm_112": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 34.16,
+    "expected_currency": "USD"
+  },
+  "norm_113": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 35.09,
+    "expected_currency": "USD"
+  },
+  "norm_114": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 36.02,
+    "expected_currency": "USD"
+  },
+  "norm_115": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 36.95,
+    "expected_currency": "USD"
+  },
+  "norm_116": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 37.88,
+    "expected_currency": "USD"
+  },
+  "norm_117": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 38.81,
+    "expected_currency": "USD"
+  },
+  "norm_118": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 39.74,
+    "expected_currency": "USD"
+  },
+  "norm_119": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 40.67,
+    "expected_currency": "USD"
+  },
+  "norm_120": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 41.6,
+    "expected_currency": "USD"
+  },
+  "norm_121": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 42.53,
+    "expected_currency": "USD"
+  },
+  "norm_122": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 43.46,
+    "expected_currency": "USD"
+  },
+  "norm_123": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 44.39,
+    "expected_currency": "USD"
+  },
+  "norm_124": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 45.32,
+    "expected_currency": "USD"
+  },
+  "norm_125": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 46.25,
+    "expected_currency": "USD"
+  },
+  "norm_126": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 47.18,
+    "expected_currency": "USD"
+  },
+  "norm_127": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 48.11,
+    "expected_currency": "USD"
+  },
+  "norm_128": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 49.04,
+    "expected_currency": "USD"
+  },
+  "norm_129": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 49.97,
+    "expected_currency": "USD"
+  },
+  "norm_130": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 10.9,
+    "expected_currency": "USD"
+  },
+  "norm_131": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 11.83,
+    "expected_currency": "USD"
+  },
+  "norm_132": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 12.76,
+    "expected_currency": "USD"
+  },
+  "norm_133": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 13.69,
+    "expected_currency": "USD"
+  },
+  "norm_134": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 14.62,
+    "expected_currency": "USD"
+  },
+  "norm_135": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 15.55,
+    "expected_currency": "USD"
+  },
+  "norm_136": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 16.48,
+    "expected_currency": "USD"
+  },
+  "norm_137": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 17.41,
+    "expected_currency": "USD"
+  },
+  "norm_138": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 18.34,
+    "expected_currency": "USD"
+  },
+  "norm_139": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 19.27,
+    "expected_currency": "USD"
+  },
+  "norm_140": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 20.2,
+    "expected_currency": "USD"
+  },
+  "norm_141": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 21.13,
+    "expected_currency": "USD"
+  },
+  "norm_142": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 22.06,
+    "expected_currency": "USD"
+  },
+  "norm_143": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 22.99,
+    "expected_currency": "USD"
+  },
+  "norm_144": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 23.92,
+    "expected_currency": "USD"
+  },
+  "norm_145": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 24.85,
+    "expected_currency": "USD"
+  },
+  "norm_146": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 25.78,
+    "expected_currency": "USD"
+  },
+  "norm_147": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 26.71,
+    "expected_currency": "USD"
+  },
+  "norm_148": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 27.64,
+    "expected_currency": "USD"
+  },
+  "norm_149": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 28.57,
+    "expected_currency": "USD"
+  },
+  "norm_150": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 29.5,
+    "expected_currency": "USD"
+  },
+  "fraud_001": {
+    "expected_status": "Rejected",
+    "expected_category": "Other",
+    "expected_amount": 45.0,
+    "expected_currency": "USD"
+  },
+  "fraud_002": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 35.0,
+    "expected_currency": "USD"
+  },
+  "fraud_003": {
+    "expected_status": "Rejected",
+    "expected_category": "Other",
+    "expected_amount": 75.0,
+    "expected_currency": "USD"
+  },
+  "fraud_004": {
+    "expected_status": "Rejected",
+    "expected_category": "Other",
+    "expected_amount": 45.0,
+    "expected_currency": "USD"
+  },
+  "fraud_005": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 35.0,
+    "expected_currency": "USD"
+  },
+  "fraud_006": {
+    "expected_status": "Rejected",
+    "expected_category": "Other",
+    "expected_amount": 75.0,
+    "expected_currency": "USD"
+  },
+  "fraud_007": {
+    "expected_status": "Rejected",
+    "expected_category": "Other",
+    "expected_amount": 45.0,
+    "expected_currency": "USD"
+  },
+  "fraud_008": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 35.0,
+    "expected_currency": "USD"
+  },
+  "fraud_009": {
+    "expected_status": "Rejected",
+    "expected_category": "Other",
+    "expected_amount": 75.0,
+    "expected_currency": "USD"
+  },
+  "fraud_010": {
+    "expected_status": "Rejected",
+    "expected_category": "Other",
+    "expected_amount": 45.0,
+    "expected_currency": "USD"
+  },
+  "fraud_011": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 35.0,
+    "expected_currency": "USD"
+  },
+  "fraud_012": {
+    "expected_status": "Rejected",
+    "expected_category": "Other",
+    "expected_amount": 75.0,
+    "expected_currency": "USD"
+  },
+  "fraud_013": {
+    "expected_status": "Rejected",
+    "expected_category": "Other",
+    "expected_amount": 45.0,
+    "expected_currency": "USD"
+  },
+  "fraud_014": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 35.0,
+    "expected_currency": "USD"
+  },
+  "fraud_015": {
+    "expected_status": "Rejected",
+    "expected_category": "Other",
+    "expected_amount": 75.0,
+    "expected_currency": "USD"
+  },
+  "fraud_016": {
+    "expected_status": "Rejected",
+    "expected_category": "Other",
+    "expected_amount": 45.0,
+    "expected_currency": "USD"
+  },
+  "fraud_017": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 35.0,
+    "expected_currency": "USD"
+  },
+  "fraud_018": {
+    "expected_status": "Rejected",
+    "expected_category": "Other",
+    "expected_amount": 75.0,
+    "expected_currency": "USD"
+  },
+  "fraud_019": {
+    "expected_status": "Rejected",
+    "expected_category": "Other",
+    "expected_amount": 45.0,
+    "expected_currency": "USD"
+  },
+  "fraud_020": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 35.0,
+    "expected_currency": "USD"
+  },
+  "fraud_021": {
+    "expected_status": "Rejected",
+    "expected_category": "Other",
+    "expected_amount": 75.0,
+    "expected_currency": "USD"
+  },
+  "fraud_022": {
+    "expected_status": "Rejected",
+    "expected_category": "Other",
+    "expected_amount": 45.0,
+    "expected_currency": "USD"
+  },
+  "fraud_023": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 35.0,
+    "expected_currency": "USD"
+  },
+  "fraud_024": {
+    "expected_status": "Rejected",
+    "expected_category": "Other",
+    "expected_amount": 75.0,
+    "expected_currency": "USD"
+  },
+  "fraud_025": {
+    "expected_status": "Rejected",
+    "expected_category": "Other",
+    "expected_amount": 45.0,
+    "expected_currency": "USD"
+  },
+  "fraud_026": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 35.0,
+    "expected_currency": "USD"
+  },
+  "fraud_027": {
+    "expected_status": "Rejected",
+    "expected_category": "Other",
+    "expected_amount": 75.0,
+    "expected_currency": "USD"
+  },
+  "fraud_028": {
+    "expected_status": "Rejected",
+    "expected_category": "Other",
+    "expected_amount": 45.0,
+    "expected_currency": "USD"
+  },
+  "fraud_029": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 35.0,
+    "expected_currency": "USD"
+  },
+  "fraud_030": {
+    "expected_status": "Rejected",
+    "expected_category": "Other",
+    "expected_amount": 75.0,
+    "expected_currency": "USD"
+  },
+  "fraud_031": {
+    "expected_status": "Rejected",
+    "expected_category": "Other",
+    "expected_amount": 45.0,
+    "expected_currency": "USD"
+  },
+  "fraud_032": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 35.0,
+    "expected_currency": "USD"
+  },
+  "fraud_033": {
+    "expected_status": "Rejected",
+    "expected_category": "Other",
+    "expected_amount": 75.0,
+    "expected_currency": "USD"
+  },
+  "fraud_034": {
+    "expected_status": "Rejected",
+    "expected_category": "Other",
+    "expected_amount": 45.0,
+    "expected_currency": "USD"
+  },
+  "fraud_035": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 35.0,
+    "expected_currency": "USD"
+  },
+  "fraud_036": {
+    "expected_status": "Rejected",
+    "expected_category": "Other",
+    "expected_amount": 75.0,
+    "expected_currency": "USD"
+  },
+  "fraud_037": {
+    "expected_status": "Rejected",
+    "expected_category": "Other",
+    "expected_amount": 45.0,
+    "expected_currency": "USD"
+  },
+  "fraud_038": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 35.0,
+    "expected_currency": "USD"
+  },
+  "fraud_039": {
+    "expected_status": "Rejected",
+    "expected_category": "Other",
+    "expected_amount": 75.0,
+    "expected_currency": "USD"
+  },
+  "fraud_040": {
+    "expected_status": "Rejected",
+    "expected_category": "Other",
+    "expected_amount": 45.0,
+    "expected_currency": "USD"
+  },
+  "fraud_041": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 35.0,
+    "expected_currency": "USD"
+  },
+  "fraud_042": {
+    "expected_status": "Rejected",
+    "expected_category": "Other",
+    "expected_amount": 75.0,
+    "expected_currency": "USD"
+  },
+  "fraud_043": {
+    "expected_status": "Rejected",
+    "expected_category": "Other",
+    "expected_amount": 45.0,
+    "expected_currency": "USD"
+  },
+  "fraud_044": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 35.0,
+    "expected_currency": "USD"
+  },
+  "fraud_045": {
+    "expected_status": "Rejected",
+    "expected_category": "Other",
+    "expected_amount": 75.0,
+    "expected_currency": "USD"
+  },
+  "fraud_046": {
+    "expected_status": "Rejected",
+    "expected_category": "Other",
+    "expected_amount": 45.0,
+    "expected_currency": "USD"
+  },
+  "fraud_047": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 35.0,
+    "expected_currency": "USD"
+  },
+  "fraud_048": {
+    "expected_status": "Rejected",
+    "expected_category": "Other",
+    "expected_amount": 75.0,
+    "expected_currency": "USD"
+  },
+  "fraud_049": {
+    "expected_status": "Rejected",
+    "expected_category": "Other",
+    "expected_amount": 45.0,
+    "expected_currency": "USD"
+  },
+  "fraud_050": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 35.0,
+    "expected_currency": "USD"
+  },
+  "fraud_051": {
+    "expected_status": "Rejected",
+    "expected_category": "Other",
+    "expected_amount": 75.0,
+    "expected_currency": "USD"
+  },
+  "fraud_052": {
+    "expected_status": "Rejected",
+    "expected_category": "Other",
+    "expected_amount": 45.0,
+    "expected_currency": "USD"
+  },
+  "fraud_053": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 35.0,
+    "expected_currency": "USD"
+  },
+  "fraud_054": {
+    "expected_status": "Rejected",
+    "expected_category": "Other",
+    "expected_amount": 75.0,
+    "expected_currency": "USD"
+  },
+  "fraud_055": {
+    "expected_status": "Rejected",
+    "expected_category": "Other",
+    "expected_amount": 45.0,
+    "expected_currency": "USD"
+  },
+  "fraud_056": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 35.0,
+    "expected_currency": "USD"
+  },
+  "fraud_057": {
+    "expected_status": "Rejected",
+    "expected_category": "Other",
+    "expected_amount": 75.0,
+    "expected_currency": "USD"
+  },
+  "fraud_058": {
+    "expected_status": "Rejected",
+    "expected_category": "Other",
+    "expected_amount": 45.0,
+    "expected_currency": "USD"
+  },
+  "fraud_059": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 35.0,
+    "expected_currency": "USD"
+  },
+  "fraud_060": {
+    "expected_status": "Rejected",
+    "expected_category": "Other",
+    "expected_amount": 75.0,
+    "expected_currency": "USD"
+  },
+  "fraud_061": {
+    "expected_status": "Rejected",
+    "expected_category": "Other",
+    "expected_amount": 45.0,
+    "expected_currency": "USD"
+  },
+  "fraud_062": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 35.0,
+    "expected_currency": "USD"
+  },
+  "fraud_063": {
+    "expected_status": "Rejected",
+    "expected_category": "Other",
+    "expected_amount": 75.0,
+    "expected_currency": "USD"
+  },
+  "fraud_064": {
+    "expected_status": "Rejected",
+    "expected_category": "Other",
+    "expected_amount": 45.0,
+    "expected_currency": "USD"
+  },
+  "fraud_065": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 35.0,
+    "expected_currency": "USD"
+  },
+  "fraud_066": {
+    "expected_status": "Rejected",
+    "expected_category": "Other",
+    "expected_amount": 75.0,
+    "expected_currency": "USD"
+  },
+  "fraud_067": {
+    "expected_status": "Rejected",
+    "expected_category": "Other",
+    "expected_amount": 45.0,
+    "expected_currency": "USD"
+  },
+  "fraud_068": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 35.0,
+    "expected_currency": "USD"
+  },
+  "fraud_069": {
+    "expected_status": "Rejected",
+    "expected_category": "Other",
+    "expected_amount": 75.0,
+    "expected_currency": "USD"
+  },
+  "fraud_070": {
+    "expected_status": "Rejected",
+    "expected_category": "Other",
+    "expected_amount": 45.0,
+    "expected_currency": "USD"
+  },
+  "fraud_071": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 35.0,
+    "expected_currency": "USD"
+  },
+  "fraud_072": {
+    "expected_status": "Rejected",
+    "expected_category": "Other",
+    "expected_amount": 75.0,
+    "expected_currency": "USD"
+  },
+  "fraud_073": {
+    "expected_status": "Rejected",
+    "expected_category": "Other",
+    "expected_amount": 45.0,
+    "expected_currency": "USD"
+  },
+  "fraud_074": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 35.0,
+    "expected_currency": "USD"
+  },
+  "fraud_075": {
+    "expected_status": "Rejected",
+    "expected_category": "Other",
+    "expected_amount": 75.0,
+    "expected_currency": "USD"
+  },
+  "fraud_076": {
+    "expected_status": "Rejected",
+    "expected_category": "Other",
+    "expected_amount": 45.0,
+    "expected_currency": "USD"
+  },
+  "fraud_077": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 35.0,
+    "expected_currency": "USD"
+  },
+  "fraud_078": {
+    "expected_status": "Rejected",
+    "expected_category": "Other",
+    "expected_amount": 75.0,
+    "expected_currency": "USD"
+  },
+  "fraud_079": {
+    "expected_status": "Rejected",
+    "expected_category": "Other",
+    "expected_amount": 45.0,
+    "expected_currency": "USD"
+  },
+  "fraud_080": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 35.0,
+    "expected_currency": "USD"
+  },
+  "fraud_081": {
+    "expected_status": "Rejected",
+    "expected_category": "Other",
+    "expected_amount": 75.0,
+    "expected_currency": "USD"
+  },
+  "fraud_082": {
+    "expected_status": "Rejected",
+    "expected_category": "Other",
+    "expected_amount": 45.0,
+    "expected_currency": "USD"
+  },
+  "fraud_083": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 35.0,
+    "expected_currency": "USD"
+  },
+  "fraud_084": {
+    "expected_status": "Rejected",
+    "expected_category": "Other",
+    "expected_amount": 75.0,
+    "expected_currency": "USD"
+  },
+  "fraud_085": {
+    "expected_status": "Rejected",
+    "expected_category": "Other",
+    "expected_amount": 45.0,
+    "expected_currency": "USD"
+  },
+  "fraud_086": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 35.0,
+    "expected_currency": "USD"
+  },
+  "fraud_087": {
+    "expected_status": "Rejected",
+    "expected_category": "Other",
+    "expected_amount": 75.0,
+    "expected_currency": "USD"
+  },
+  "fraud_088": {
+    "expected_status": "Rejected",
+    "expected_category": "Other",
+    "expected_amount": 45.0,
+    "expected_currency": "USD"
+  },
+  "fraud_089": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 35.0,
+    "expected_currency": "USD"
+  },
+  "fraud_090": {
+    "expected_status": "Rejected",
+    "expected_category": "Other",
+    "expected_amount": 75.0,
+    "expected_currency": "USD"
+  },
+  "fraud_091": {
+    "expected_status": "Rejected",
+    "expected_category": "Other",
+    "expected_amount": 45.0,
+    "expected_currency": "USD"
+  },
+  "fraud_092": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 35.0,
+    "expected_currency": "USD"
+  },
+  "fraud_093": {
+    "expected_status": "Rejected",
+    "expected_category": "Other",
+    "expected_amount": 75.0,
+    "expected_currency": "USD"
+  },
+  "fraud_094": {
+    "expected_status": "Rejected",
+    "expected_category": "Other",
+    "expected_amount": 45.0,
+    "expected_currency": "USD"
+  },
+  "fraud_095": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 35.0,
+    "expected_currency": "USD"
+  },
+  "fraud_096": {
+    "expected_status": "Rejected",
+    "expected_category": "Other",
+    "expected_amount": 75.0,
+    "expected_currency": "USD"
+  },
+  "fraud_097": {
+    "expected_status": "Rejected",
+    "expected_category": "Other",
+    "expected_amount": 45.0,
+    "expected_currency": "USD"
+  },
+  "fraud_098": {
+    "expected_status": "Approved",
+    "expected_category": "Meals",
+    "expected_amount": 35.0,
+    "expected_currency": "USD"
+  },
+  "fraud_099": {
+    "expected_status": "Rejected",
+    "expected_category": "Other",
+    "expected_amount": 75.0,
+    "expected_currency": "USD"
+  },
+  "fraud_100": {
+    "expected_status": "Rejected",
+    "expected_category": "Other",
+    "expected_amount": 45.0,
+    "expected_currency": "USD"
+  },
+  "policy_001": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 65.0,
+    "expected_currency": "USD"
+  },
+  "policy_002": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 70.0,
+    "expected_currency": "USD"
+  },
+  "policy_003": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 75.0,
+    "expected_currency": "USD"
+  },
+  "policy_004": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 80.0,
+    "expected_currency": "USD"
+  },
+  "policy_005": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 85.0,
+    "expected_currency": "USD"
+  },
+  "policy_006": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 90.0,
+    "expected_currency": "USD"
+  },
+  "policy_007": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 95.0,
+    "expected_currency": "USD"
+  },
+  "policy_008": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 100.0,
+    "expected_currency": "USD"
+  },
+  "policy_009": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 105.0,
+    "expected_currency": "USD"
+  },
+  "policy_010": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 110.0,
+    "expected_currency": "USD"
+  },
+  "policy_011": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 115.0,
+    "expected_currency": "USD"
+  },
+  "policy_012": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 120.0,
+    "expected_currency": "USD"
+  },
+  "policy_013": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 125.0,
+    "expected_currency": "USD"
+  },
+  "policy_014": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 130.0,
+    "expected_currency": "USD"
+  },
+  "policy_015": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 135.0,
+    "expected_currency": "USD"
+  },
+  "policy_016": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 140.0,
+    "expected_currency": "USD"
+  },
+  "policy_017": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 145.0,
+    "expected_currency": "USD"
+  },
+  "policy_018": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 150.0,
+    "expected_currency": "USD"
+  },
+  "policy_019": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 155.0,
+    "expected_currency": "USD"
+  },
+  "policy_020": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 160.0,
+    "expected_currency": "USD"
+  },
+  "policy_021": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 165.0,
+    "expected_currency": "USD"
+  },
+  "policy_022": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 170.0,
+    "expected_currency": "USD"
+  },
+  "policy_023": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 175.0,
+    "expected_currency": "USD"
+  },
+  "policy_024": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 180.0,
+    "expected_currency": "USD"
+  },
+  "policy_025": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 185.0,
+    "expected_currency": "USD"
+  },
+  "policy_026": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 190.0,
+    "expected_currency": "USD"
+  },
+  "policy_027": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 195.0,
+    "expected_currency": "USD"
+  },
+  "policy_028": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 200.0,
+    "expected_currency": "USD"
+  },
+  "policy_029": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 205.0,
+    "expected_currency": "USD"
+  },
+  "policy_030": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 210.0,
+    "expected_currency": "USD"
+  },
+  "policy_031": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 215.0,
+    "expected_currency": "USD"
+  },
+  "policy_032": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 220.0,
+    "expected_currency": "USD"
+  },
+  "policy_033": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 225.0,
+    "expected_currency": "USD"
+  },
+  "policy_034": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 230.0,
+    "expected_currency": "USD"
+  },
+  "policy_035": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 235.0,
+    "expected_currency": "USD"
+  },
+  "policy_036": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 240.0,
+    "expected_currency": "USD"
+  },
+  "policy_037": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 245.0,
+    "expected_currency": "USD"
+  },
+  "policy_038": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 250.0,
+    "expected_currency": "USD"
+  },
+  "policy_039": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 255.0,
+    "expected_currency": "USD"
+  },
+  "policy_040": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 260.0,
+    "expected_currency": "USD"
+  },
+  "policy_041": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 265.0,
+    "expected_currency": "USD"
+  },
+  "policy_042": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 270.0,
+    "expected_currency": "USD"
+  },
+  "policy_043": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 275.0,
+    "expected_currency": "USD"
+  },
+  "policy_044": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 280.0,
+    "expected_currency": "USD"
+  },
+  "policy_045": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 285.0,
+    "expected_currency": "USD"
+  },
+  "policy_046": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 290.0,
+    "expected_currency": "USD"
+  },
+  "policy_047": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 295.0,
+    "expected_currency": "USD"
+  },
+  "policy_048": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 300.0,
+    "expected_currency": "USD"
+  },
+  "policy_049": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 305.0,
+    "expected_currency": "USD"
+  },
+  "policy_050": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 310.0,
+    "expected_currency": "USD"
+  },
+  "policy_051": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 315.0,
+    "expected_currency": "USD"
+  },
+  "policy_052": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 320.0,
+    "expected_currency": "USD"
+  },
+  "policy_053": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 325.0,
+    "expected_currency": "USD"
+  },
+  "policy_054": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 330.0,
+    "expected_currency": "USD"
+  },
+  "policy_055": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 335.0,
+    "expected_currency": "USD"
+  },
+  "policy_056": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 340.0,
+    "expected_currency": "USD"
+  },
+  "policy_057": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 345.0,
+    "expected_currency": "USD"
+  },
+  "policy_058": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 350.0,
+    "expected_currency": "USD"
+  },
+  "policy_059": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 355.0,
+    "expected_currency": "USD"
+  },
+  "policy_060": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 360.0,
+    "expected_currency": "USD"
+  },
+  "policy_061": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 365.0,
+    "expected_currency": "USD"
+  },
+  "policy_062": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 370.0,
+    "expected_currency": "USD"
+  },
+  "policy_063": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 375.0,
+    "expected_currency": "USD"
+  },
+  "policy_064": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 380.0,
+    "expected_currency": "USD"
+  },
+  "policy_065": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 385.0,
+    "expected_currency": "USD"
+  },
+  "policy_066": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 390.0,
+    "expected_currency": "USD"
+  },
+  "policy_067": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 395.0,
+    "expected_currency": "USD"
+  },
+  "policy_068": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 400.0,
+    "expected_currency": "USD"
+  },
+  "policy_069": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 405.0,
+    "expected_currency": "USD"
+  },
+  "policy_070": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 410.0,
+    "expected_currency": "USD"
+  },
+  "policy_071": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 415.0,
+    "expected_currency": "USD"
+  },
+  "policy_072": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 420.0,
+    "expected_currency": "USD"
+  },
+  "policy_073": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 425.0,
+    "expected_currency": "USD"
+  },
+  "policy_074": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 430.0,
+    "expected_currency": "USD"
+  },
+  "policy_075": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 435.0,
+    "expected_currency": "USD"
+  },
+  "policy_076": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 440.0,
+    "expected_currency": "USD"
+  },
+  "policy_077": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 445.0,
+    "expected_currency": "USD"
+  },
+  "policy_078": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 450.0,
+    "expected_currency": "USD"
+  },
+  "policy_079": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 455.0,
+    "expected_currency": "USD"
+  },
+  "policy_080": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 460.0,
+    "expected_currency": "USD"
+  },
+  "policy_081": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 465.0,
+    "expected_currency": "USD"
+  },
+  "policy_082": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 470.0,
+    "expected_currency": "USD"
+  },
+  "policy_083": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 475.0,
+    "expected_currency": "USD"
+  },
+  "policy_084": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 480.0,
+    "expected_currency": "USD"
+  },
+  "policy_085": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 485.0,
+    "expected_currency": "USD"
+  },
+  "policy_086": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 490.0,
+    "expected_currency": "USD"
+  },
+  "policy_087": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 495.0,
+    "expected_currency": "USD"
+  },
+  "policy_088": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 500.0,
+    "expected_currency": "USD"
+  },
+  "policy_089": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 505.0,
+    "expected_currency": "USD"
+  },
+  "policy_090": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 510.0,
+    "expected_currency": "USD"
+  },
+  "policy_091": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 515.0,
+    "expected_currency": "USD"
+  },
+  "policy_092": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 520.0,
+    "expected_currency": "USD"
+  },
+  "policy_093": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 525.0,
+    "expected_currency": "USD"
+  },
+  "policy_094": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 530.0,
+    "expected_currency": "USD"
+  },
+  "policy_095": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 535.0,
+    "expected_currency": "USD"
+  },
+  "policy_096": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 540.0,
+    "expected_currency": "USD"
+  },
+  "policy_097": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 545.0,
+    "expected_currency": "USD"
+  },
+  "policy_098": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 550.0,
+    "expected_currency": "USD"
+  },
+  "policy_099": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 555.0,
+    "expected_currency": "USD"
+  },
+  "policy_100": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 560.0,
+    "expected_currency": "USD"
+  },
+  "ocr_001": {
+    "expected_status": "Needs Human Review",
+    "expected_category": "Meals",
+    "expected_amount": 15.0,
+    "expected_currency": "USD"
+  },
+  "ocr_002": {
+    "expected_status": "Needs Human Review",
+    "expected_category": "Meals",
+    "expected_amount": 15.0,
+    "expected_currency": "USD"
+  },
+  "ocr_003": {
+    "expected_status": "Needs Human Review",
+    "expected_category": "Meals",
+    "expected_amount": 15.0,
+    "expected_currency": "USD"
+  },
+  "ocr_004": {
+    "expected_status": "Needs Human Review",
+    "expected_category": "Meals",
+    "expected_amount": 15.0,
+    "expected_currency": "USD"
+  },
+  "ocr_005": {
+    "expected_status": "Needs Human Review",
+    "expected_category": "Meals",
+    "expected_amount": 15.0,
+    "expected_currency": "USD"
+  },
+  "ocr_006": {
+    "expected_status": "Needs Human Review",
+    "expected_category": "Meals",
+    "expected_amount": 15.0,
+    "expected_currency": "USD"
+  },
+  "ocr_007": {
+    "expected_status": "Needs Human Review",
+    "expected_category": "Meals",
+    "expected_amount": 15.0,
+    "expected_currency": "USD"
+  },
+  "ocr_008": {
+    "expected_status": "Needs Human Review",
+    "expected_category": "Meals",
+    "expected_amount": 15.0,
+    "expected_currency": "USD"
+  },
+  "ocr_009": {
+    "expected_status": "Needs Human Review",
+    "expected_category": "Meals",
+    "expected_amount": 15.0,
+    "expected_currency": "USD"
+  },
+  "ocr_010": {
+    "expected_status": "Needs Human Review",
+    "expected_category": "Meals",
+    "expected_amount": 15.0,
+    "expected_currency": "USD"
+  },
+  "ocr_011": {
+    "expected_status": "Needs Human Review",
+    "expected_category": "Meals",
+    "expected_amount": 15.0,
+    "expected_currency": "USD"
+  },
+  "ocr_012": {
+    "expected_status": "Needs Human Review",
+    "expected_category": "Meals",
+    "expected_amount": 15.0,
+    "expected_currency": "USD"
+  },
+  "ocr_013": {
+    "expected_status": "Needs Human Review",
+    "expected_category": "Meals",
+    "expected_amount": 15.0,
+    "expected_currency": "USD"
+  },
+  "ocr_014": {
+    "expected_status": "Needs Human Review",
+    "expected_category": "Meals",
+    "expected_amount": 15.0,
+    "expected_currency": "USD"
+  },
+  "ocr_015": {
+    "expected_status": "Needs Human Review",
+    "expected_category": "Meals",
+    "expected_amount": 15.0,
+    "expected_currency": "USD"
+  },
+  "ocr_016": {
+    "expected_status": "Needs Human Review",
+    "expected_category": "Meals",
+    "expected_amount": 15.0,
+    "expected_currency": "USD"
+  },
+  "ocr_017": {
+    "expected_status": "Needs Human Review",
+    "expected_category": "Meals",
+    "expected_amount": 15.0,
+    "expected_currency": "USD"
+  },
+  "ocr_018": {
+    "expected_status": "Needs Human Review",
+    "expected_category": "Meals",
+    "expected_amount": 15.0,
+    "expected_currency": "USD"
+  },
+  "ocr_019": {
+    "expected_status": "Needs Human Review",
+    "expected_category": "Meals",
+    "expected_amount": 15.0,
+    "expected_currency": "USD"
+  },
+  "ocr_020": {
+    "expected_status": "Needs Human Review",
+    "expected_category": "Meals",
+    "expected_amount": 15.0,
+    "expected_currency": "USD"
+  },
+  "ocr_021": {
+    "expected_status": "Needs Human Review",
+    "expected_category": "Meals",
+    "expected_amount": 15.0,
+    "expected_currency": "USD"
+  },
+  "ocr_022": {
+    "expected_status": "Needs Human Review",
+    "expected_category": "Meals",
+    "expected_amount": 15.0,
+    "expected_currency": "USD"
+  },
+  "ocr_023": {
+    "expected_status": "Needs Human Review",
+    "expected_category": "Meals",
+    "expected_amount": 15.0,
+    "expected_currency": "USD"
+  },
+  "ocr_024": {
+    "expected_status": "Needs Human Review",
+    "expected_category": "Meals",
+    "expected_amount": 15.0,
+    "expected_currency": "USD"
+  },
+  "ocr_025": {
+    "expected_status": "Needs Human Review",
+    "expected_category": "Meals",
+    "expected_amount": 15.0,
+    "expected_currency": "USD"
+  },
+  "ocr_026": {
+    "expected_status": "Needs Human Review",
+    "expected_category": "Meals",
+    "expected_amount": 15.0,
+    "expected_currency": "USD"
+  },
+  "ocr_027": {
+    "expected_status": "Needs Human Review",
+    "expected_category": "Meals",
+    "expected_amount": 15.0,
+    "expected_currency": "USD"
+  },
+  "ocr_028": {
+    "expected_status": "Needs Human Review",
+    "expected_category": "Meals",
+    "expected_amount": 15.0,
+    "expected_currency": "USD"
+  },
+  "ocr_029": {
+    "expected_status": "Needs Human Review",
+    "expected_category": "Meals",
+    "expected_amount": 15.0,
+    "expected_currency": "USD"
+  },
+  "ocr_030": {
+    "expected_status": "Needs Human Review",
+    "expected_category": "Meals",
+    "expected_amount": 15.0,
+    "expected_currency": "USD"
+  },
+  "ocr_031": {
+    "expected_status": "Needs Human Review",
+    "expected_category": "Meals",
+    "expected_amount": 15.0,
+    "expected_currency": "USD"
+  },
+  "ocr_032": {
+    "expected_status": "Needs Human Review",
+    "expected_category": "Meals",
+    "expected_amount": 15.0,
+    "expected_currency": "USD"
+  },
+  "ocr_033": {
+    "expected_status": "Needs Human Review",
+    "expected_category": "Meals",
+    "expected_amount": 15.0,
+    "expected_currency": "USD"
+  },
+  "ocr_034": {
+    "expected_status": "Needs Human Review",
+    "expected_category": "Meals",
+    "expected_amount": 15.0,
+    "expected_currency": "USD"
+  },
+  "ocr_035": {
+    "expected_status": "Needs Human Review",
+    "expected_category": "Meals",
+    "expected_amount": 15.0,
+    "expected_currency": "USD"
+  },
+  "ocr_036": {
+    "expected_status": "Needs Human Review",
+    "expected_category": "Meals",
+    "expected_amount": 15.0,
+    "expected_currency": "USD"
+  },
+  "ocr_037": {
+    "expected_status": "Needs Human Review",
+    "expected_category": "Meals",
+    "expected_amount": 15.0,
+    "expected_currency": "USD"
+  },
+  "ocr_038": {
+    "expected_status": "Needs Human Review",
+    "expected_category": "Meals",
+    "expected_amount": 15.0,
+    "expected_currency": "USD"
+  },
+  "ocr_039": {
+    "expected_status": "Needs Human Review",
+    "expected_category": "Meals",
+    "expected_amount": 15.0,
+    "expected_currency": "USD"
+  },
+  "ocr_040": {
+    "expected_status": "Needs Human Review",
+    "expected_category": "Meals",
+    "expected_amount": 15.0,
+    "expected_currency": "USD"
+  },
+  "ocr_041": {
+    "expected_status": "Needs Human Review",
+    "expected_category": "Meals",
+    "expected_amount": 15.0,
+    "expected_currency": "USD"
+  },
+  "ocr_042": {
+    "expected_status": "Needs Human Review",
+    "expected_category": "Meals",
+    "expected_amount": 15.0,
+    "expected_currency": "USD"
+  },
+  "ocr_043": {
+    "expected_status": "Needs Human Review",
+    "expected_category": "Meals",
+    "expected_amount": 15.0,
+    "expected_currency": "USD"
+  },
+  "ocr_044": {
+    "expected_status": "Needs Human Review",
+    "expected_category": "Meals",
+    "expected_amount": 15.0,
+    "expected_currency": "USD"
+  },
+  "ocr_045": {
+    "expected_status": "Needs Human Review",
+    "expected_category": "Meals",
+    "expected_amount": 15.0,
+    "expected_currency": "USD"
+  },
+  "ocr_046": {
+    "expected_status": "Needs Human Review",
+    "expected_category": "Meals",
+    "expected_amount": 15.0,
+    "expected_currency": "USD"
+  },
+  "ocr_047": {
+    "expected_status": "Needs Human Review",
+    "expected_category": "Meals",
+    "expected_amount": 15.0,
+    "expected_currency": "USD"
+  },
+  "ocr_048": {
+    "expected_status": "Needs Human Review",
+    "expected_category": "Meals",
+    "expected_amount": 15.0,
+    "expected_currency": "USD"
+  },
+  "ocr_049": {
+    "expected_status": "Needs Human Review",
+    "expected_category": "Meals",
+    "expected_amount": 15.0,
+    "expected_currency": "USD"
+  },
+  "ocr_050": {
+    "expected_status": "Needs Human Review",
+    "expected_category": "Meals",
+    "expected_amount": 15.0,
+    "expected_currency": "USD"
+  },
+  "curr_001": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 45.0,
+    "expected_currency": "GBP"
+  },
+  "curr_002": {
+    "expected_status": "Approved",
+    "expected_category": "Taxi",
+    "expected_amount": 150.0,
+    "expected_currency": "INR"
+  },
+  "curr_003": {
+    "expected_status": "Approved",
+    "expected_category": "Taxi",
+    "expected_amount": 30.0,
+    "expected_currency": "EUR"
+  },
+  "curr_004": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 45.0,
+    "expected_currency": "GBP"
+  },
+  "curr_005": {
+    "expected_status": "Approved",
+    "expected_category": "Taxi",
+    "expected_amount": 150.0,
+    "expected_currency": "INR"
+  },
+  "curr_006": {
+    "expected_status": "Approved",
+    "expected_category": "Taxi",
+    "expected_amount": 30.0,
+    "expected_currency": "EUR"
+  },
+  "curr_007": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 45.0,
+    "expected_currency": "GBP"
+  },
+  "curr_008": {
+    "expected_status": "Approved",
+    "expected_category": "Taxi",
+    "expected_amount": 150.0,
+    "expected_currency": "INR"
+  },
+  "curr_009": {
+    "expected_status": "Approved",
+    "expected_category": "Taxi",
+    "expected_amount": 30.0,
+    "expected_currency": "EUR"
+  },
+  "curr_010": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 45.0,
+    "expected_currency": "GBP"
+  },
+  "curr_011": {
+    "expected_status": "Approved",
+    "expected_category": "Taxi",
+    "expected_amount": 150.0,
+    "expected_currency": "INR"
+  },
+  "curr_012": {
+    "expected_status": "Approved",
+    "expected_category": "Taxi",
+    "expected_amount": 30.0,
+    "expected_currency": "EUR"
+  },
+  "curr_013": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 45.0,
+    "expected_currency": "GBP"
+  },
+  "curr_014": {
+    "expected_status": "Approved",
+    "expected_category": "Taxi",
+    "expected_amount": 150.0,
+    "expected_currency": "INR"
+  },
+  "curr_015": {
+    "expected_status": "Approved",
+    "expected_category": "Taxi",
+    "expected_amount": 30.0,
+    "expected_currency": "EUR"
+  },
+  "curr_016": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 45.0,
+    "expected_currency": "GBP"
+  },
+  "curr_017": {
+    "expected_status": "Approved",
+    "expected_category": "Taxi",
+    "expected_amount": 150.0,
+    "expected_currency": "INR"
+  },
+  "curr_018": {
+    "expected_status": "Approved",
+    "expected_category": "Taxi",
+    "expected_amount": 30.0,
+    "expected_currency": "EUR"
+  },
+  "curr_019": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 45.0,
+    "expected_currency": "GBP"
+  },
+  "curr_020": {
+    "expected_status": "Approved",
+    "expected_category": "Taxi",
+    "expected_amount": 150.0,
+    "expected_currency": "INR"
+  },
+  "curr_021": {
+    "expected_status": "Approved",
+    "expected_category": "Taxi",
+    "expected_amount": 30.0,
+    "expected_currency": "EUR"
+  },
+  "curr_022": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 45.0,
+    "expected_currency": "GBP"
+  },
+  "curr_023": {
+    "expected_status": "Approved",
+    "expected_category": "Taxi",
+    "expected_amount": 150.0,
+    "expected_currency": "INR"
+  },
+  "curr_024": {
+    "expected_status": "Approved",
+    "expected_category": "Taxi",
+    "expected_amount": 30.0,
+    "expected_currency": "EUR"
+  },
+  "curr_025": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 45.0,
+    "expected_currency": "GBP"
+  },
+  "curr_026": {
+    "expected_status": "Approved",
+    "expected_category": "Taxi",
+    "expected_amount": 150.0,
+    "expected_currency": "INR"
+  },
+  "curr_027": {
+    "expected_status": "Approved",
+    "expected_category": "Taxi",
+    "expected_amount": 30.0,
+    "expected_currency": "EUR"
+  },
+  "curr_028": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 45.0,
+    "expected_currency": "GBP"
+  },
+  "curr_029": {
+    "expected_status": "Approved",
+    "expected_category": "Taxi",
+    "expected_amount": 150.0,
+    "expected_currency": "INR"
+  },
+  "curr_030": {
+    "expected_status": "Approved",
+    "expected_category": "Taxi",
+    "expected_amount": 30.0,
+    "expected_currency": "EUR"
+  },
+  "curr_031": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 45.0,
+    "expected_currency": "GBP"
+  },
+  "curr_032": {
+    "expected_status": "Approved",
+    "expected_category": "Taxi",
+    "expected_amount": 150.0,
+    "expected_currency": "INR"
+  },
+  "curr_033": {
+    "expected_status": "Approved",
+    "expected_category": "Taxi",
+    "expected_amount": 30.0,
+    "expected_currency": "EUR"
+  },
+  "curr_034": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 45.0,
+    "expected_currency": "GBP"
+  },
+  "curr_035": {
+    "expected_status": "Approved",
+    "expected_category": "Taxi",
+    "expected_amount": 150.0,
+    "expected_currency": "INR"
+  },
+  "curr_036": {
+    "expected_status": "Approved",
+    "expected_category": "Taxi",
+    "expected_amount": 30.0,
+    "expected_currency": "EUR"
+  },
+  "curr_037": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 45.0,
+    "expected_currency": "GBP"
+  },
+  "curr_038": {
+    "expected_status": "Approved",
+    "expected_category": "Taxi",
+    "expected_amount": 150.0,
+    "expected_currency": "INR"
+  },
+  "curr_039": {
+    "expected_status": "Approved",
+    "expected_category": "Taxi",
+    "expected_amount": 30.0,
+    "expected_currency": "EUR"
+  },
+  "curr_040": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 45.0,
+    "expected_currency": "GBP"
+  },
+  "curr_041": {
+    "expected_status": "Approved",
+    "expected_category": "Taxi",
+    "expected_amount": 150.0,
+    "expected_currency": "INR"
+  },
+  "curr_042": {
+    "expected_status": "Approved",
+    "expected_category": "Taxi",
+    "expected_amount": 30.0,
+    "expected_currency": "EUR"
+  },
+  "curr_043": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 45.0,
+    "expected_currency": "GBP"
+  },
+  "curr_044": {
+    "expected_status": "Approved",
+    "expected_category": "Taxi",
+    "expected_amount": 150.0,
+    "expected_currency": "INR"
+  },
+  "curr_045": {
+    "expected_status": "Approved",
+    "expected_category": "Taxi",
+    "expected_amount": 30.0,
+    "expected_currency": "EUR"
+  },
+  "curr_046": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 45.0,
+    "expected_currency": "GBP"
+  },
+  "curr_047": {
+    "expected_status": "Approved",
+    "expected_category": "Taxi",
+    "expected_amount": 150.0,
+    "expected_currency": "INR"
+  },
+  "curr_048": {
+    "expected_status": "Approved",
+    "expected_category": "Taxi",
+    "expected_amount": 30.0,
+    "expected_currency": "EUR"
+  },
+  "curr_049": {
+    "expected_status": "Rejected",
+    "expected_category": "Meals",
+    "expected_amount": 45.0,
+    "expected_currency": "GBP"
+  },
+  "curr_050": {
+    "expected_status": "Approved",
+    "expected_category": "Taxi",
+    "expected_amount": 150.0,
+    "expected_currency": "INR"
+  },
+  "edge_001": {
+    "expected_status": "Needs Human Review",
+    "expected_category": "Flight",
+    "expected_amount": 9999.0,
+    "expected_currency": "USD"
+  },
+  "edge_002": {
+    "expected_status": "Rejected",
+    "expected_category": "Other",
+    "expected_amount": -15.0,
+    "expected_currency": "USD"
+  },
+  "edge_003": {
+    "expected_status": "Needs Human Review",
+    "expected_category": "Flight",
+    "expected_amount": 9999.0,
+    "expected_currency": "USD"
+  },
+  "edge_004": {
+    "expected_status": "Rejected",
+    "expected_category": "Other",
+    "expected_amount": -15.0,
+    "expected_currency": "USD"
+  },
+  "edge_005": {
+    "expected_status": "Needs Human Review",
+    "expected_category": "Flight",
+    "expected_amount": 9999.0,
+    "expected_currency": "USD"
+  },
+  "edge_006": {
+    "expected_status": "Rejected",
+    "expected_category": "Other",
+    "expected_amount": -15.0,
+    "expected_currency": "USD"
+  },
+  "edge_007": {
+    "expected_status": "Needs Human Review",
+    "expected_category": "Flight",
+    "expected_amount": 9999.0,
+    "expected_currency": "USD"
+  },
+  "edge_008": {
+    "expected_status": "Rejected",
+    "expected_category": "Other",
+    "expected_amount": -15.0,
+    "expected_currency": "USD"
+  },
+  "edge_009": {
+    "expected_status": "Needs Human Review",
+    "expected_category": "Flight",
+    "expected_amount": 9999.0,
+    "expected_currency": "USD"
+  },
+  "edge_010": {
+    "expected_status": "Rejected",
+    "expected_category": "Other",
+    "expected_amount": -15.0,
+    "expected_currency": "USD"
+  },
+  "edge_011": {
+    "expected_status": "Needs Human Review",
+    "expected_category": "Flight",
+    "expected_amount": 9999.0,
+    "expected_currency": "USD"
+  },
+  "edge_012": {
+    "expected_status": "Rejected",
+    "expected_category": "Other",
+    "expected_amount": -15.0,
+    "expected_currency": "USD"
+  },
+  "edge_013": {
+    "expected_status": "Needs Human Review",
+    "expected_category": "Flight",
+    "expected_amount": 9999.0,
+    "expected_currency": "USD"
+  },
+  "edge_014": {
+    "expected_status": "Rejected",
+    "expected_category": "Other",
+    "expected_amount": -15.0,
+    "expected_currency": "USD"
+  },
+  "edge_015": {
+    "expected_status": "Needs Human Review",
+    "expected_category": "Flight",
+    "expected_amount": 9999.0,
+    "expected_currency": "USD"
+  },
+  "edge_016": {
+    "expected_status": "Rejected",
+    "expected_category": "Other",
+    "expected_amount": -15.0,
+    "expected_currency": "USD"
+  },
+  "edge_017": {
+    "expected_status": "Needs Human Review",
+    "expected_category": "Flight",
+    "expected_amount": 9999.0,
+    "expected_currency": "USD"
+  },
+  "edge_018": {
+    "expected_status": "Rejected",
+    "expected_category": "Other",
+    "expected_amount": -15.0,
+    "expected_currency": "USD"
+  },
+  "edge_019": {
+    "expected_status": "Needs Human Review",
+    "expected_category": "Flight",
+    "expected_amount": 9999.0,
+    "expected_currency": "USD"
+  },
+  "edge_020": {
+    "expected_status": "Rejected",
+    "expected_category": "Other",
+    "expected_amount": -15.0,
+    "expected_currency": "USD"
+  },
+  "edge_021": {
+    "expected_status": "Needs Human Review",
+    "expected_category": "Flight",
+    "expected_amount": 9999.0,
+    "expected_currency": "USD"
+  },
+  "edge_022": {
+    "expected_status": "Rejected",
+    "expected_category": "Other",
+    "expected_amount": -15.0,
+    "expected_currency": "USD"
+  },
+  "edge_023": {
+    "expected_status": "Needs Human Review",
+    "expected_category": "Flight",
+    "expected_amount": 9999.0,
+    "expected_currency": "USD"
+  },
+  "edge_024": {
+    "expected_status": "Rejected",
+    "expected_category": "Other",
+    "expected_amount": -15.0,
+    "expected_currency": "USD"
+  },
+  "edge_025": {
+    "expected_status": "Needs Human Review",
+    "expected_category": "Flight",
+    "expected_amount": 9999.0,
+    "expected_currency": "USD"
+  },
+  "edge_026": {
+    "expected_status": "Rejected",
+    "expected_category": "Other",
+    "expected_amount": -15.0,
+    "expected_currency": "USD"
+  },
+  "edge_027": {
+    "expected_status": "Needs Human Review",
+    "expected_category": "Flight",
+    "expected_amount": 9999.0,
+    "expected_currency": "USD"
+  },
+  "edge_028": {
+    "expected_status": "Rejected",
+    "expected_category": "Other",
+    "expected_amount": -15.0,
+    "expected_currency": "USD"
+  },
+  "edge_029": {
+    "expected_status": "Needs Human Review",
+    "expected_category": "Flight",
+    "expected_amount": 9999.0,
+    "expected_currency": "USD"
+  },
+  "edge_030": {
+    "expected_status": "Rejected",
+    "expected_category": "Other",
+    "expected_amount": -15.0,
+    "expected_currency": "USD"
+  },
+  "edge_031": {
+    "expected_status": "Needs Human Review",
+    "expected_category": "Flight",
+    "expected_amount": 9999.0,
+    "expected_currency": "USD"
+  },
+  "edge_032": {
+    "expected_status": "Rejected",
+    "expected_category": "Other",
+    "expected_amount": -15.0,
+    "expected_currency": "USD"
+  },
+  "edge_033": {
+    "expected_status": "Needs Human Review",
+    "expected_category": "Flight",
+    "expected_amount": 9999.0,
+    "expected_currency": "USD"
+  },
+  "edge_034": {
+    "expected_status": "Rejected",
+    "expected_category": "Other",
+    "expected_amount": -15.0,
+    "expected_currency": "USD"
+  },
+  "edge_035": {
+    "expected_status": "Needs Human Review",
+    "expected_category": "Flight",
+    "expected_amount": 9999.0,
+    "expected_currency": "USD"
+  },
+  "edge_036": {
+    "expected_status": "Rejected",
+    "expected_category": "Other",
+    "expected_amount": -15.0,
+    "expected_currency": "USD"
+  },
+  "edge_037": {
+    "expected_status": "Needs Human Review",
+    "expected_category": "Flight",
+    "expected_amount": 9999.0,
+    "expected_currency": "USD"
+  },
+  "edge_038": {
+    "expected_status": "Rejected",
+    "expected_category": "Other",
+    "expected_amount": -15.0,
+    "expected_currency": "USD"
+  },
+  "edge_039": {
+    "expected_status": "Needs Human Review",
+    "expected_category": "Flight",
+    "expected_amount": 9999.0,
+    "expected_currency": "USD"
+  },
+  "edge_040": {
+    "expected_status": "Rejected",
+    "expected_category": "Other",
+    "expected_amount": -15.0,
+    "expected_currency": "USD"
+  },
+  "edge_041": {
+    "expected_status": "Needs Human Review",
+    "expected_category": "Flight",
+    "expected_amount": 9999.0,
+    "expected_currency": "USD"
+  },
+  "edge_042": {
+    "expected_status": "Rejected",
+    "expected_category": "Other",
+    "expected_amount": -15.0,
+    "expected_currency": "USD"
+  },
+  "edge_043": {
+    "expected_status": "Needs Human Review",
+    "expected_category": "Flight",
+    "expected_amount": 9999.0,
+    "expected_currency": "USD"
+  },
+  "edge_044": {
+    "expected_status": "Rejected",
+    "expected_category": "Other",
+    "expected_amount": -15.0,
+    "expected_currency": "USD"
+  },
+  "edge_045": {
+    "expected_status": "Needs Human Review",
+    "expected_category": "Flight",
+    "expected_amount": 9999.0,
+    "expected_currency": "USD"
+  },
+  "edge_046": {
+    "expected_status": "Rejected",
+    "expected_category": "Other",
+    "expected_amount": -15.0,
+    "expected_currency": "USD"
+  },
+  "edge_047": {
+    "expected_status": "Needs Human Review",
+    "expected_category": "Flight",
+    "expected_amount": 9999.0,
+    "expected_currency": "USD"
+  },
+  "edge_048": {
+    "expected_status": "Rejected",
+    "expected_category": "Other",
+    "expected_amount": -15.0,
+    "expected_currency": "USD"
+  },
+  "edge_049": {
+    "expected_status": "Needs Human Review",
+    "expected_category": "Flight",
+    "expected_amount": 9999.0,
+    "expected_currency": "USD"
+  },
+  "edge_050": {
+    "expected_status": "Rejected",
+    "expected_category": "Other",
+    "expected_amount": -15.0,
+    "expected_currency": "USD"
+  }
+}

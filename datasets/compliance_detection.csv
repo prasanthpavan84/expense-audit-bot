@@ -1,0 +1,3 @@
+id,input,expected_violation_type
+cmp1,Luxury hotel Hilton stay $1500 USD.,Luxury Hotel
+cmp2,Drinks at Gold Club Bar $90 USD.,Restricted Vendor

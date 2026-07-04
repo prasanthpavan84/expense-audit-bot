@@ -1,0 +1,6 @@
+id,input,expected_intent
+ic1,Please audit this expense: Lunch with a client at Pizza Hut on 2026-06-25. Total amount: $35.50 USD.,AUDIT
+ic2,What is the policy limit for meals and lodging?,POLICY
+ic3,Compare spending trends between Engineering and Sales departments.,QUERY
+ic4,Calculate the total sum of $50 and $120 and $30.,CALCULATE
+ic5,Extract all text and key-value pairs from this receipt description.,EXTRACT

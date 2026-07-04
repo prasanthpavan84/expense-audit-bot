@@ -1,0 +1,3 @@
+id,input,expected_authenticity
+rcpt1,Compliant Subway receipt.,True
+rcpt2,Tampered receipt with modified date.,False

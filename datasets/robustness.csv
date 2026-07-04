@@ -1,0 +1,3 @@
+id,input_original,input_paraphrased,expected_decision
+rob1,Subway dinner $15.50.,Dinner at Subway costing 15.50 USD.,Approved
+rob2,Drinks at Gold Club Bar $90.00.,Gold Club Bar drinks total $90.,Denied

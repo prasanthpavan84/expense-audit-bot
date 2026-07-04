@@ -1,0 +1,29 @@
+{
+  "overall_score": 31.999999999999996,
+  "pass_rate": 0.7272727272727273,
+  "total_cases": 66,
+  "passed": 48,
+  "failed": 18,
+  "latency": {
+    "average": 3.5206588940186934,
+    "median": 4.662283897399902,
+    "p95": 5.750779151916504,
+    "p99": 11.805451178550715,
+    "min": 0.0,
+    "max": 12.311649799346924
+  },
+  "category_accuracies": {
+    "Intent Classification": 0.2,
+    "Expense Extraction": 0.0,
+    "Policy Compliance": 0.0,
+    "Financial Calculations": 0.0,
+    "Reasoning": 0.0,
+    "Hallucination": 0.5,
+    "Validation": 0.0,
+    "Security": 1.0,
+    "OCR Accuracy": 1.0,
+    "Performance": 1.0,
+    "Robustness": 1.0,
+    "Enterprise Readiness": 1.0
+  }
+}

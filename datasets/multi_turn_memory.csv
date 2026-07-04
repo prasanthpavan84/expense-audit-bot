@@ -1,0 +1,2 @@
+id,input_sequence,expected_context_retention
+mem1,"[""I want to audit a meal at Subway for $15.50 on 2026-06-25"", ""Who submitted it?""]",EMP102

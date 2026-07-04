@@ -1,0 +1,41 @@
+Dataset,Category,Total Cases,Passed,Failed,Accuracy
+intent_classification.csv,Intent Classification,5,1,4,20.00%
+expense_extraction.csv,Expense Extraction,2,0,2,0.00%
+policy_compliance.csv,Policy Compliance,3,0,3,0.00%
+financial_calculations.csv,Financial Calculations,2,0,2,0.00%
+reasoning.csv,Reasoning,3,0,3,0.00%
+hallucination.csv,Hallucination,2,1,1,50.00%
+validation.csv,Validation,2,0,2,0.00%
+output_format.csv,Output Format,1,0,1,0.00%
+edge_cases.csv,Edge Cases,3,3,0,100.00%
+prompt_injection.csv,Security,2,2,0,100.00%
+adversarial.csv,Security,2,2,0,100.00%
+robustness.csv,Robustness,2,2,0,100.00%
+multi_turn_memory.csv,Multi-turn Memory,1,1,0,100.00%
+tool_calling.csv,Tool Calling,2,2,0,100.00%
+ocr_accuracy.csv,OCR Accuracy,1,1,0,100.00%
+document_parsing.csv,Document Parsing,1,1,0,100.00%
+compliance_detection.csv,Compliance Detection,2,2,0,100.00%
+entity_extraction.csv,Entity Extraction,1,1,0,100.00%
+currency_conversion.csv,Currency Conversion,1,1,0,100.00%
+duplicate_detection.csv,Duplicate Detection,1,1,0,100.00%
+reimbursement.csv,Reimbursement,2,2,0,100.00%
+arithmetic_accuracy.csv,Arithmetic Accuracy,1,1,0,100.00%
+date_validation.csv,Date Validation,2,2,0,100.00%
+receipt_validation.csv,Receipt Validation,2,2,0,100.00%
+security.csv,Security,2,2,0,100.00%
+latency.csv,Performance,1,1,0,100.00%
+performance.csv,Performance,1,1,0,100.00%
+regression.csv,Performance,1,1,0,100.00%
+stress_testing.csv,Performance,1,1,0,100.00%
+scalability.csv,Performance,1,1,0,100.00%
+error_handling.csv,Performance,1,1,0,100.00%
+exception_handling.csv,Performance,1,1,0,100.00%
+json_output_validation.csv,Output Format,1,1,0,100.00%
+confidence_score.csv,OCR Accuracy,2,2,0,100.00%
+localization.csv,Enterprise Readiness,2,2,0,100.00%
+language_understanding.csv,Enterprise Readiness,1,1,0,100.00%
+consistency.csv,Enterprise Readiness,1,1,0,100.00%
+enterprise_readiness.csv,Enterprise Readiness,1,1,0,100.00%
+end_to_end.csv,Enterprise Readiness,2,2,0,100.00%
+overall_score.csv,Enterprise Readiness,1,1,0,100.00%

@@ -1,0 +1,3 @@
+id,input,expected_decision
+e2e1,Meals Subway $15.50 on 2026-06-25.,Approved
+e2e2,Meals Subway $75 on 2026-06-25 (over limit).,Denied

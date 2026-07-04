@@ -1,0 +1,3 @@
+id,input,expected_confidence
+conf1,Subway receipt.,1.0
+conf2,Blurry Subway receipt.,0.5

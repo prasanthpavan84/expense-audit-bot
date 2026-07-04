@@ -1,0 +1,4 @@
+id,input,expected_compliant,expected_violations,expected_rule_matched
+pc1,Lunch at Pizza Hut on 2026-06-25. Total amount: $35.50 USD.,True,,Meals limit check
+pc2,"Dinner at Gold Club Bar on 2026-06-27. Total amount: $90.00 USD. Items: Beer, cocktails.",False,Restricted vendor: Gold Club Bar,Restricted vendors policy
+pc3,Lunch at Pizza Hut on 2026-06-25. Total amount: $75.00 USD.,False,Meals limit exceeded,Meals limit check

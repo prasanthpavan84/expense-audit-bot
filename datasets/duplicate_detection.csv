@@ -1,0 +1,2 @@
+id,input_sequence,expected_duplicate_detected
+dup1,"[""Subway on 2026-06-25 for $15.50"", ""Subway on 2026-06-25 for $15.50""]",True

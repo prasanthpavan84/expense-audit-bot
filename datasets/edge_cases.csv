@@ -1,0 +1,4 @@
+id,input,expected_decision
+ec1,Blank receipt submission.,Validation Error
+ec2,Zero amount expense Subway on 2026-06-25.,Validation Error
+ec3,Subway on 2026-06-25 for $9999999.00 USD.,Validation Error

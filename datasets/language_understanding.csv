@@ -1,0 +1,2 @@
+id,input,expected_intent
+lan1,Audite this expens Subway $15.50.,AUDIT
