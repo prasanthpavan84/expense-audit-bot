@@ -41,6 +41,12 @@ class WorkflowContext(BaseModel):
     metadata: Dict[str, Any] = Field(default_factory=dict)
     decision_traces: List[DecisionTrace] = Field(default_factory=list)
 
+    def get(self, key: str, default: Any = None) -> Any:
+        return getattr(self, key, default)
+
+    def set(self, key: str, value: Any) -> None:
+        setattr(self, key, value)
+
     class Config:
         arbitrary_types_allowed = True
 

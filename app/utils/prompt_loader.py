@@ -1,0 +1,40 @@
+import os
+from pathlib import Path
+from typing import Optional
+from app.core.config_manager import config
+
+class PromptLoader:
+    """Utility class to dynamically load versioned agent system instructions from text files."""
+
+    @staticmethod
+    def load_prompt(agent_id: str, version: Optional[str] = None) -> str:
+        """Loads prompt content for agent_id and specified version version."""
+        v = version or config.prompt_versions.get(agent_id, "v1")
+        
+        prompts_dir = Path(__file__).resolve().parent.parent / "prompts"
+        prompt_file = prompts_dir / v / f"{agent_id}.txt"
+        
+        # Fallback mapping if standard names differ
+        if not prompt_file.exists():
+            # Try mapping receipt_extractor to receipt_extractor if needed
+            mapped_id = "receipt_extractor" if agent_id == "receipt_agent" else agent_id
+            prompt_file = prompts_dir / v / f"{mapped_id}.txt"
+
+        if prompt_file.exists():
+            try:
+                with open(prompt_file, "r", encoding="utf-8") as f:
+                    return f.read().strip()
+            except Exception:
+                pass
+
+        # Generous default fallback strings to avoid crashing
+        defaults = {
+            "planner_agent": "Analyze request and determine workflow/capabilities required.",
+            "receipt_extractor": "Extract details (amount, currency, merchant, date) from receipts.",
+            "policy_agent": "Evaluate compliance with spending limits and restrictions.",
+            "fraud_agent": "Analyze for duplicates and risk anomalies.",
+            "reasoning_agent": "Verify arithmetic claims and convert currencies.",
+            "reflection_agent": "Self-critique results, check OCR confidence, flag human review.",
+            "report_agent": "Format final summary outcome report."
+        }
+        return defaults.get(agent_id, "Analyze and process context data.")

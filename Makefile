@@ -11,3 +11,6 @@ run:
 
 test:
 	uv run pytest tests/
+
+benchmark:
+	uv run python -m app.evaluation.evaluator

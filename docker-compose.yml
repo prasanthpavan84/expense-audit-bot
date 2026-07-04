@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  expense-audit-bot:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8080"
+    environment:
+      - ENV=production
+      - STRUCTURED_LOGGING=true
+      - GOOGLE_API_KEY=${GOOGLE_API_KEY}
+    volumes:
+      - ./app/database.db:/code/app/database.db
+    restart: always

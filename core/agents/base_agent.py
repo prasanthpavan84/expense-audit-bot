@@ -149,6 +149,10 @@ class BaseAgent(abc.ABC):
 
         self.logger.warning("%s.rollback invoked – no default behaviour", self.__class__.__name__)
 
+    def explain(self, result: AgentResult) -> str:
+        """Provide a human-readable justification of the agent decision/output."""
+        return result.explanation or f"Agent {self.name} completed successfully."
+
     # ---------------------------------------------------------------------
     # Public entry point used by orchestration code.
     # ---------------------------------------------------------------------

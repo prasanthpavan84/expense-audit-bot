@@ -1,55 +1,43 @@
 agents:
-  ocr_agent:
+  planner_agent:
     version: "1.0"
-    description: "OCR extraction agent"
-    class_path: "app.agents.ocr.OcrAgent"
+    description: "Planner agent deciding workflows"
+    class_path: "app.agents.planner_agent.PlannerAgent"
     max_concurrency: 5
     timeout_seconds: 30
-    retry_policy:
-      max_attempts: 3
-      backoff_factor: 1.5
-  validation_agent:
+  receipt_extractor:
     version: "1.0"
-    description: "Expense validation agent"
-    class_path: "app.agents.validation.ValidationAgent"
+    description: "OCR extraction agent"
+    class_path: "app.agents.receipt_agent.ReceiptAgent"
     max_concurrency: 5
-    timeout_seconds: 20
-    retry_policy:
-      max_attempts: 2
-      backoff_factor: 2.0
+    timeout_seconds: 30
   policy_agent:
     version: "1.0"
     description: "Policy checking agent"
-    class_path: "app.agents.policy.PolicyAgent"
+    class_path: "app.agents.policy_agent.PolicyAgent"
     max_concurrency: 3
     timeout_seconds: 25
-    retry_policy:
-      max_attempts: 2
-      backoff_factor: 1.5
   fraud_agent:
     version: "1.0"
     description: "Fraud detection agent"
-    class_path: "app.agents.fraud.FraudAgent"
+    class_path: "app.agents.fraud_agent.FraudAgent"
     max_concurrency: 3
     timeout_seconds: 25
-    retry_policy:
-      max_attempts: 2
-      backoff_factor: 1.5
+  reasoning_agent:
+    version: "1.0"
+    description: "Financial reasoning agent"
+    class_path: "app.agents.reasoning_agent.ReasoningAgent"
+    max_concurrency: 5
+    timeout_seconds: 20
   reflection_agent:
     version: "1.0"
     description: "Reflection and reasoning agent"
-    class_path: "app.agents.reflection.ReflectionAgent"
+    class_path: "app.agents.reflection_agent.ReflectionAgent"
     max_concurrency: 2
     timeout_seconds: 30
-    retry_policy:
-      max_attempts: 3
-      backoff_factor: 1.5
   report_agent:
     version: "1.0"
     description: "Report generation agent"
-    class_path: "app.agents.report.ReportAgent"
+    class_path: "app.agents.report_agent.ReportAgent"
     max_concurrency: 2
     timeout_seconds: 30
-    retry_policy:
-      max_attempts: 1
-      backoff_factor: 1.0
