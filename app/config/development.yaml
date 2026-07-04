@@ -1,0 +1,26 @@
+# Development Configuration Profile
+app:
+  env: "development"
+  model: "gemini-2.5-flash-lite"
+  mcp_server_port: 8090
+  max_iterations: 3
+  database_path: "app/database.db"
+
+feature_flags:
+  planner: true
+  reflection: true
+  rag: true
+  dashboard: true
+  auth_enabled: false
+
+rate_limit:
+  requests_per_minute: 120
+
+prompt_versions:
+  planner_agent: "v1"
+  receipt_agent: "v1"
+  fraud_agent: "v1"
+  policy_agent: "v1"
+  reasoning_agent: "v1"
+  reflection_agent: "v1"
+  report_agent: "v1"

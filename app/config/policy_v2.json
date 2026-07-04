@@ -1,0 +1,47 @@
+{
+  "version": "v2",
+  "effective_date": "2026-07-01",
+  "expiration_date": null,
+  "category_limits": {
+    "Meals": {"limit": 60.0, "currency": "USD"},
+    "Hotel": {"limit": 200.0, "currency": "USD"},
+    "Travel": {"limit": 350.0, "currency": "USD"},
+    "Software": {"limit": 120.0, "currency": "USD"},
+    "Taxi": {"limit": 60.0, "currency": "USD"},
+    "Flight": {"limit": 600.0, "currency": "USD"},
+    "Other": {"limit": 30.0, "currency": "USD"}
+  },
+  "inr_limits": {
+    "Meals": 3600.0,
+    "Hotel": 16000.0,
+    "Travel": 28000.0,
+    "Software": 7200.0,
+    "Taxi": 3600.0,
+    "Flight": 48000.0,
+    "Other": 1800.0
+  },
+  "role_multipliers": {
+    "Intern": 0.5,
+    "Associate": 1.0,
+    "Manager": 1.5,
+    "Executive": 3.0
+  },
+  "restricted_vendors": [
+    "casino",
+    "gambling",
+    "club",
+    "bar",
+    "liquor",
+    "pub",
+    "lounge"
+  ],
+  "exchange_rates": {
+    "EUR": 1.10,
+    "GBP": 1.30,
+    "INR": 0.012,
+    "CAD": 0.74,
+    "AUD": 0.66,
+    "JPY": 0.0065,
+    "USD": 1.0
+  }
+}
