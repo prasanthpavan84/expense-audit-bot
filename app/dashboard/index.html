@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enterprise Operations Console - Expense Audit Bot</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Main Style -->
+    <link rel="stylesheet" href="/dashboard/index.css">
+    <!-- Mermaid JS -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script>
+        mermaid.initialize({ startOnLoad: false, theme: 'dark', securityLevel: 'loose' });
+    </script>
+</head>
+<body>
+    <div class="console-container">
+        <!-- Sidebar Navigation -->
+        <aside class="console-sidebar">
+            <div class="brand">
+                <div class="brand-logo"><i class="fa-solid fa-shield-halved"></i></div>
+                <div class="brand-name">
+                    <h1>ADK Audit</h1>
+                    <span>Operations Console</span>
+                </div>
+            </div>
+            
+            <nav class="nav-menu">
+                <a href="#" class="nav-item active" data-tab="overview"><i class="fa-solid fa-chart-line"></i> Overview</a>
+                <a href="#" class="nav-item" data-tab="audit"><i class="fa-solid fa-terminal"></i> Audit Console</a>
+                <a href="#" class="nav-item" data-tab="workflow"><i class="fa-solid fa-diagram-project"></i> Workflow Explorer</a>
+                <a href="#" class="nav-item" data-tab="agents"><i class="fa-solid fa-robot"></i> Agent Registry</a>
+                <a href="#" class="nav-item" data-tab="tools"><i class="fa-solid fa-screwdriver-wrench"></i> Tool Registry</a>
+                <a href="#" class="nav-item" data-tab="memory"><i class="fa-solid fa-brain"></i> Memory Viewer</a>
+                <a href="#" class="nav-item" data-tab="knowledge"><i class="fa-solid fa-database"></i> Knowledge Retrieval</a>
+                <a href="#" class="nav-item" data-tab="replay"><i class="fa-solid fa-clock-rotate-left"></i> Trace Replay</a>
+                <a href="#" class="nav-item" data-tab="evaluation"><i class="fa-solid fa-clipboard-check"></i> Evaluation Report</a>
+                <a href="#" class="nav-item" data-tab="benchmarks"><i class="fa-solid fa-gauge-high"></i> Benchmark History</a>
+                <a href="#" class="nav-item" data-tab="health"><i class="fa-solid fa-heart-pulse"></i> System Health</a>
+                <a href="#" class="nav-item" data-tab="developer"><i class="fa-solid fa-code"></i> Developer Mode</a>
+                <a href="#" class="nav-item" data-tab="settings"><i class="fa-solid fa-sliders"></i> Settings</a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="diag-summary">
+                    <span class="dot healthy"></span>
+                    <span>System Online</span>
+                </div>
+                <span class="version-tag">ADK Core v2.1.0</span>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="console-content">
+            <!-- Top bar -->
+            <header class="top-bar">
+                <div class="search-bar">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="global-search" placeholder="Search audits, trace IDs, error codes...">
+                </div>
+                <div class="top-actions">
+                    <button id="export-snapshot-btn" class="btn btn-secondary"><i class="fa-solid fa-camera"></i> Snapshot</button>
+                    <div class="notifications-bell">
+                        <i class="fa-solid fa-bell"></i>
+                        <span class="badge" id="notif-count">0</span>
+                        <div class="notif-dropdown" id="notif-dropdown">
+                            <h3>Notifications</h3>
+                            <div class="notif-list" id="notif-list">
+                                <div class="empty-state">No new notifications</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="user-profile">
+                        <div class="avatar"><i class="fa-solid fa-user-tie"></i></div>
+                        <span class="user-role" id="display-role">Associate</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Tab Panels -->
+            <div class="tab-panels-container">
+                <!-- PANEL: OVERVIEW -->
+                <section class="tab-panel active" id="panel-overview">
+                    <div class="panel-header">
+                        <h2>Overview</h2>
+                        <span class="panel-subtitle">Real-time system telemetry & metrics summary</span>
+                    </div>
+                    
+                    <!-- Stats Grid -->
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon"><i class="fa-solid fa-file-invoice-dollar"></i></div>
+                            <div class="stat-content">
+                                <h3>Total Audited</h3>
+                                <span class="stat-value" id="stat-total-audited">0</span>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon warning"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                            <div class="stat-content">
+                                <h3>Flagged Fraud</h3>
+                                <span class="stat-value" id="stat-flagged-fraud">0</span>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon success"><i class="fa-solid fa-circle-check"></i></div>
+                            <div class="stat-content">
+                                <h3>Compliance Rate</h3>
+                                <span class="stat-value" id="stat-compliance-rate">100%</span>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon info"><i class="fa-solid fa-coins"></i></div>
+                            <div class="stat-content">
+                                <h3>Estimated Cost</h3>
+                                <span class="stat-value" id="stat-total-cost">$0.00 USD</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Main Section -->
+                    <div class="grid-two-cols">
+                        <div class="card">
+                            <h3><i class="fa-solid fa-rocket"></i> Startup Diagnostics</h3>
+                            <div class="diagnostics-list" id="diag-list-overview">
+                                <div class="loading-spinner"></div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <h3><i class="fa-solid fa-heart-pulse"></i> Operational Health</h3>
+                            <div class="health-grid-overview" id="health-grid-overview">
+                                <div class="loading-spinner"></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PANEL: AUDIT CONSOLE -->
+                <section class="tab-panel" id="panel-audit">
+                    <div class="panel-header">
+                        <h2>Audit Console</h2>
+                        <span class="panel-subtitle">Submit expense documents for cognitive analysis</span>
+                    </div>
+
+                    <div class="grid-layout-audit">
+                        <!-- Controls panel -->
+                        <div class="card audit-input-card">
+                            <h3><i class="fa-solid fa-gears"></i> Audit Configuration</h3>
+                            
+                            <div class="form-group">
+                                <label for="demo-scenario-select">Demo Mode Scenarios</label>
+                                <select id="demo-scenario-select">
+                                    <option value="" disabled selected>-- Select a Preset Capstone Scenario --</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="raw-input-text">Receipt Text / Submission Payload</label>
+                                <textarea id="raw-input-text" rows="6" placeholder="Paste extracted receipt text, e.g. Starbucks #412 Meals $15.50..."></textarea>
+                            </div>
+
+                            <div class="grid-two-cols-compact">
+                                <div class="form-group">
+                                    <label for="user-role-select">Employee Role</label>
+                                    <select id="user-role-select">
+                                        <option value="Associate">Associate</option>
+                                        <option value="Manager">Manager</option>
+                                        <option value="Intern">Intern</option>
+                                        <option value="Executive">Executive</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="justification-text">Business Justification</label>
+                                    <input type="text" id="justification-text" placeholder="Client lunch...">
+                                </div>
+                            </div>
+
+                            <button id="run-audit-btn" class="btn btn-primary btn-block"><i class="fa-solid fa-play"></i> Trigger Agentic Audit</button>
+                        </div>
+
+                        <!-- Terminal & Visuals -->
+                        <div class="card terminal-card">
+                            <div class="terminal-header">
+                                <h3><i class="fa-solid fa-terminal"></i> Live Event Stream & Timeline</h3>
+                                <div class="terminal-actions">
+                                    <span id="audit-progress-bar" class="progress-bar"></span>
+                                    <button class="btn btn-icon" id="clear-terminal-btn"><i class="fa-solid fa-trash-can"></i></button>
+                                </div>
+                            </div>
+                            <div class="live-timeline" id="live-timeline-log">
+                                <div class="empty-state">Awaiting execution run...</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PANEL: WORKFLOW EXPLORER -->
+                <section class="tab-panel" id="panel-workflow">
+                    <div class="panel-header">
+                        <h2>Workflow Explorer</h2>
+                        <span class="panel-subtitle">YAML configuration, cycle validations, and Mermaid rendering</span>
+                    </div>
+
+                    <div class="workflow-tabs">
+                        <button class="tab-btn active" data-wtab="mermaid-view">Mermaid Graph</button>
+                        <button class="tab-btn" data-wtab="tree-view">Execution Tree</button>
+                        <button class="tab-btn" data-wtab="yaml-view">YAML Definition</button>
+                    </div>
+
+                    <div class="card w-tab-content active" id="wtab-mermaid-view">
+                        <div class="mermaid-diagram-container" id="mermaid-diagram-container">
+                            <div class="mermaid" id="mermaid-canvas"></div>
+                        </div>
+                    </div>
+
+                    <div class="card w-tab-content" id="wtab-tree-view">
+                        <div class="execution-tree-container" id="execution-tree-container">
+                            <div class="empty-state">Run an audit to view execution tree debugger</div>
+                        </div>
+                    </div>
+
+                    <div class="card w-tab-content" id="wtab-yaml-view">
+                        <div class="yaml-details-header">
+                            <span class="yaml-meta" id="yaml-meta-details">Version: N/A | Loaded: N/A</span>
+                            <span class="badge status-healthy" id="yaml-status-badge">Healthy</span>
+                        </div>
+                        <pre class="yaml-code" id="yaml-code-view"># YAML definition loading...</pre>
+                    </div>
+                </section>
+
+                <!-- PANEL: AGENTS REGISTRY -->
+                <section class="tab-panel" id="panel-agents">
+                    <div class="panel-header">
+                        <h2>Agent Registry</h2>
+                        <span class="panel-subtitle">Registered Google ADK collaborating agents list</span>
+                    </div>
+                    
+                    <div class="card table-card">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Agent Name</th>
+                                    <th>Prompt Ver</th>
+                                    <th>Total Runs</th>
+                                    <th>Success Rate</th>
+                                    <th>Avg Latency</th>
+                                    <th>Confidence</th>
+                                    <th>State</th>
+                                    <th>Health</th>
+                                </tr>
+                            </thead>
+                            <tbody id="agents-table-body">
+                                <tr><td colspan="8"><div class="loading-spinner"></div></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- PANEL: TOOLS REGISTRY -->
+                <section class="tab-panel" id="panel-tools">
+                    <div class="panel-header">
+                        <h2>Tool Registry</h2>
+                        <span class="panel-subtitle">Exposing registered capabilities and MCP handlers</span>
+                    </div>
+
+                    <div class="card table-card">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Capability</th>
+                                    <th>MCP Provider</th>
+                                    <th>Server URI</th>
+                                    <th>Total Calls</th>
+                                    <th>Success Rate</th>
+                                    <th>Avg Latency</th>
+                                    <th>Availability</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tools-table-body">
+                                <tr><td colspan="8"><div class="loading-spinner"></div></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- PANEL: MEMORY VIEWER -->
+                <section class="tab-panel" id="panel-memory">
+                    <div class="panel-header">
+                        <h2>Layered Memory Viewer</h2>
+                        <span class="panel-subtitle">Inspect Agent layered memories (Conversation, Working, and Tool)</span>
+                    </div>
+
+                    <div class="memory-grid">
+                        <div class="card">
+                            <h3><i class="fa-solid fa-comment"></i> Conversation Memory</h3>
+                            <div class="memory-viewer-box" id="conversation-memory-box">
+                                <div class="empty-state">No current active conversation sessions</div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <h3><i class="fa-solid fa-list-check"></i> Working Memory</h3>
+                            <div class="memory-viewer-box" id="working-memory-box">
+                                <div class="empty-state">No working memory loaded</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PANEL: KNOWLEDGE -->
+                <section class="tab-panel" id="panel-knowledge">
+                    <div class="panel-header">
+                        <h2>Knowledge Retrieval Service</h2>
+                        <span class="panel-subtitle">RAG index policy document chunks inspector</span>
+                    </div>
+
+                    <div class="card">
+                        <h3><i class="fa-solid fa-book-open"></i> Loaded Policy Chunks</h3>
+                        <div class="knowledge-chunks-list" id="knowledge-chunks-list">
+                            <div class="loading-spinner"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PANEL: REPLAY -->
+                <section class="tab-panel" id="panel-replay">
+                    <div class="panel-header">
+                        <h2>Trace Replay</h2>
+                        <span class="panel-subtitle">Replay and audit historical executions step-by-step</span>
+                    </div>
+
+                    <div class="replay-grid">
+                        <div class="card replay-search-card">
+                            <h3><i class="fa-solid fa-magnifying-glass"></i> Historical Audits</h3>
+                            <div class="form-group-row">
+                                <input type="text" id="search-history-input" placeholder="Search by Employee/Vendor...">
+                                <button class="btn btn-secondary" id="search-history-btn">Search</button>
+                            </div>
+                            <div class="replay-audits-list" id="replay-audits-list">
+                                <div class="loading-spinner"></div>
+                            </div>
+                        </div>
+
+                        <div class="card replay-details-card">
+                            <h3><i class="fa-solid fa-route"></i> Execution Timeline Replay</h3>
+                            <div class="replay-timeline-container" id="replay-timeline-container">
+                                <div class="empty-state">Select an audit to inspect the trace</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PANEL: EVALUATION -->
+                <section class="tab-panel" id="panel-evaluation">
+                    <div class="panel-header">
+                        <h2>Evaluation Report</h2>
+                        <span class="panel-subtitle">Review static capstone accuracy and precision metrics</span>
+                    </div>
+
+                    <div class="grid-two-cols">
+                        <div class="card">
+                            <h3><i class="fa-solid fa-trophy"></i> Evaluation Grading</h3>
+                            <div class="eval-grade-box" id="eval-grade-box">
+                                <div class="loading-spinner"></div>
+                            </div>
+                        </div>
+                        <div class="card markdown-report-box" id="eval-markdown-box">
+                            <h3><i class="fa-solid fa-file-invoice"></i> Markdown Summary Report</h3>
+                            <div class="report-content" id="eval-report-content">
+                                <div class="loading-spinner"></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PANEL: BENCHMARKS -->
+                <section class="tab-panel" id="panel-benchmarks">
+                    <div class="panel-header">
+                        <h2>Benchmark History</h2>
+                        <span class="panel-subtitle">Review historical benchmark runs, latencies, and estimated costs</span>
+                    </div>
+
+                    <div class="card">
+                        <h3><i class="fa-solid fa-chart-column"></i> Accuracy & Cost Trends</h3>
+                        <div class="benchmark-grid" id="benchmark-history-grid">
+                            <div class="loading-spinner"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PANEL: SYSTEM HEALTH -->
+                <section class="tab-panel" id="panel-health">
+                    <div class="panel-header">
+                        <h2>System Health</h2>
+                        <span class="panel-subtitle">Monitor component connectivity & live API state</span>
+                    </div>
+
+                    <div class="health-grid" id="system-health-grid">
+                        <div class="loading-spinner"></div>
+                    </div>
+                </section>
+
+                <!-- PANEL: DEVELOPER MODE -->
+                <section class="tab-panel" id="panel-developer">
+                    <div class="panel-header">
+                        <h2>Developer Mode</h2>
+                        <span class="panel-subtitle">Low-level feature flag and config inspector</span>
+                    </div>
+
+                    <div class="grid-two-cols">
+                        <div class="card">
+                            <h3><i class="fa-solid fa-flag"></i> Feature Flags</h3>
+                            <div class="flags-list" id="developer-flags-list">
+                                <div class="loading-spinner"></div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <h3><i class="fa-solid fa-circle-nodes"></i> Prompts Inspector</h3>
+                            <div class="prompts-list" id="developer-prompts-list">
+                                <div class="loading-spinner"></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PANEL: SETTINGS -->
+                <section class="tab-panel" id="panel-settings">
+                    <div class="panel-header">
+                        <h2>Settings</h2>
+                        <span class="panel-subtitle">Configure theme preference and trigger debugging controls</span>
+                    </div>
+
+                    <div class="grid-two-cols">
+                        <div class="card">
+                            <h3><i class="fa-solid fa-palette"></i> UI Configuration</h3>
+                            <div class="form-group">
+                                <label for="theme-select">Theme Selection</label>
+                                <select id="theme-select">
+                                    <option value="dark">Dark Theme</option>
+                                    <option value="light">Light Theme</option>
+                                    <option value="system">System Default</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <h3><i class="fa-solid fa-triangle-exclamation"></i> Admin Debug Controls</h3>
+                            <div class="admin-buttons-list">
+                                <button class="btn btn-secondary" onclick="triggerAdminAction('reload_workflow')">Reload Workflow YAML</button>
+                                <button class="btn btn-secondary" onclick="triggerAdminAction('reload_prompts')">Reload Prompts</button>
+                                <button class="btn btn-secondary" onclick="triggerAdminAction('clear_memory')">Clear Cache / Memory</button>
+                                <button class="btn btn-danger" onclick="triggerAdminAction('reset_database')">Reset Database</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Slide-out Drawer: Agent Details -->
+    <div class="agent-detail-drawer" id="agent-detail-drawer">
+        <div class="drawer-header">
+            <h3><i class="fa-solid fa-circle-info"></i> Agent Inspector</h3>
+            <button class="btn btn-icon" id="close-drawer-btn"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="drawer-body" id="agent-drawer-content">
+            <!-- Dynamic Details -->
+        </div>
+    </div>
+
+    <script src="/dashboard/index.js"></script>
+</body>
+</html>
