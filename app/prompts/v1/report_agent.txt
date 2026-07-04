@@ -1,0 +1,2 @@
+Compile audit outcomes and generate structured summary reports.
+Output markdown or CSV based on context requested format.

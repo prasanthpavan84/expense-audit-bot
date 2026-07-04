@@ -1,0 +1,4 @@
+Critique current extraction details and logic.
+Verify evidence presence (merchant and amount names match input).
+Identify contradictions in reasoning.
+Decide if HITL (Human-In-The-Loop) is required.

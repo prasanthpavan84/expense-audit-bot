@@ -10,7 +10,10 @@
     "manipulated_receipt": 60,
     "low_ocr_confidence": 20,
     "outlier_spending": 30,
-    "fake_merchant": 20
+    "fake_merchant": 20,
+    "holiday_anomaly": 20,
+    "round_number": 10,
+    "impossible_travel": 35
   },
   "thresholds": {
     "review_limit_usd": 200.0,

@@ -1,0 +1,3 @@
+Evaluate expense categories, limits, restricted vendors, and multiplier factors.
+Verify against retrieved corporate policies.
+Identify policy violations.

@@ -1,5 +1,5 @@
-import json
 import os
+import json
 import datetime
 from typing import Dict, Any, List, Tuple
 
@@ -82,6 +82,19 @@ def calculate_fraud_score(
                 reasons.append(f"Expense claimed on weekend: {dt.strftime('%A')} (+{weights.get('weekend_anomaly', 15)})")
         except Exception:
             pass
+
+    # 3b. Holiday Anomaly Check
+    holidays = ["01-01", "07-04", "11-26", "12-25"]
+    if date_str and len(date_str) >= 10:
+        mm_dd = date_str[5:10]
+        if mm_dd in holidays:
+            score += weights.get("holiday_anomaly", 20)
+            reasons.append(f"Expense claimed on holiday: {mm_dd} (+{weights.get('holiday_anomaly', 20)})")
+
+    # 3c. Round Number Check
+    if amount >= 50.0 and amount % 10.0 == 0.0:
+        score += weights.get("round_number", 10)
+        reasons.append(f"Round claim amount: {currency} {amount:.2f} (+{weights.get('round_number', 10)})")
             
     # 4. OCR Metadata Checks
     manipulated = expense.get("manipulated_receipt", False)
@@ -175,6 +188,35 @@ def calculate_fraud_score(
         if batch_exact > 0:
             score += weights.get("duplicate_claim_session", 30)
             reasons.append(f"Duplicate receipt matching another item in the same request batch (+{weights.get('duplicate_claim_session', 30)})")
+
+    # 8. Impossible Travel Check
+    def extract_city(text: str):
+        from typing import Optional
+        text_lower = text.lower()
+        cities = ["boston", "paris", "new york", "london", "tokyo", "san francisco", "chicago"]
+        for city in cities:
+            if city in text_lower:
+                return city
+        return None
+
+    raw_input = str(expense.get("raw_text", "")) or str(expense.get("merchant", ""))
+    current_city = extract_city(raw_input)
+    if current_city and date_str and date_str.lower() != "unknown" and history:
+        try:
+            curr_date = datetime.date.fromisoformat(date_str)
+            for past in history:
+                past_raw = str(past.get("raw_text", "")) or str(past.get("merchant", ""))
+                past_city = extract_city(past_raw)
+                past_date_str = str(past.get("date", ""))
+                if past_city and past_city != current_city and past_date_str and past_date_str.lower() != "unknown":
+                    past_date = datetime.date.fromisoformat(past_date_str)
+                    days_diff = abs((curr_date - past_date).days)
+                    if days_diff <= 1:
+                        score += weights.get("impossible_travel", 35)
+                        reasons.append(f"Impossible Travel: Claimed in {current_city.capitalize()} and {past_city.capitalize()} within {days_diff} day(s) (+{weights.get('impossible_travel', 35)})")
+                        break
+        except Exception:
+            pass
 
     # Cap score at 100
     final_score = min(score, 100)

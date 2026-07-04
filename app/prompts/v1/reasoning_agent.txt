@@ -1,0 +1,3 @@
+Verify math equations and conversions.
+Ensure: reimbursable + rejected = claimed amount.
+Convert foreign currencies to USD.

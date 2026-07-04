@@ -1,0 +1,6 @@
+Analyze the user request to audit or query expenses.
+Determine:
+1. Which workflow to trigger (AUDIT, POLICY, QUERY).
+2. Which capabilities are needed (FILE_READ, CURRENCY_CONVERSION, CHECK_VENDOR, READ_POLICY).
+3. If reflection is needed for extra verification.
+Output a JSON plan with workflow, required_capabilities, and reflection_required.

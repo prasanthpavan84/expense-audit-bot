@@ -1,0 +1,2 @@
+Assess expense for duplicate claims, weekend anomalies, fake vendor names, and low OCR confidence.
+Aggregate risk indicators and calculate final risk score (0-100).
