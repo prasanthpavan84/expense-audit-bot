@@ -247,7 +247,6 @@ class MockGemini(Gemini):
                     err_msg = str(e)
                     is_rate_limit = "429" in err_msg or "RESOURCE_EXHAUSTED" in err_msg or "quota" in err_msg.lower()
                     if is_rate_limit and attempt < 8:
-                        import re
                         delay = 15.0
                         delay_match = re.search(r"retry(?:ing)? in (\d+(?:\.\d+)?)s", err_msg, re.IGNORECASE)
                         if not delay_match:
@@ -1563,8 +1562,8 @@ def finalize_expense(ctx: Context, node_input: str):
             updated_response
         )
         updated_response = re.sub(
-            r"### Clear Reasoning\n.*",
-            f"### Clear Reasoning\n{reasoning}",
+            r"### Clear Reasoning\n(.*?)(?=\s*```json|\Z)",
+            f"### Clear Reasoning\n{reasoning}\n\n",
             updated_response,
             flags=re.DOTALL
         )
@@ -1652,8 +1651,8 @@ def finalize_expense(ctx: Context, node_input: str):
                 output_str
             )
             output_str = re.sub(
-                r"### Clear Reasoning\n.*",
-                f"### Clear Reasoning\n{reasoning}",
+                r"### Clear Reasoning\n(.*?)(?=\s*```json|\Z)",
+                f"### Clear Reasoning\n{reasoning}\n\n",
                 output_str,
                 flags=re.DOTALL
             )
