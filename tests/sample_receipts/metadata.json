@@ -1,0 +1,1262 @@
+[
+  {
+    "id": "receipt_001",
+    "type": "currency_mismatch",
+    "category": "Office",
+    "merchant": "Office Depot",
+    "amount": 375.47,
+    "currency": "EUR",
+    "date": "2026-06-27",
+    "tax": 37.55,
+    "errors": [
+      "currency mismatch"
+    ]
+  },
+  {
+    "id": "receipt_002",
+    "type": "date_mismatch",
+    "category": "Medical",
+    "merchant": "CVS Pharmacy",
+    "amount": 479.55,
+    "currency": "EUR",
+    "date": "2028-12-25",
+    "tax": 47.96,
+    "errors": [
+      "future date mismatch"
+    ]
+  },
+  {
+    "id": "receipt_003",
+    "type": "tax_mismatch",
+    "category": "Office",
+    "merchant": "Office Depot",
+    "amount": 221.74,
+    "currency": "INR",
+    "date": "2026-06-13",
+    "tax": 110.87,
+    "errors": [
+      "tax mismatch"
+    ]
+  },
+  {
+    "id": "receipt_004",
+    "type": "fraudulent",
+    "category": "Entertainment",
+    "merchant": "Gold Club Bar",
+    "amount": 438.1,
+    "currency": "CAD",
+    "date": "2026-06-23",
+    "tax": 43.81,
+    "errors": [
+      "restricted vendor"
+    ]
+  },
+  {
+    "id": "receipt_005",
+    "type": "duplicate",
+    "category": "Travel",
+    "merchant": "Pizza Hut",
+    "amount": 35.5,
+    "currency": "USD",
+    "date": "2026-06-25",
+    "tax": 49.85,
+    "errors": [
+      "duplicate expense"
+    ]
+  },
+  {
+    "id": "receipt_006",
+    "type": "negative_amount",
+    "category": "Food",
+    "merchant": "Starbucks",
+    "amount": -50.0,
+    "currency": "USD",
+    "date": "2026-06-20",
+    "tax": 47.92,
+    "errors": [
+      "negative amount"
+    ]
+  },
+  {
+    "id": "receipt_007",
+    "type": "missing_fields",
+    "category": "Medical",
+    "merchant": "CityMD",
+    "amount": 0.0,
+    "currency": "EUR",
+    "date": "2026-06-12",
+    "tax": 41.88,
+    "errors": [
+      "missing amount"
+    ]
+  },
+  {
+    "id": "receipt_008",
+    "type": "valid",
+    "category": "Office",
+    "merchant": "Staples",
+    "amount": 443.18,
+    "currency": "EUR",
+    "date": "2026-06-24",
+    "tax": 44.32,
+    "errors": []
+  },
+  {
+    "id": "receipt_009",
+    "type": "valid",
+    "category": "Training",
+    "merchant": "Coursera",
+    "amount": 317.22,
+    "currency": "GBP",
+    "date": "2026-06-11",
+    "tax": 31.72,
+    "errors": []
+  },
+  {
+    "id": "receipt_010",
+    "type": "incomplete",
+    "category": "Food",
+    "merchant": "",
+    "amount": 124.17,
+    "currency": "GBP",
+    "date": "2026-06-11",
+    "tax": 12.42,
+    "errors": [
+      "missing merchant"
+    ]
+  },
+  {
+    "id": "receipt_011",
+    "type": "currency_mismatch",
+    "category": "Food",
+    "merchant": "Subway",
+    "amount": 177.65,
+    "currency": "EUR",
+    "date": "2026-06-24",
+    "tax": 17.77,
+    "errors": [
+      "currency mismatch"
+    ]
+  },
+  {
+    "id": "receipt_012",
+    "type": "date_mismatch",
+    "category": "Medical",
+    "merchant": "Walgreens",
+    "amount": 14.13,
+    "currency": "EUR",
+    "date": "2028-12-25",
+    "tax": 1.41,
+    "errors": [
+      "future date mismatch"
+    ]
+  },
+  {
+    "id": "receipt_013",
+    "type": "tax_mismatch",
+    "category": "Hotel",
+    "merchant": "Hilton",
+    "amount": 248.51,
+    "currency": "INR",
+    "date": "2026-06-15",
+    "tax": 124.25,
+    "errors": [
+      "tax mismatch"
+    ]
+  },
+  {
+    "id": "receipt_014",
+    "type": "fraudulent",
+    "category": "Entertainment",
+    "merchant": "Gold Club Bar",
+    "amount": 172.38,
+    "currency": "CAD",
+    "date": "2026-06-24",
+    "tax": 17.24,
+    "errors": [
+      "restricted vendor"
+    ]
+  },
+  {
+    "id": "receipt_015",
+    "type": "duplicate",
+    "category": "Taxi",
+    "merchant": "Pizza Hut",
+    "amount": 35.5,
+    "currency": "USD",
+    "date": "2026-06-25",
+    "tax": 14.86,
+    "errors": [
+      "duplicate expense"
+    ]
+  },
+  {
+    "id": "receipt_016",
+    "type": "negative_amount",
+    "category": "Hotel",
+    "merchant": "Marriott",
+    "amount": -50.0,
+    "currency": "CAD",
+    "date": "2026-06-27",
+    "tax": 9.19,
+    "errors": [
+      "negative amount"
+    ]
+  },
+  {
+    "id": "receipt_017",
+    "type": "missing_fields",
+    "category": "Food",
+    "merchant": "McDonalds",
+    "amount": 0.0,
+    "currency": "USD",
+    "date": "2026-06-20",
+    "tax": 3.13,
+    "errors": [
+      "missing amount"
+    ]
+  },
+  {
+    "id": "receipt_018",
+    "type": "valid",
+    "category": "Medical",
+    "merchant": "Walgreens",
+    "amount": 65.97,
+    "currency": "CAD",
+    "date": "2026-06-21",
+    "tax": 6.6,
+    "errors": []
+  },
+  {
+    "id": "receipt_019",
+    "type": "valid",
+    "category": "Office",
+    "merchant": "Staples",
+    "amount": 227.35,
+    "currency": "USD",
+    "date": "2026-06-19",
+    "tax": 22.73,
+    "errors": []
+  },
+  {
+    "id": "receipt_020",
+    "type": "incomplete",
+    "category": "Taxi",
+    "merchant": "",
+    "amount": 279.56,
+    "currency": "EUR",
+    "date": "2026-06-17",
+    "tax": 27.96,
+    "errors": [
+      "missing merchant"
+    ]
+  },
+  {
+    "id": "receipt_021",
+    "type": "currency_mismatch",
+    "category": "Food",
+    "merchant": "McDonalds",
+    "amount": 477.66,
+    "currency": "EUR",
+    "date": "2026-06-12",
+    "tax": 47.77,
+    "errors": [
+      "currency mismatch"
+    ]
+  },
+  {
+    "id": "receipt_022",
+    "type": "date_mismatch",
+    "category": "Travel",
+    "merchant": "Delta Airlines",
+    "amount": 108.62,
+    "currency": "USD",
+    "date": "2028-12-25",
+    "tax": 10.86,
+    "errors": [
+      "future date mismatch"
+    ]
+  },
+  {
+    "id": "receipt_023",
+    "type": "tax_mismatch",
+    "category": "Medical",
+    "merchant": "CVS Pharmacy",
+    "amount": 351.02,
+    "currency": "CAD",
+    "date": "2026-06-12",
+    "tax": 175.51,
+    "errors": [
+      "tax mismatch"
+    ]
+  },
+  {
+    "id": "receipt_024",
+    "type": "fraudulent",
+    "category": "Entertainment",
+    "merchant": "Gold Club Bar",
+    "amount": 465.16,
+    "currency": "USD",
+    "date": "2026-06-13",
+    "tax": 46.52,
+    "errors": [
+      "restricted vendor"
+    ]
+  },
+  {
+    "id": "receipt_025",
+    "type": "duplicate",
+    "category": "Taxi",
+    "merchant": "Pizza Hut",
+    "amount": 35.5,
+    "currency": "USD",
+    "date": "2026-06-25",
+    "tax": 24.88,
+    "errors": [
+      "duplicate expense"
+    ]
+  },
+  {
+    "id": "receipt_026",
+    "type": "negative_amount",
+    "category": "Medical",
+    "merchant": "Walgreens",
+    "amount": -50.0,
+    "currency": "GBP",
+    "date": "2026-06-27",
+    "tax": 15.81,
+    "errors": [
+      "negative amount"
+    ]
+  },
+  {
+    "id": "receipt_027",
+    "type": "missing_fields",
+    "category": "Training",
+    "merchant": "Coursera",
+    "amount": 0.0,
+    "currency": "GBP",
+    "date": "2026-06-19",
+    "tax": 30.89,
+    "errors": [
+      "missing amount"
+    ]
+  },
+  {
+    "id": "receipt_028",
+    "type": "valid",
+    "category": "Office",
+    "merchant": "Amazon Business",
+    "amount": 302.27,
+    "currency": "GBP",
+    "date": "2026-06-21",
+    "tax": 30.23,
+    "errors": []
+  },
+  {
+    "id": "receipt_029",
+    "type": "valid",
+    "category": "Taxi",
+    "merchant": "Yellow Cab",
+    "amount": 362.06,
+    "currency": "EUR",
+    "date": "2026-06-19",
+    "tax": 36.21,
+    "errors": []
+  },
+  {
+    "id": "receipt_030",
+    "type": "incomplete",
+    "category": "Travel",
+    "merchant": "",
+    "amount": 277.77,
+    "currency": "EUR",
+    "date": "2026-06-11",
+    "tax": 27.78,
+    "errors": [
+      "missing merchant"
+    ]
+  },
+  {
+    "id": "receipt_031",
+    "type": "currency_mismatch",
+    "category": "Travel",
+    "merchant": "Expedia",
+    "amount": 465.74,
+    "currency": "EUR",
+    "date": "2026-06-14",
+    "tax": 46.57,
+    "errors": [
+      "currency mismatch"
+    ]
+  },
+  {
+    "id": "receipt_032",
+    "type": "date_mismatch",
+    "category": "Office",
+    "merchant": "Staples",
+    "amount": 311.03,
+    "currency": "INR",
+    "date": "2028-12-25",
+    "tax": 31.1,
+    "errors": [
+      "future date mismatch"
+    ]
+  },
+  {
+    "id": "receipt_033",
+    "type": "tax_mismatch",
+    "category": "Hotel",
+    "merchant": "Hilton",
+    "amount": 78.22,
+    "currency": "EUR",
+    "date": "2026-06-10",
+    "tax": 39.11,
+    "errors": [
+      "tax mismatch"
+    ]
+  },
+  {
+    "id": "receipt_034",
+    "type": "fraudulent",
+    "category": "Entertainment",
+    "merchant": "Gold Club Bar",
+    "amount": 308.07,
+    "currency": "INR",
+    "date": "2026-06-24",
+    "tax": 30.81,
+    "errors": [
+      "restricted vendor"
+    ]
+  },
+  {
+    "id": "receipt_035",
+    "type": "duplicate",
+    "category": "Entertainment",
+    "merchant": "Pizza Hut",
+    "amount": 35.5,
+    "currency": "USD",
+    "date": "2026-06-25",
+    "tax": 47.36,
+    "errors": [
+      "duplicate expense"
+    ]
+  },
+  {
+    "id": "receipt_036",
+    "type": "negative_amount",
+    "category": "Entertainment",
+    "merchant": "Gold Club Bar",
+    "amount": -50.0,
+    "currency": "CAD",
+    "date": "2026-06-22",
+    "tax": 34.06,
+    "errors": [
+      "negative amount"
+    ]
+  },
+  {
+    "id": "receipt_037",
+    "type": "missing_fields",
+    "category": "Taxi",
+    "merchant": "Yellow Cab",
+    "amount": 0.0,
+    "currency": "INR",
+    "date": "2026-06-23",
+    "tax": 34.21,
+    "errors": [
+      "missing amount"
+    ]
+  },
+  {
+    "id": "receipt_038",
+    "type": "valid",
+    "category": "Medical",
+    "merchant": "CVS Pharmacy",
+    "amount": 409.68,
+    "currency": "EUR",
+    "date": "2026-06-17",
+    "tax": 40.97,
+    "errors": []
+  },
+  {
+    "id": "receipt_039",
+    "type": "valid",
+    "category": "Medical",
+    "merchant": "CVS Pharmacy",
+    "amount": 398.84,
+    "currency": "CAD",
+    "date": "2026-06-17",
+    "tax": 39.88,
+    "errors": []
+  },
+  {
+    "id": "receipt_040",
+    "type": "incomplete",
+    "category": "Training",
+    "merchant": "",
+    "amount": 81.57,
+    "currency": "GBP",
+    "date": "2026-06-27",
+    "tax": 8.16,
+    "errors": [
+      "missing merchant"
+    ]
+  },
+  {
+    "id": "receipt_041",
+    "type": "currency_mismatch",
+    "category": "Taxi",
+    "merchant": "Lyft",
+    "amount": 32.6,
+    "currency": "EUR",
+    "date": "2026-06-15",
+    "tax": 3.26,
+    "errors": [
+      "currency mismatch"
+    ]
+  },
+  {
+    "id": "receipt_042",
+    "type": "date_mismatch",
+    "category": "Hotel",
+    "merchant": "Hilton",
+    "amount": 234.2,
+    "currency": "CAD",
+    "date": "2028-12-25",
+    "tax": 23.42,
+    "errors": [
+      "future date mismatch"
+    ]
+  },
+  {
+    "id": "receipt_043",
+    "type": "tax_mismatch",
+    "category": "Travel",
+    "merchant": "Delta Airlines",
+    "amount": 328.85,
+    "currency": "EUR",
+    "date": "2026-06-28",
+    "tax": 164.43,
+    "errors": [
+      "tax mismatch"
+    ]
+  },
+  {
+    "id": "receipt_044",
+    "type": "fraudulent",
+    "category": "Entertainment",
+    "merchant": "Gold Club Bar",
+    "amount": 401.13,
+    "currency": "INR",
+    "date": "2026-06-17",
+    "tax": 40.11,
+    "errors": [
+      "restricted vendor"
+    ]
+  },
+  {
+    "id": "receipt_045",
+    "type": "duplicate",
+    "category": "Medical",
+    "merchant": "Pizza Hut",
+    "amount": 35.5,
+    "currency": "USD",
+    "date": "2026-06-25",
+    "tax": 21.08,
+    "errors": [
+      "duplicate expense"
+    ]
+  },
+  {
+    "id": "receipt_046",
+    "type": "negative_amount",
+    "category": "Food",
+    "merchant": "Starbucks",
+    "amount": -50.0,
+    "currency": "USD",
+    "date": "2026-06-17",
+    "tax": 46.0,
+    "errors": [
+      "negative amount"
+    ]
+  },
+  {
+    "id": "receipt_047",
+    "type": "missing_fields",
+    "category": "Hotel",
+    "merchant": "Sheraton",
+    "amount": 0.0,
+    "currency": "CAD",
+    "date": "2026-06-21",
+    "tax": 41.14,
+    "errors": [
+      "missing amount"
+    ]
+  },
+  {
+    "id": "receipt_048",
+    "type": "valid",
+    "category": "Training",
+    "merchant": "O'Reilly Media",
+    "amount": 314.51,
+    "currency": "GBP",
+    "date": "2026-06-19",
+    "tax": 31.45,
+    "errors": []
+  },
+  {
+    "id": "receipt_049",
+    "type": "valid",
+    "category": "Office",
+    "merchant": "Office Depot",
+    "amount": 319.97,
+    "currency": "INR",
+    "date": "2026-06-26",
+    "tax": 32.0,
+    "errors": []
+  },
+  {
+    "id": "receipt_050",
+    "type": "incomplete",
+    "category": "Office",
+    "merchant": "",
+    "amount": 364.09,
+    "currency": "EUR",
+    "date": "2026-06-18",
+    "tax": 36.41,
+    "errors": [
+      "missing merchant"
+    ]
+  },
+  {
+    "id": "receipt_051",
+    "type": "currency_mismatch",
+    "category": "Taxi",
+    "merchant": "Yellow Cab",
+    "amount": 461.78,
+    "currency": "EUR",
+    "date": "2026-06-13",
+    "tax": 46.18,
+    "errors": [
+      "currency mismatch"
+    ]
+  },
+  {
+    "id": "receipt_052",
+    "type": "date_mismatch",
+    "category": "Medical",
+    "merchant": "Walgreens",
+    "amount": 42.12,
+    "currency": "CAD",
+    "date": "2028-12-25",
+    "tax": 4.21,
+    "errors": [
+      "future date mismatch"
+    ]
+  },
+  {
+    "id": "receipt_053",
+    "type": "tax_mismatch",
+    "category": "Training",
+    "merchant": "O'Reilly Media",
+    "amount": 425.53,
+    "currency": "INR",
+    "date": "2026-06-27",
+    "tax": 212.76,
+    "errors": [
+      "tax mismatch"
+    ]
+  },
+  {
+    "id": "receipt_054",
+    "type": "fraudulent",
+    "category": "Entertainment",
+    "merchant": "Gold Club Bar",
+    "amount": 415.42,
+    "currency": "INR",
+    "date": "2026-06-18",
+    "tax": 41.54,
+    "errors": [
+      "restricted vendor"
+    ]
+  },
+  {
+    "id": "receipt_055",
+    "type": "duplicate",
+    "category": "Entertainment",
+    "merchant": "Pizza Hut",
+    "amount": 35.5,
+    "currency": "USD",
+    "date": "2026-06-25",
+    "tax": 18.28,
+    "errors": [
+      "duplicate expense"
+    ]
+  },
+  {
+    "id": "receipt_056",
+    "type": "negative_amount",
+    "category": "Office",
+    "merchant": "Office Depot",
+    "amount": -50.0,
+    "currency": "INR",
+    "date": "2026-06-20",
+    "tax": 3.21,
+    "errors": [
+      "negative amount"
+    ]
+  },
+  {
+    "id": "receipt_057",
+    "type": "missing_fields",
+    "category": "Entertainment",
+    "merchant": "Topgolf",
+    "amount": 0.0,
+    "currency": "CAD",
+    "date": "2026-06-24",
+    "tax": 28.05,
+    "errors": [
+      "missing amount"
+    ]
+  },
+  {
+    "id": "receipt_058",
+    "type": "valid",
+    "category": "Hotel",
+    "merchant": "Hilton",
+    "amount": 191.16,
+    "currency": "CAD",
+    "date": "2026-06-15",
+    "tax": 19.12,
+    "errors": []
+  },
+  {
+    "id": "receipt_059",
+    "type": "valid",
+    "category": "Taxi",
+    "merchant": "Yellow Cab",
+    "amount": 319.37,
+    "currency": "CAD",
+    "date": "2026-06-28",
+    "tax": 31.94,
+    "errors": []
+  },
+  {
+    "id": "receipt_060",
+    "type": "incomplete",
+    "category": "Taxi",
+    "merchant": "",
+    "amount": 41.8,
+    "currency": "USD",
+    "date": "2026-06-22",
+    "tax": 4.18,
+    "errors": [
+      "missing merchant"
+    ]
+  },
+  {
+    "id": "receipt_061",
+    "type": "currency_mismatch",
+    "category": "Medical",
+    "merchant": "CityMD",
+    "amount": 442.29,
+    "currency": "EUR",
+    "date": "2026-06-15",
+    "tax": 44.23,
+    "errors": [
+      "currency mismatch"
+    ]
+  },
+  {
+    "id": "receipt_062",
+    "type": "date_mismatch",
+    "category": "Entertainment",
+    "merchant": "Gold Club Bar",
+    "amount": 19.18,
+    "currency": "USD",
+    "date": "2028-12-25",
+    "tax": 1.92,
+    "errors": [
+      "future date mismatch"
+    ]
+  },
+  {
+    "id": "receipt_063",
+    "type": "tax_mismatch",
+    "category": "Office",
+    "merchant": "Amazon Business",
+    "amount": 481.81,
+    "currency": "INR",
+    "date": "2026-06-21",
+    "tax": 240.91,
+    "errors": [
+      "tax mismatch"
+    ]
+  },
+  {
+    "id": "receipt_064",
+    "type": "fraudulent",
+    "category": "Entertainment",
+    "merchant": "Gold Club Bar",
+    "amount": 196.68,
+    "currency": "INR",
+    "date": "2026-06-19",
+    "tax": 19.67,
+    "errors": [
+      "restricted vendor"
+    ]
+  },
+  {
+    "id": "receipt_065",
+    "type": "duplicate",
+    "category": "Taxi",
+    "merchant": "Pizza Hut",
+    "amount": 35.5,
+    "currency": "USD",
+    "date": "2026-06-25",
+    "tax": 33.16,
+    "errors": [
+      "duplicate expense"
+    ]
+  },
+  {
+    "id": "receipt_066",
+    "type": "negative_amount",
+    "category": "Travel",
+    "merchant": "Amtrak",
+    "amount": -50.0,
+    "currency": "EUR",
+    "date": "2026-06-21",
+    "tax": 30.54,
+    "errors": [
+      "negative amount"
+    ]
+  },
+  {
+    "id": "receipt_067",
+    "type": "missing_fields",
+    "category": "Office",
+    "merchant": "Amazon Business",
+    "amount": 0.0,
+    "currency": "GBP",
+    "date": "2026-06-16",
+    "tax": 36.45,
+    "errors": [
+      "missing amount"
+    ]
+  },
+  {
+    "id": "receipt_068",
+    "type": "valid",
+    "category": "Training",
+    "merchant": "O'Reilly Media",
+    "amount": 123.38,
+    "currency": "INR",
+    "date": "2026-06-27",
+    "tax": 12.34,
+    "errors": []
+  },
+  {
+    "id": "receipt_069",
+    "type": "valid",
+    "category": "Taxi",
+    "merchant": "Lyft",
+    "amount": 83.49,
+    "currency": "INR",
+    "date": "2026-06-14",
+    "tax": 8.35,
+    "errors": []
+  },
+  {
+    "id": "receipt_070",
+    "type": "incomplete",
+    "category": "Training",
+    "merchant": "",
+    "amount": 81.87,
+    "currency": "CAD",
+    "date": "2026-06-18",
+    "tax": 8.19,
+    "errors": [
+      "missing merchant"
+    ]
+  },
+  {
+    "id": "receipt_071",
+    "type": "currency_mismatch",
+    "category": "Food",
+    "merchant": "Starbucks",
+    "amount": 211.36,
+    "currency": "EUR",
+    "date": "2026-06-24",
+    "tax": 21.14,
+    "errors": [
+      "currency mismatch"
+    ]
+  },
+  {
+    "id": "receipt_072",
+    "type": "date_mismatch",
+    "category": "Medical",
+    "merchant": "Walgreens",
+    "amount": 140.93,
+    "currency": "USD",
+    "date": "2028-12-25",
+    "tax": 14.09,
+    "errors": [
+      "future date mismatch"
+    ]
+  },
+  {
+    "id": "receipt_073",
+    "type": "tax_mismatch",
+    "category": "Hotel",
+    "merchant": "Hilton",
+    "amount": 385.81,
+    "currency": "EUR",
+    "date": "2026-06-14",
+    "tax": 192.91,
+    "errors": [
+      "tax mismatch"
+    ]
+  },
+  {
+    "id": "receipt_074",
+    "type": "fraudulent",
+    "category": "Entertainment",
+    "merchant": "Gold Club Bar",
+    "amount": 57.53,
+    "currency": "USD",
+    "date": "2026-06-19",
+    "tax": 5.75,
+    "errors": [
+      "restricted vendor"
+    ]
+  },
+  {
+    "id": "receipt_075",
+    "type": "duplicate",
+    "category": "Taxi",
+    "merchant": "Pizza Hut",
+    "amount": 35.5,
+    "currency": "USD",
+    "date": "2026-06-25",
+    "tax": 33.35,
+    "errors": [
+      "duplicate expense"
+    ]
+  },
+  {
+    "id": "receipt_076",
+    "type": "negative_amount",
+    "category": "Food",
+    "merchant": "Subway",
+    "amount": -50.0,
+    "currency": "CAD",
+    "date": "2026-06-11",
+    "tax": 30.63,
+    "errors": [
+      "negative amount"
+    ]
+  },
+  {
+    "id": "receipt_077",
+    "type": "missing_fields",
+    "category": "Taxi",
+    "merchant": "Uber",
+    "amount": 0.0,
+    "currency": "GBP",
+    "date": "2026-06-14",
+    "tax": 1.28,
+    "errors": [
+      "missing amount"
+    ]
+  },
+  {
+    "id": "receipt_078",
+    "type": "valid",
+    "category": "Training",
+    "merchant": "O'Reilly Media",
+    "amount": 428.5,
+    "currency": "CAD",
+    "date": "2026-06-26",
+    "tax": 42.85,
+    "errors": []
+  },
+  {
+    "id": "receipt_079",
+    "type": "valid",
+    "category": "Hotel",
+    "merchant": "Hilton",
+    "amount": 230.17,
+    "currency": "EUR",
+    "date": "2026-06-12",
+    "tax": 23.02,
+    "errors": []
+  },
+  {
+    "id": "receipt_080",
+    "type": "incomplete",
+    "category": "Training",
+    "merchant": "",
+    "amount": 19.17,
+    "currency": "CAD",
+    "date": "2026-06-12",
+    "tax": 1.92,
+    "errors": [
+      "missing merchant"
+    ]
+  },
+  {
+    "id": "receipt_081",
+    "type": "currency_mismatch",
+    "category": "Food",
+    "merchant": "McDonalds",
+    "amount": 464.82,
+    "currency": "EUR",
+    "date": "2026-06-11",
+    "tax": 46.48,
+    "errors": [
+      "currency mismatch"
+    ]
+  },
+  {
+    "id": "receipt_082",
+    "type": "date_mismatch",
+    "category": "Hotel",
+    "merchant": "Hilton",
+    "amount": 195.72,
+    "currency": "INR",
+    "date": "2028-12-25",
+    "tax": 19.57,
+    "errors": [
+      "future date mismatch"
+    ]
+  },
+  {
+    "id": "receipt_083",
+    "type": "tax_mismatch",
+    "category": "Training",
+    "merchant": "Udemy",
+    "amount": 223.82,
+    "currency": "EUR",
+    "date": "2026-06-13",
+    "tax": 111.91,
+    "errors": [
+      "tax mismatch"
+    ]
+  },
+  {
+    "id": "receipt_084",
+    "type": "fraudulent",
+    "category": "Entertainment",
+    "merchant": "Gold Club Bar",
+    "amount": 390.08,
+    "currency": "INR",
+    "date": "2026-06-28",
+    "tax": 39.01,
+    "errors": [
+      "restricted vendor"
+    ]
+  },
+  {
+    "id": "receipt_085",
+    "type": "duplicate",
+    "category": "Travel",
+    "merchant": "Pizza Hut",
+    "amount": 35.5,
+    "currency": "USD",
+    "date": "2026-06-25",
+    "tax": 12.6,
+    "errors": [
+      "duplicate expense"
+    ]
+  },
+  {
+    "id": "receipt_086",
+    "type": "negative_amount",
+    "category": "Taxi",
+    "merchant": "Uber",
+    "amount": -50.0,
+    "currency": "GBP",
+    "date": "2026-06-28",
+    "tax": 23.98,
+    "errors": [
+      "negative amount"
+    ]
+  },
+  {
+    "id": "receipt_087",
+    "type": "missing_fields",
+    "category": "Taxi",
+    "merchant": "Uber",
+    "amount": 0.0,
+    "currency": "INR",
+    "date": "2026-06-24",
+    "tax": 25.87,
+    "errors": [
+      "missing amount"
+    ]
+  },
+  {
+    "id": "receipt_088",
+    "type": "valid",
+    "category": "Entertainment",
+    "merchant": "Gold Club Bar",
+    "amount": 151.48,
+    "currency": "CAD",
+    "date": "2026-06-21",
+    "tax": 15.15,
+    "errors": []
+  },
+  {
+    "id": "receipt_089",
+    "type": "valid",
+    "category": "Medical",
+    "merchant": "Walgreens",
+    "amount": 221.87,
+    "currency": "GBP",
+    "date": "2026-06-16",
+    "tax": 22.19,
+    "errors": []
+  },
+  {
+    "id": "receipt_090",
+    "type": "incomplete",
+    "category": "Food",
+    "merchant": "",
+    "amount": 466.96,
+    "currency": "CAD",
+    "date": "2026-06-24",
+    "tax": 46.7,
+    "errors": [
+      "missing merchant"
+    ]
+  },
+  {
+    "id": "receipt_091",
+    "type": "currency_mismatch",
+    "category": "Food",
+    "merchant": "Subway",
+    "amount": 347.17,
+    "currency": "EUR",
+    "date": "2026-06-26",
+    "tax": 34.72,
+    "errors": [
+      "currency mismatch"
+    ]
+  },
+  {
+    "id": "receipt_092",
+    "type": "date_mismatch",
+    "category": "Food",
+    "merchant": "Starbucks",
+    "amount": 466.8,
+    "currency": "EUR",
+    "date": "2028-12-25",
+    "tax": 46.68,
+    "errors": [
+      "future date mismatch"
+    ]
+  },
+  {
+    "id": "receipt_093",
+    "type": "tax_mismatch",
+    "category": "Food",
+    "merchant": "Pizza Hut",
+    "amount": 18.84,
+    "currency": "GBP",
+    "date": "2026-06-12",
+    "tax": 9.42,
+    "errors": [
+      "tax mismatch"
+    ]
+  },
+  {
+    "id": "receipt_094",
+    "type": "fraudulent",
+    "category": "Entertainment",
+    "merchant": "Gold Club Bar",
+    "amount": 45.93,
+    "currency": "USD",
+    "date": "2026-06-16",
+    "tax": 4.59,
+    "errors": [
+      "restricted vendor"
+    ]
+  },
+  {
+    "id": "receipt_095",
+    "type": "duplicate",
+    "category": "Training",
+    "merchant": "Pizza Hut",
+    "amount": 35.5,
+    "currency": "USD",
+    "date": "2026-06-25",
+    "tax": 10.33,
+    "errors": [
+      "duplicate expense"
+    ]
+  },
+  {
+    "id": "receipt_096",
+    "type": "negative_amount",
+    "category": "Training",
+    "merchant": "Udemy",
+    "amount": -50.0,
+    "currency": "GBP",
+    "date": "2026-06-18",
+    "tax": 41.21,
+    "errors": [
+      "negative amount"
+    ]
+  },
+  {
+    "id": "receipt_097",
+    "type": "missing_fields",
+    "category": "Entertainment",
+    "merchant": "AMC Theatres",
+    "amount": 0.0,
+    "currency": "GBP",
+    "date": "2026-06-20",
+    "tax": 49.06,
+    "errors": [
+      "missing amount"
+    ]
+  },
+  {
+    "id": "receipt_098",
+    "type": "valid",
+    "category": "Travel",
+    "merchant": "Amtrak",
+    "amount": 235.05,
+    "currency": "USD",
+    "date": "2026-06-11",
+    "tax": 23.51,
+    "errors": []
+  },
+  {
+    "id": "receipt_099",
+    "type": "valid",
+    "category": "Food",
+    "merchant": "Starbucks",
+    "amount": 147.1,
+    "currency": "USD",
+    "date": "2026-06-25",
+    "tax": 14.71,
+    "errors": []
+  },
+  {
+    "id": "receipt_100",
+    "type": "incomplete",
+    "category": "Entertainment",
+    "merchant": "",
+    "amount": 220.91,
+    "currency": "INR",
+    "date": "2026-06-12",
+    "tax": 22.09,
+    "errors": [
+      "missing merchant"
+    ]
+  }
+]

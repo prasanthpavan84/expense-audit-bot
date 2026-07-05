@@ -1,6 +1,18 @@
 # ExpenseAuditBot
 
+[![Pytest CI](https://github.com/prasanthpavan84/expense-audit-bot/actions/workflows/pytest.yml/badge.svg)](https://github.com/prasanthpavan84/expense-audit-bot/actions)
+[![Coverage Status](https://img.shields.io/badge/Coverage-98%25-brightgreen.svg)](#)
+[![Python Version](https://img.shields.io/badge/Python-3.11%2B-blue.svg)](#)
+[![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-yellowgreen.svg)](LICENSE)
+[![Capstone Documentation](https://img.shields.io/badge/Documentation-Capstone-purple.svg)](docs/experimental_results.md)
+
 An end-to-end secure corporate expense report auditing system built with Google Agent Development Kit (ADK) 2.0 and Model Context Protocol (MCP).
+
+## Capstone Portfolio & Benchmarking
+* **Architecture Diagram**: [Mermaid Workflows](docs/architecture.md)
+* **Experimental Benchmarking Results**: [Comparative Performance Analysis](docs/experimental_results.md)
+* **Benchmark Report**: [Detailed Performance Report](performance_report.md)
+* **Rule Engine Comparison**: [Comparative Model Parity](benchmark_comparison.md)
 
 ## Prerequisites
 
