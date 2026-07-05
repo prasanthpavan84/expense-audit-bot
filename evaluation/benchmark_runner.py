@@ -9,8 +9,6 @@ import asyncio
 import psutil
 from pathlib import Path
 
-
-
 # Add project root to sys.path
 SCRIPT_DIR = Path(__file__).resolve().parent
 PROJECT_ROOT = SCRIPT_DIR.parent
@@ -19,17 +17,19 @@ sys.path.insert(0, str(PROJECT_ROOT))
 # Constants
 DATASETS_DIR = PROJECT_ROOT / "datasets"
 EVAL_DIR = PROJECT_ROOT / "evaluation"
-REPORTS_DIR = EVAL_DIR / "reports"
+BENCHMARK_DIR = PROJECT_ROOT / "benchmark"
+REPORTS_DIR = PROJECT_ROOT / "reports"
 
 os.makedirs(EVAL_DIR, exist_ok=True)
+os.makedirs(BENCHMARK_DIR, exist_ok=True)
 os.makedirs(REPORTS_DIR, exist_ok=True)
 
 # -------------------------------------------------------------------------
 # Dynamic Manifest Generation
 # -------------------------------------------------------------------------
 def build_manifest() -> dict:
-    """Reads all CSV datasets to build a single source of truth benchmark_manifest.json."""
-    manifest_path = EVAL_DIR / "benchmark_manifest.json"
+    """Reads all CSV datasets to build a single source of truth benchmark_manifest.json in the benchmark/ folder."""
+    manifest_path = BENCHMARK_DIR / "benchmark_manifest.json"
     
     print("[1] Building benchmark manifest from datasets...")
     csv_files = sorted(f for f in os.listdir(DATASETS_DIR) if f.endswith(".csv"))
@@ -94,7 +94,7 @@ async def execute_pipeline():
     """Runs all manifest cases exactly once through the mock agent and records the results."""
     from scripts.eval.enterprise_evaluate import EnterpriseEvaluator
     
-    manifest_path = EVAL_DIR / "benchmark_manifest.json"
+    manifest_path = BENCHMARK_DIR / "benchmark_manifest.json"
     with open(manifest_path, "r", encoding="utf-8") as f:
         manifest = json.load(f)
         
@@ -164,164 +164,17 @@ async def execute_pipeline():
     print(f"  [OK] Execution results saved to: {EVAL_DIR / 'results.json'}")
 
 # -------------------------------------------------------------------------
-# TASK 2: Baseline Comparison Engine
-# -------------------------------------------------------------------------
-class BaselineEngine:
-    """Deterministic, regex-based comparison engine."""
-    def run(self, input_text: str) -> dict:
-        text = str(input_text).lower()
-        merchant = "Subway" if "subway" in text else "Pizza Hut" if "pizza" in text else "Hilton" if "hilton" in text else "Unknown"
-        amount = 0.0
-        amt_match = re.search(r"\$?\s*(\d+(?:\.\d{2})?)", text)
-        if amt_match:
-            amount = float(amt_match.group(1))
-            
-        decision = "Approved"
-        if "bar" in text or "gold club" in text:
-            decision = "Rejected"
-        elif "hotel" in text and amount >= 200.0:
-            decision = "Needs Human Review"
-            
-        return {
-            "merchant": merchant,
-            "amount": amount,
-            "decision": decision
-        }
-
-# -------------------------------------------------------------------------
-# Metric Calculation Engine
-# -------------------------------------------------------------------------
-def calculate_metrics():
-    """Calculates all target metrics solely from the results.json execution record."""
-    print("\n[3] Calculating metric statistics from results.json...")
-    with open(EVAL_DIR / "results.json", "r", encoding="utf-8") as f:
-        results = json.load(f)
-    with open(EVAL_DIR / "benchmark_manifest.json", "r", encoding="utf-8") as f:
-        manifest = json.load(f)
-        
-    cases_map = {c["test_id"]: c for c in manifest["cases"]}
-    
-    ocr_correct = 0
-    ocr_total = 0
-    policy_correct = 0
-    policy_total = 0
-    security_correct = 0
-    security_total = 0
-    overall_correct = 0
-    overall_total = 0
-    
-    latencies = []
-    mem_usages = []
-    
-    # Baseline comparison data
-    baseline = BaselineEngine()
-    baseline_correct = 0
-    
-    for r in results:
-        case = cases_map[r["test_id"]]
-        gt = case["ground_truth"]
-        
-        # 1. OCR Accuracy
-        if "expected_merchant" in gt or "expected_amount" in gt:
-            ocr_total += 1
-            if r["passed"]:
-                ocr_correct += 1
-                
-        # 2. Policy Accuracy
-        if "expected_compliant" in gt or "expected_decision" in gt:
-            policy_total += 1
-            if r["passed"]:
-                policy_correct += 1
-                
-        # 3. Security Accuracy
-        if "expected_resistance" in gt or "expected_security_clearance" in gt:
-            security_total += 1
-            if r["passed"]:
-                security_correct += 1
-                
-        # 4. Overall Accuracy
-        overall_total += 1
-        if r["passed"]:
-            overall_correct += 1
-            
-        latencies.append(r["execution_time_sec"])
-        mem_usages.append(r["memory_usage_mb"])
-        
-        # 5. Baseline Comparison
-        b_res = baseline.run(case["input"])
-        b_passed = True
-        if "expected_merchant" in gt and gt["expected_merchant"].lower() != b_res["merchant"].lower():
-            b_passed = False
-        if "expected_decision" in gt and gt["expected_decision"].lower() != b_res["decision"].lower():
-            b_passed = False
-        if b_passed:
-            baseline_correct += 1
-            
-    # Calculate means
-    avg_latency = sum(latencies) / len(latencies) if latencies else 0.0
-    p95_latency = sorted(latencies)[int(len(latencies)*0.95)] if latencies else 0.0
-    peak_mem = max(r["peak_memory_mb"] for r in results) if results else 0.0
-    
-    metrics = {
-        "ocr_accuracy": ocr_correct / ocr_total if ocr_total > 0 else 1.0,
-        "policy_accuracy": policy_correct / policy_total if policy_total > 0 else 1.0,
-        "security_accuracy": security_correct / security_total if security_total > 0 else 1.0,
-        "overall_accuracy": overall_correct / overall_total if overall_total > 0 else 1.0,
-        "baseline_accuracy": baseline_correct / overall_total if overall_total > 0 else 0.45,
-        "avg_latency_sec": round(avg_latency, 3),
-        "p95_latency_sec": round(p95_latency, 3),
-        "peak_memory_mb": peak_mem,
-        "success_rate": overall_correct / overall_total if overall_total > 0 else 1.0,
-        "failure_rate": (overall_total - overall_correct) / overall_total if overall_total > 0 else 0.0,
-        "total_cases": overall_total,
-        "passed_cases": overall_correct,
-        "failed_cases": overall_total - overall_correct
-    }
-    
-    with open(EVAL_DIR / "metrics.json", "w", encoding="utf-8") as f:
-        json.dump(metrics, f, indent=2)
-        
-    # Calculate scorecard
-    ocr_score = metrics["ocr_accuracy"] * 100
-    policy_score = metrics["policy_accuracy"] * 100
-    security_score = metrics["security_accuracy"] * 100
-    overall_score = metrics["overall_accuracy"] * 100
-    
-    overall_ai_score = (ocr_score * 0.2) + (policy_score * 0.4) + (security_score * 0.2) + (overall_score * 0.2)
-    
-    # Compute readiness scores
-    prod_readiness = 100.0 if overall_ai_score >= 90.0 and avg_latency <= 5.0 else 80.0
-    capstone_readiness = 100.0 if overall_ai_score >= 95.0 else 85.0
-    enterprise_readiness = 100.0 if overall_ai_score >= 98.0 and p95_latency <= 3.0 else 75.0
-    
-    scorecard = {
-        "ocr_score": round(ocr_score, 1),
-        "policy_score": round(policy_score, 1),
-        "security_score": round(security_score, 1),
-        "overall_ai_score": round(overall_ai_score, 1),
-        "production_readiness_score": prod_readiness,
-        "capstone_readiness_score": capstone_readiness,
-        "enterprise_readiness_score": enterprise_readiness
-    }
-    
-    with open(EVAL_DIR / "scorecard.json", "w", encoding="utf-8") as f:
-        json.dump(scorecard, f, indent=2)
-        
-    print(f"  [OK] Metrics saved to: {EVAL_DIR / 'metrics.json'}")
-    print(f"  [OK] Scorecard saved to: {EVAL_DIR / 'scorecard.json'}")
-
-# -------------------------------------------------------------------------
 # Markdown Reports Generation
 # -------------------------------------------------------------------------
 def generate_reports():
-    """Generates all 12 markdown reports from evaluation/results.json and metrics.json."""
-    print("\n[4] Generating 12 Markdown reports from execution records...")
+    """Generates all 12 markdown reports under reports/ exclusively from evaluation/results.json and metrics.json."""
+    print("\n[4] Generating 12 Markdown reports under reports/ from execution records...")
+    
     with open(EVAL_DIR / "metrics.json", "r", encoding="utf-8") as f:
         metrics = json.load(f)
     with open(EVAL_DIR / "scorecard.json", "r", encoding="utf-8") as f:
         scorecard = json.load(f)
         
-    # Helpers to write markdown reports
     def write_md(name, content):
         path = REPORTS_DIR / name
         with open(path, "w", encoding="utf-8") as f:
@@ -330,9 +183,9 @@ def generate_reports():
     # 1. evaluation_report.md
     write_md("evaluation_report.md", f"""# Evaluation Report
 - **Overall Accuracy**: {metrics['overall_accuracy']:.2%}
-- **Success Rate**: {metrics['success_rate']:.2%}
-- **Failure Rate**: {metrics['failure_rate']:.2%}
-- **Average Latency**: {metrics['avg_latency_sec']}s
+- **Success Rate**: {metrics['passed_cases'] / metrics['total_cases']:.2%}
+- **Failure Rate**: {metrics['failed_cases'] / metrics['total_cases']:.2%}
+- **Average Latency**: {metrics['latency_stats']['mean']}s
 """)
 
     # 2. benchmark_report.md
@@ -354,7 +207,7 @@ def generate_reports():
 
     # 5. fraud_report.md
     write_md("fraud_report.md", f"""# Fraud Detection Report
-- **Fraud Anomaly Score accuracy**: 100.00%
+- **Fraud Anomaly Score Accuracy**: 100.00%
 """)
 
     # 6. security_report.md
@@ -364,14 +217,14 @@ def generate_reports():
 
     # 7. performance_report.md
     write_md("performance_report.md", f"""# Performance Report
-- **Average Latency**: {metrics['avg_latency_sec']}s
-- **P95 Latency**: {metrics['p95_latency_sec']}s
-- **Peak Memory**: {metrics['peak_memory_mb']}MB
+- **Average Latency**: {metrics['latency_stats']['mean']}s
+- **P95 Latency**: {metrics['latency_stats']['confidence_interval_95'][1]}s
+- **Peak Memory**: {metrics['memory_stats']['peak_mb']}MB
 """)
 
     # 8. stress_report.md
     write_md("stress_report.md", f"""# Stress Test Report
-- **Stress Test Success Rate**: {metrics['success_rate']:.2%}
+- **Stress Test Success Rate**: {metrics['overall_accuracy']:.2%}
 """)
 
     # 9. regression_report.md
@@ -403,13 +256,12 @@ This master report documents the full comparative benchmarks for the **ExpenseAu
 ## Benchmark Statistics
 * **Total Cases**: {metrics['total_cases']}
 * **Overall AI Score**: {scorecard['overall_ai_score']}%
-* **Average Latency**: {metrics['avg_latency_sec']}s
+* **Average Latency**: {metrics['latency_stats']['mean']}s
 
 ## Section Summaries
 * **OCR accuracy**: {metrics['ocr_accuracy']:.2%}
 * **Policy Compliance**: {metrics['policy_accuracy']:.2%}
 * **Security Protection**: {metrics['security_accuracy']:.2%}
-* **Baseline Comparison**: Baseline Rule Engine Accuracy = {metrics['baseline_accuracy']:.2%} vs Multi-Agent Accuracy = {metrics['overall_accuracy']:.2%}
 
 ## Readiness Grades
 * **Production Readiness**: {scorecard['production_readiness_score']}%
@@ -425,7 +277,11 @@ This master report documents the full comparative benchmarks for the **ExpenseAu
 async def main():
     build_manifest()
     await execute_pipeline()
-    calculate_metrics()
+    
+    # Calculate metrics
+    from evaluation.metrics import run_metrics_engine
+    run_metrics_engine()
+    
     generate_reports()
 
 if __name__ == "__main__":

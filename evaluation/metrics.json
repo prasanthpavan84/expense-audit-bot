@@ -3,12 +3,38 @@
   "policy_accuracy": 1.0,
   "security_accuracy": 1.0,
   "overall_accuracy": 1.0,
-  "baseline_accuracy": 0.9090909090909091,
-  "avg_latency_sec": 1.256,
-  "p95_latency_sec": 1.796,
-  "peak_memory_mb": 134.4,
-  "success_rate": 1.0,
-  "failure_rate": 0.0,
+  "precision": 1.0,
+  "recall": 1.0,
+  "f1_score": 1.0,
+  "confusion_matrix": {
+    "true_positives": 66,
+    "false_positives": 0,
+    "false_negatives": 0,
+    "true_negatives": 0
+  },
+  "latency_stats": {
+    "mean": 1.562,
+    "std_dev": 0.744,
+    "confidence_interval_95": [
+      1.383,
+      1.742
+    ]
+  },
+  "memory_stats": {
+    "mean_mb": 0.04,
+    "std_dev_mb": 0.2,
+    "peak_mb": 1.6
+  },
+  "error_classification": {
+    "ocr_failures": 0,
+    "policy_mismatches": 0,
+    "fraud_false_positives": 0,
+    "fraud_false_negatives": 0,
+    "routing_errors": 0,
+    "hallucinations": 0,
+    "validation_failures": 0,
+    "parsing_issues": 0
+  },
   "total_cases": 66,
   "passed_cases": 66,
   "failed_cases": 0

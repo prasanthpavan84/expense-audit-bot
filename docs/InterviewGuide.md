@@ -16,7 +16,7 @@ In an enterprise-grade modular system, we do not evaluate the system as a monoli
 |---|---|---|
 | **Receipt Extraction** | 98.2% | Accuracy of OCR parsing on legible regions |
 | **Validation Layer** | 100% | Rejection of schema-invalid/corrupted formats |
-| **Fraud Detection** | 95.8% | Precision in identifying duplicate & vendor fraud |
+| **Fraud Detection** | 95.8% | Precision in identifying duplicate & vendor fraud 
 | **Policy Engine** | 98.5% | Correctness of limit caps and currency conversion |
 | **Financial Reasoning** | 97.2% | Justification-matching accuracy (exceptions) |
 | **Reflection (Self-Critique)** | 95.0% | Contradiction-detection rate |
