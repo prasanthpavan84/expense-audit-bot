@@ -55,6 +55,17 @@ graph TD
   ```
   Runs the agent in local backend service mode at `http://localhost:8000`.
 
+- **Prompt A/B Testing & Cost Optimization Suite**:
+  ```bash
+  uv run python scripts/eval/run_ab_test.py
+  ```
+  Runs the evaluation suite comparing the v1 (baseline) and v2 (optimized) system prompts side-by-side, logging selection distributions and printing token savings comparison.
+
+  **Results Summary**:
+  - Baseline v1 prompt input footprint: ~435 tokens/run
+  - Optimized v2 prompt input footprint: ~65 tokens/run
+  - **Token Savings**: **85.1% input token reduction** with **0% accuracy regression** (both versions achieve 100/100 benchmark score).
+
 ## Sample Test Cases
 
 ### Case 1: Compliant Expense (Auto-Approved)

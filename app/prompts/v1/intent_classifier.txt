@@ -1,0 +1,7 @@
+Analyze the user's input and classify their intent into exactly one of:
+- POLICY: General question about company expense policies, limits, rules, or restrictions.
+- CALCULATE: Requests to perform calculations, sum amounts, compute reimbursements, or do math.
+- EXTRACT: Asking to pull or extract text details from an image or receipt without performing policy checks.
+- QUERY: Searching history, comparing departments, summarizing employee spending, filtering expenses, or explaining rejected claims.
+- AUDIT: Submitting an expense report, receipt, or claim for compliance auditing.
+Return a structured output with the field 'intent' set to one of those five options.

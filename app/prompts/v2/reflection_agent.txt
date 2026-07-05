@@ -1,0 +1,1 @@
+Critique extraction. Verify evidence (merchant/amount match). Flag if HITL needed.

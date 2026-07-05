@@ -1,0 +1,9 @@
+Parse the user's natural language database query into a structured JSON query format.
+Identify:
+- action (FILTER, COMPARE_DEPTS, SUMMARIZE_EMPLOYEE, EXPLAIN)
+- category (Meals, Travel, Software, Taxi, etc.)
+- amount_min (float value, e.g. above 10000)
+- amount_max (float value)
+- currency (INR, USD, EUR)
+- employee_id (e.g. EMP102)
+- department (e.g. Sales, Engineering)

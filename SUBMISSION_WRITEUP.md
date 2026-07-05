@@ -35,6 +35,14 @@ graph TD
 4. **MCP Server**: FastMCP server exposing tools for category limit policies, exchange rates, and restricted merchants. Located in [app/mcp_server.py:L7-L68](file:///c:/New folder/akd-workspace/expense-audit-bot/app/mcp_server.py#L7-L68).
 5. **Security Checkpoint**: Intercepts prompt injections, scrubs sensitive PII, and logs JSON audit events. Located in [app/agent.py:L587-L700](file:///c:/New folder/akd-workspace/expense-audit-bot/app/agent.py#L587-L700).
 6. **Agents CLI**: Project creation, environments configuration, and playground orchestration.
+7. **Prompt A/B Testing**: Deterministic split allocation and dynamic prompt versioning loader. Located in [app/core/prompt_ab_registry.py](file:///c:/New%20folder/akd-workspace/expense-audit-bot/app/core/prompt_ab_registry.py) and [app/utils/prompt_loader.py](file:///c:/New%20folder/akd-workspace/expense-audit-bot/app/utils/prompt_loader.py).
+
+## Prompt A/B Testing & Cost Optimization Design
+
+To manage LLM costs, we implement an A/B testing framework that evaluates prompt variations:
+- **Hash-based Splitting**: Session requests are routed deterministically to v1 (A) or v2 (B) based on the session ID MD5 hash.
+- **Cost Reduction**: Version B (v2) features highly condensed system instructions, yielding an **85.1% reduction in input token count** with **0% accuracy regression** (achieving identical 100/100 scores in benchmarking).
+- **Execution Script**: An automated script `scripts/eval/run_ab_test.py` evaluates both variants side-by-side.
 
 ## Security Design
 

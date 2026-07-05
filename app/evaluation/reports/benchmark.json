@@ -2,14 +2,14 @@
   "metrics": {
     "model_used": "gemini-2.5-flash-lite",
     "total_cases": 500,
-    "accuracy": 0.534,
-    "precision": 0.6574,
-    "recall": 0.912,
-    "f1_score": 0.764,
-    "total_time_sec": 24.63,
-    "avg_latency_sec": 0.049,
+    "accuracy": 0.53,
+    "precision": 0.6076,
+    "recall": 0.7359,
+    "f1_score": 0.6656,
+    "total_time_sec": 43.52,
+    "avg_latency_sec": 0.087,
     "estimated_cost_usd": 0.075,
-    "success_rate": 0.534
+    "success_rate": 0.53
   },
   "runs": [
     {
@@ -18,7 +18,7 @@
       "expected": "Approved",
       "actual": "Approved",
       "correct": true,
-      "latency_sec": 0.015952110290527344
+      "latency_sec": 0.12399005889892578
     },
     {
       "case_id": "norm_002",
@@ -26,7 +26,7 @@
       "expected": "Approved",
       "actual": "Approved",
       "correct": true,
-      "latency_sec": 0.015951156616210938
+      "latency_sec": 0.09864187240600586
     },
     {
       "case_id": "norm_003",
@@ -34,7 +34,7 @@
       "expected": "Approved",
       "actual": "Approved",
       "correct": true,
-      "latency_sec": 0.011161327362060547
+      "latency_sec": 0.09025216102600098
     },
     {
       "case_id": "norm_004",
@@ -42,7 +42,7 @@
       "expected": "Approved",
       "actual": "Approved",
       "correct": true,
-      "latency_sec": 0.023726701736450195
+      "latency_sec": 0.09071207046508789
     },
     {
       "case_id": "norm_005",
@@ -50,7 +50,7 @@
       "expected": "Approved",
       "actual": "Approved",
       "correct": true,
-      "latency_sec": 0.009711265563964844
+      "latency_sec": 0.08046412467956543
     },
     {
       "case_id": "norm_006",
@@ -58,7 +58,7 @@
       "expected": "Approved",
       "actual": "Approved",
       "correct": true,
-      "latency_sec": 0.016614675521850586
+      "latency_sec": 0.09030580520629883
     },
     {
       "case_id": "norm_007",
@@ -66,7 +66,7 @@
       "expected": "Approved",
       "actual": "Approved",
       "correct": true,
-      "latency_sec": 0.016379594802856445
+      "latency_sec": 0.09904050827026367
     },
     {
       "case_id": "norm_008",
@@ -74,7 +74,7 @@
       "expected": "Approved",
       "actual": "Approved",
       "correct": true,
-      "latency_sec": 0.011872529983520508
+      "latency_sec": 0.08936166763305664
     },
     {
       "case_id": "norm_009",
@@ -82,7 +82,7 @@
       "expected": "Approved",
       "actual": "Approved",
       "correct": true,
-      "latency_sec": 0.012574195861816406
+      "latency_sec": 0.11104011535644531
     },
     {
       "case_id": "norm_010",
@@ -90,7 +90,7 @@
       "expected": "Approved",
       "actual": "Approved",
       "correct": true,
-      "latency_sec": 0.0038411617279052734
+      "latency_sec": 0.0894920825958252
     },
     {
       "case_id": "norm_011",
@@ -98,7 +98,7 @@
       "expected": "Approved",
       "actual": "Approved",
       "correct": true,
-      "latency_sec": 0.0126190185546875
+      "latency_sec": 0.1032400131225586
     },
     {
       "case_id": "norm_012",
@@ -106,7 +106,7 @@
       "expected": "Approved",
       "actual": "Approved",
       "correct": true,
-      "latency_sec": 0.015267610549926758
+      "latency_sec": 0.09045743942260742
     },
     {
       "case_id": "norm_013",
@@ -114,7 +114,7 @@
       "expected": "Approved",
       "actual": "Approved",
       "correct": true,
-      "latency_sec": 0.015976905822753906
+      "latency_sec": 0.08457231521606445
     },
     {
       "case_id": "norm_014",
@@ -122,7 +122,7 @@
       "expected": "Approved",
       "actual": "Approved",
       "correct": true,
-      "latency_sec": 0.01592111587524414
+      "latency_sec": 0.08195805549621582
     },
     {
       "case_id": "norm_015",
@@ -130,7 +130,7 @@
       "expected": "Approved",
       "actual": "Approved",
       "correct": true,
-      "latency_sec": 0.015909910202026367
+      "latency_sec": 0.09084796905517578
     },
     {
       "case_id": "norm_016",
@@ -138,7 +138,7 @@
       "expected": "Approved",
       "actual": "Approved",
       "correct": true,
-      "latency_sec": 0.008130788803100586
+      "latency_sec": 0.07859039306640625
     },
     {
       "case_id": "norm_017",
@@ -146,7 +146,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.08364152908325195
+      "latency_sec": 0.05875897407531738
     },
     {
       "case_id": "norm_018",
@@ -154,7 +154,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.062398433685302734
+      "latency_sec": 0.03252601623535156
     },
     {
       "case_id": "norm_019",
@@ -162,7 +162,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.04829287528991699
+      "latency_sec": 0.029175519943237305
     },
     {
       "case_id": "norm_020",
@@ -170,7 +170,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.04703712463378906
+      "latency_sec": 0.03371930122375488
     },
     {
       "case_id": "norm_021",
@@ -178,7 +178,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.06378006935119629
+      "latency_sec": 0.040216684341430664
     },
     {
       "case_id": "norm_022",
@@ -186,7 +186,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.0618436336517334
+      "latency_sec": 0.03033757209777832
     },
     {
       "case_id": "norm_023",
@@ -194,7 +194,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.07735586166381836
+      "latency_sec": 0.02774357795715332
     },
     {
       "case_id": "norm_024",
@@ -202,7 +202,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.05556488037109375
+      "latency_sec": 0.02679300308227539
     },
     {
       "case_id": "norm_025",
@@ -210,7 +210,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.06598281860351562
+      "latency_sec": 0.02877950668334961
     },
     {
       "case_id": "norm_026",
@@ -218,7 +218,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.08469986915588379
+      "latency_sec": 0.033039093017578125
     },
     {
       "case_id": "norm_027",
@@ -226,7 +226,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.1000986099243164
+      "latency_sec": 0.02986454963684082
     },
     {
       "case_id": "norm_028",
@@ -234,7 +234,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.04775857925415039
+      "latency_sec": 0.028452157974243164
     },
     {
       "case_id": "norm_029",
@@ -242,7 +242,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.06830024719238281
+      "latency_sec": 0.02804732322692871
     },
     {
       "case_id": "norm_030",
@@ -250,7 +250,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.04931950569152832
+      "latency_sec": 0.030878067016601562
     },
     {
       "case_id": "norm_031",
@@ -258,7 +258,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.05895256996154785
+      "latency_sec": 0.030080556869506836
     },
     {
       "case_id": "norm_032",
@@ -266,7 +266,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.04776787757873535
+      "latency_sec": 0.030382871627807617
     },
     {
       "case_id": "norm_033",
@@ -274,7 +274,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.07439160346984863
+      "latency_sec": 0.03360867500305176
     },
     {
       "case_id": "norm_034",
@@ -282,7 +282,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.05702495574951172
+      "latency_sec": 0.031908273696899414
     },
     {
       "case_id": "norm_035",
@@ -290,7 +290,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.04018831253051758
+      "latency_sec": 0.032401323318481445
     },
     {
       "case_id": "norm_036",
@@ -298,7 +298,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.06342101097106934
+      "latency_sec": 0.04610872268676758
     },
     {
       "case_id": "norm_037",
@@ -306,7 +306,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.05902457237243652
+      "latency_sec": 0.0459597110748291
     },
     {
       "case_id": "norm_038",
@@ -314,7 +314,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.049818992614746094
+      "latency_sec": 0.05294179916381836
     },
     {
       "case_id": "norm_039",
@@ -322,7 +322,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.06193733215332031
+      "latency_sec": 0.049895524978637695
     },
     {
       "case_id": "norm_040",
@@ -330,7 +330,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.04767251014709473
+      "latency_sec": 0.06012892723083496
     },
     {
       "case_id": "norm_041",
@@ -338,7 +338,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.047730445861816406
+      "latency_sec": 0.055600643157958984
     },
     {
       "case_id": "norm_042",
@@ -346,7 +346,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.05943155288696289
+      "latency_sec": 0.06457185745239258
     },
     {
       "case_id": "norm_043",
@@ -354,7 +354,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.06979155540466309
+      "latency_sec": 0.05237293243408203
     },
     {
       "case_id": "norm_044",
@@ -362,7 +362,7 @@
       "expected": "Approved",
       "actual": "Approved",
       "correct": true,
-      "latency_sec": 0.012846946716308594
+      "latency_sec": 0.19480299949645996
     },
     {
       "case_id": "norm_045",
@@ -370,7 +370,7 @@
       "expected": "Approved",
       "actual": "Approved",
       "correct": true,
-      "latency_sec": 0.011322498321533203
+      "latency_sec": 0.14459919929504395
     },
     {
       "case_id": "norm_046",
@@ -378,7 +378,7 @@
       "expected": "Approved",
       "actual": "Approved",
       "correct": true,
-      "latency_sec": 0.015854835510253906
+      "latency_sec": 0.1465003490447998
     },
     {
       "case_id": "norm_047",
@@ -386,7 +386,7 @@
       "expected": "Approved",
       "actual": "Approved",
       "correct": true,
-      "latency_sec": 0.0
+      "latency_sec": 0.18313121795654297
     },
     {
       "case_id": "norm_048",
@@ -394,7 +394,7 @@
       "expected": "Approved",
       "actual": "Approved",
       "correct": true,
-      "latency_sec": 0.015941619873046875
+      "latency_sec": 0.17706608772277832
     },
     {
       "case_id": "norm_049",
@@ -402,7 +402,7 @@
       "expected": "Approved",
       "actual": "Approved",
       "correct": true,
-      "latency_sec": 0.015906333923339844
+      "latency_sec": 0.16689777374267578
     },
     {
       "case_id": "norm_050",
@@ -410,7 +410,7 @@
       "expected": "Approved",
       "actual": "Approved",
       "correct": true,
-      "latency_sec": 0.020135164260864258
+      "latency_sec": 0.16006255149841309
     },
     {
       "case_id": "norm_051",
@@ -418,7 +418,7 @@
       "expected": "Approved",
       "actual": "Approved",
       "correct": true,
-      "latency_sec": 0.0117645263671875
+      "latency_sec": 0.1601238250732422
     },
     {
       "case_id": "norm_052",
@@ -426,7 +426,7 @@
       "expected": "Approved",
       "actual": "Approved",
       "correct": true,
-      "latency_sec": 0.015945911407470703
+      "latency_sec": 0.14002609252929688
     },
     {
       "case_id": "norm_053",
@@ -434,7 +434,7 @@
       "expected": "Approved",
       "actual": "Approved",
       "correct": true,
-      "latency_sec": 0.01589179039001465
+      "latency_sec": 0.15119361877441406
     },
     {
       "case_id": "norm_054",
@@ -442,7 +442,7 @@
       "expected": "Approved",
       "actual": "Approved",
       "correct": true,
-      "latency_sec": 0.0
+      "latency_sec": 0.12882328033447266
     },
     {
       "case_id": "norm_055",
@@ -450,7 +450,7 @@
       "expected": "Approved",
       "actual": "Approved",
       "correct": true,
-      "latency_sec": 0.027924299240112305
+      "latency_sec": 0.14957571029663086
     },
     {
       "case_id": "norm_056",
@@ -458,7 +458,7 @@
       "expected": "Approved",
       "actual": "Approved",
       "correct": true,
-      "latency_sec": 0.016868114471435547
+      "latency_sec": 0.18552613258361816
     },
     {
       "case_id": "norm_057",
@@ -466,7 +466,7 @@
       "expected": "Approved",
       "actual": "Approved",
       "correct": true,
-      "latency_sec": 0.01656317710876465
+      "latency_sec": 0.17154335975646973
     },
     {
       "case_id": "norm_058",
@@ -474,7 +474,7 @@
       "expected": "Approved",
       "actual": "Approved",
       "correct": true,
-      "latency_sec": 0.016463041305541992
+      "latency_sec": 0.14738750457763672
     },
     {
       "case_id": "norm_059",
@@ -482,7 +482,7 @@
       "expected": "Approved",
       "actual": "Approved",
       "correct": true,
-      "latency_sec": 0.02205967903137207
+      "latency_sec": 0.1638026237487793
     },
     {
       "case_id": "norm_060",
@@ -490,7 +490,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.07249855995178223
+      "latency_sec": 0.06732988357543945
     },
     {
       "case_id": "norm_061",
@@ -498,7 +498,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.06526517868041992
+      "latency_sec": 0.05523037910461426
     },
     {
       "case_id": "norm_062",
@@ -506,7 +506,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.10763788223266602
+      "latency_sec": 0.06018233299255371
     },
     {
       "case_id": "norm_063",
@@ -514,7 +514,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.06903338432312012
+      "latency_sec": 0.052211761474609375
     },
     {
       "case_id": "norm_064",
@@ -522,7 +522,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.05619096755981445
+      "latency_sec": 0.0596010684967041
     },
     {
       "case_id": "norm_065",
@@ -530,7 +530,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.07416057586669922
+      "latency_sec": 0.06509661674499512
     },
     {
       "case_id": "norm_066",
@@ -538,7 +538,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.08274960517883301
+      "latency_sec": 0.06280016899108887
     },
     {
       "case_id": "norm_067",
@@ -546,7 +546,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.04412484169006348
+      "latency_sec": 0.04914498329162598
     },
     {
       "case_id": "norm_068",
@@ -554,7 +554,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.06371808052062988
+      "latency_sec": 0.04675602912902832
     },
     {
       "case_id": "norm_069",
@@ -562,7 +562,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.059716224670410156
+      "latency_sec": 0.04995083808898926
     },
     {
       "case_id": "norm_070",
@@ -570,7 +570,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.06616806983947754
+      "latency_sec": 0.054842233657836914
     },
     {
       "case_id": "norm_071",
@@ -578,7 +578,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.052805185317993164
+      "latency_sec": 0.058365583419799805
     },
     {
       "case_id": "norm_072",
@@ -586,7 +586,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.05606389045715332
+      "latency_sec": 0.053635358810424805
     },
     {
       "case_id": "norm_073",
@@ -594,7 +594,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.047631025314331055
+      "latency_sec": 0.05256295204162598
     },
     {
       "case_id": "norm_074",
@@ -602,7 +602,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.0509641170501709
+      "latency_sec": 0.058236122131347656
     },
     {
       "case_id": "norm_075",
@@ -610,7 +610,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.08339643478393555
+      "latency_sec": 0.05330514907836914
     },
     {
       "case_id": "norm_076",
@@ -618,7 +618,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.07700634002685547
+      "latency_sec": 0.05741119384765625
     },
     {
       "case_id": "norm_077",
@@ -626,7 +626,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.056066036224365234
+      "latency_sec": 0.061171531677246094
     },
     {
       "case_id": "norm_078",
@@ -634,7 +634,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.0825185775756836
+      "latency_sec": 0.1132206916809082
     },
     {
       "case_id": "norm_079",
@@ -642,7 +642,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.05891132354736328
+      "latency_sec": 0.04819536209106445
     },
     {
       "case_id": "norm_080",
@@ -650,7 +650,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.05573248863220215
+      "latency_sec": 0.05297994613647461
     },
     {
       "case_id": "norm_081",
@@ -658,7 +658,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.06947636604309082
+      "latency_sec": 0.05949735641479492
     },
     {
       "case_id": "norm_082",
@@ -666,7 +666,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.05729937553405762
+      "latency_sec": 0.059834957122802734
     },
     {
       "case_id": "norm_083",
@@ -674,7 +674,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.09427523612976074
+      "latency_sec": 0.051706790924072266
     },
     {
       "case_id": "norm_084",
@@ -682,7 +682,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.06711411476135254
+      "latency_sec": 0.06417369842529297
     },
     {
       "case_id": "norm_085",
@@ -690,7 +690,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.07175564765930176
+      "latency_sec": 0.055877685546875
     },
     {
       "case_id": "norm_086",
@@ -698,7 +698,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.06534385681152344
+      "latency_sec": 0.053913116455078125
     },
     {
       "case_id": "norm_087",
@@ -706,7 +706,7 @@
       "expected": "Approved",
       "actual": "Approved",
       "correct": true,
-      "latency_sec": 0.027123212814331055
+      "latency_sec": 0.15660786628723145
     },
     {
       "case_id": "norm_088",
@@ -714,7 +714,7 @@
       "expected": "Approved",
       "actual": "Approved",
       "correct": true,
-      "latency_sec": 0.01879572868347168
+      "latency_sec": 0.15597939491271973
     },
     {
       "case_id": "norm_089",
@@ -722,7 +722,7 @@
       "expected": "Approved",
       "actual": "Approved",
       "correct": true,
-      "latency_sec": 0.020745515823364258
+      "latency_sec": 0.16771245002746582
     },
     {
       "case_id": "norm_090",
@@ -730,7 +730,7 @@
       "expected": "Approved",
       "actual": "Approved",
       "correct": true,
-      "latency_sec": 0.01525425910949707
+      "latency_sec": 0.17164039611816406
     },
     {
       "case_id": "norm_091",
@@ -738,7 +738,7 @@
       "expected": "Approved",
       "actual": "Approved",
       "correct": true,
-      "latency_sec": 0.013317584991455078
+      "latency_sec": 0.20049500465393066
     },
     {
       "case_id": "norm_092",
@@ -746,7 +746,7 @@
       "expected": "Approved",
       "actual": "Approved",
       "correct": true,
-      "latency_sec": 0.017565011978149414
+      "latency_sec": 0.18399453163146973
     },
     {
       "case_id": "norm_093",
@@ -754,7 +754,7 @@
       "expected": "Approved",
       "actual": "Approved",
       "correct": true,
-      "latency_sec": 0.013565540313720703
+      "latency_sec": 0.18315672874450684
     },
     {
       "case_id": "norm_094",
@@ -762,7 +762,7 @@
       "expected": "Approved",
       "actual": "Approved",
       "correct": true,
-      "latency_sec": 0.013612508773803711
+      "latency_sec": 0.26031494140625
     },
     {
       "case_id": "norm_095",
@@ -770,7 +770,7 @@
       "expected": "Approved",
       "actual": "Approved",
       "correct": true,
-      "latency_sec": 0.01642632484436035
+      "latency_sec": 0.1553943157196045
     },
     {
       "case_id": "norm_096",
@@ -778,7 +778,7 @@
       "expected": "Approved",
       "actual": "Approved",
       "correct": true,
-      "latency_sec": 0.016413450241088867
+      "latency_sec": 0.1614236831665039
     },
     {
       "case_id": "norm_097",
@@ -786,7 +786,7 @@
       "expected": "Approved",
       "actual": "Approved",
       "correct": true,
-      "latency_sec": 0.015665531158447266
+      "latency_sec": 0.17853903770446777
     },
     {
       "case_id": "norm_098",
@@ -794,7 +794,7 @@
       "expected": "Approved",
       "actual": "Approved",
       "correct": true,
-      "latency_sec": 0.020003557205200195
+      "latency_sec": 0.16750264167785645
     },
     {
       "case_id": "norm_099",
@@ -802,7 +802,7 @@
       "expected": "Approved",
       "actual": "Approved",
       "correct": true,
-      "latency_sec": 0.014724254608154297
+      "latency_sec": 0.16267037391662598
     },
     {
       "case_id": "norm_100",
@@ -810,7 +810,7 @@
       "expected": "Approved",
       "actual": "Approved",
       "correct": true,
-      "latency_sec": 0.015265703201293945
+      "latency_sec": 0.1676311492919922
     },
     {
       "case_id": "norm_101",
@@ -818,7 +818,7 @@
       "expected": "Approved",
       "actual": "Approved",
       "correct": true,
-      "latency_sec": 0.015517473220825195
+      "latency_sec": 0.16405177116394043
     },
     {
       "case_id": "norm_102",
@@ -826,7 +826,7 @@
       "expected": "Approved",
       "actual": "Approved",
       "correct": true,
-      "latency_sec": 0.020652055740356445
+      "latency_sec": 0.17142820358276367
     },
     {
       "case_id": "norm_103",
@@ -834,7 +834,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.07433462142944336
+      "latency_sec": 0.0552372932434082
     },
     {
       "case_id": "norm_104",
@@ -842,7 +842,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.05958676338195801
+      "latency_sec": 0.06529808044433594
     },
     {
       "case_id": "norm_105",
@@ -850,7 +850,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.0591585636138916
+      "latency_sec": 0.04750537872314453
     },
     {
       "case_id": "norm_106",
@@ -858,7 +858,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.05677223205566406
+      "latency_sec": 0.04522132873535156
     },
     {
       "case_id": "norm_107",
@@ -866,7 +866,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.05663013458251953
+      "latency_sec": 0.04589414596557617
     },
     {
       "case_id": "norm_108",
@@ -874,7 +874,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.057750701904296875
+      "latency_sec": 0.048673152923583984
     },
     {
       "case_id": "norm_109",
@@ -882,7 +882,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.05420708656311035
+      "latency_sec": 0.05167436599731445
     },
     {
       "case_id": "norm_110",
@@ -890,7 +890,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.047850608825683594
+      "latency_sec": 0.05379295349121094
     },
     {
       "case_id": "norm_111",
@@ -898,7 +898,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.04821300506591797
+      "latency_sec": 0.048088788986206055
     },
     {
       "case_id": "norm_112",
@@ -906,7 +906,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.06809782981872559
+      "latency_sec": 0.04799032211303711
     },
     {
       "case_id": "norm_113",
@@ -914,7 +914,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.05704832077026367
+      "latency_sec": 0.05532670021057129
     },
     {
       "case_id": "norm_114",
@@ -922,7 +922,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.06107187271118164
+      "latency_sec": 0.053096771240234375
     },
     {
       "case_id": "norm_115",
@@ -930,7 +930,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.047571659088134766
+      "latency_sec": 0.052922725677490234
     },
     {
       "case_id": "norm_116",
@@ -938,7 +938,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.05835914611816406
+      "latency_sec": 0.047507286071777344
     },
     {
       "case_id": "norm_117",
@@ -946,7 +946,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.07254743576049805
+      "latency_sec": 0.04807782173156738
     },
     {
       "case_id": "norm_118",
@@ -954,7 +954,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.06662750244140625
+      "latency_sec": 0.049626827239990234
     },
     {
       "case_id": "norm_119",
@@ -962,7 +962,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.060839176177978516
+      "latency_sec": 0.04649782180786133
     },
     {
       "case_id": "norm_120",
@@ -970,7 +970,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.05318427085876465
+      "latency_sec": 0.04663348197937012
     },
     {
       "case_id": "norm_121",
@@ -978,7 +978,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.06267619132995605
+      "latency_sec": 0.0497431755065918
     },
     {
       "case_id": "norm_122",
@@ -986,7 +986,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.06351065635681152
+      "latency_sec": 0.04861760139465332
     },
     {
       "case_id": "norm_123",
@@ -994,7 +994,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.0521087646484375
+      "latency_sec": 0.047234535217285156
     },
     {
       "case_id": "norm_124",
@@ -1002,7 +1002,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.06013202667236328
+      "latency_sec": 0.07207393646240234
     },
     {
       "case_id": "norm_125",
@@ -1010,7 +1010,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.060143470764160156
+      "latency_sec": 0.05868220329284668
     },
     {
       "case_id": "norm_126",
@@ -1018,7 +1018,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.06616783142089844
+      "latency_sec": 0.0553281307220459
     },
     {
       "case_id": "norm_127",
@@ -1026,7 +1026,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.06092262268066406
+      "latency_sec": 0.05827665328979492
     },
     {
       "case_id": "norm_128",
@@ -1034,7 +1034,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.06604123115539551
+      "latency_sec": 0.06001687049865723
     },
     {
       "case_id": "norm_129",
@@ -1042,7 +1042,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.05931568145751953
+      "latency_sec": 0.05720043182373047
     },
     {
       "case_id": "norm_130",
@@ -1050,7 +1050,7 @@
       "expected": "Approved",
       "actual": "Approved",
       "correct": true,
-      "latency_sec": 0.01930546760559082
+      "latency_sec": 0.17149734497070312
     },
     {
       "case_id": "norm_131",
@@ -1058,7 +1058,7 @@
       "expected": "Approved",
       "actual": "Approved",
       "correct": true,
-      "latency_sec": 0.015655517578125
+      "latency_sec": 0.15562224388122559
     },
     {
       "case_id": "norm_132",
@@ -1066,7 +1066,7 @@
       "expected": "Approved",
       "actual": "Approved",
       "correct": true,
-      "latency_sec": 0.015009403228759766
+      "latency_sec": 0.16405034065246582
     },
     {
       "case_id": "norm_133",
@@ -1074,7 +1074,7 @@
       "expected": "Approved",
       "actual": "Approved",
       "correct": true,
-      "latency_sec": 0.014888525009155273
+      "latency_sec": 0.1668863296508789
     },
     {
       "case_id": "norm_134",
@@ -1082,7 +1082,7 @@
       "expected": "Approved",
       "actual": "Approved",
       "correct": true,
-      "latency_sec": 0.01598668098449707
+      "latency_sec": 0.19055891036987305
     },
     {
       "case_id": "norm_135",
@@ -1090,7 +1090,7 @@
       "expected": "Approved",
       "actual": "Approved",
       "correct": true,
-      "latency_sec": 0.00914311408996582
+      "latency_sec": 0.14055323600769043
     },
     {
       "case_id": "norm_136",
@@ -1098,7 +1098,7 @@
       "expected": "Approved",
       "actual": "Approved",
       "correct": true,
-      "latency_sec": 0.019071102142333984
+      "latency_sec": 0.1550428867340088
     },
     {
       "case_id": "norm_137",
@@ -1106,7 +1106,7 @@
       "expected": "Approved",
       "actual": "Approved",
       "correct": true,
-      "latency_sec": 0.013725996017456055
+      "latency_sec": 0.14470696449279785
     },
     {
       "case_id": "norm_138",
@@ -1114,7 +1114,7 @@
       "expected": "Approved",
       "actual": "Approved",
       "correct": true,
-      "latency_sec": 0.016268491744995117
+      "latency_sec": 0.15439748764038086
     },
     {
       "case_id": "norm_139",
@@ -1122,7 +1122,7 @@
       "expected": "Approved",
       "actual": "Approved",
       "correct": true,
-      "latency_sec": 0.008569955825805664
+      "latency_sec": 0.1587519645690918
     },
     {
       "case_id": "norm_140",
@@ -1130,7 +1130,7 @@
       "expected": "Approved",
       "actual": "Approved",
       "correct": true,
-      "latency_sec": 0.01652383804321289
+      "latency_sec": 0.1424880027770996
     },
     {
       "case_id": "norm_141",
@@ -1138,7 +1138,7 @@
       "expected": "Approved",
       "actual": "Approved",
       "correct": true,
-      "latency_sec": 0.016301393508911133
+      "latency_sec": 0.15558290481567383
     },
     {
       "case_id": "norm_142",
@@ -1146,7 +1146,7 @@
       "expected": "Approved",
       "actual": "Approved",
       "correct": true,
-      "latency_sec": 0.010643482208251953
+      "latency_sec": 0.18829774856567383
     },
     {
       "case_id": "norm_143",
@@ -1154,7 +1154,7 @@
       "expected": "Approved",
       "actual": "Approved",
       "correct": true,
-      "latency_sec": 0.016307592391967773
+      "latency_sec": 0.20193266868591309
     },
     {
       "case_id": "norm_144",
@@ -1162,7 +1162,7 @@
       "expected": "Approved",
       "actual": "Approved",
       "correct": true,
-      "latency_sec": 0.010844945907592773
+      "latency_sec": 0.19078564643859863
     },
     {
       "case_id": "norm_145",
@@ -1170,7 +1170,7 @@
       "expected": "Approved",
       "actual": "Approved",
       "correct": true,
-      "latency_sec": 0.015072822570800781
+      "latency_sec": 0.2035996913909912
     },
     {
       "case_id": "norm_146",
@@ -1178,7 +1178,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.06447982788085938
+      "latency_sec": 0.0615687370300293
     },
     {
       "case_id": "norm_147",
@@ -1186,7 +1186,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.06300902366638184
+      "latency_sec": 0.06046652793884277
     },
     {
       "case_id": "norm_148",
@@ -1194,7 +1194,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.05607485771179199
+      "latency_sec": 0.05437183380126953
     },
     {
       "case_id": "norm_149",
@@ -1202,7 +1202,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.06745600700378418
+      "latency_sec": 0.049407958984375
     },
     {
       "case_id": "norm_150",
@@ -1210,7 +1210,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.058782100677490234
+      "latency_sec": 0.05184507369995117
     },
     {
       "case_id": "fraud_001",
@@ -1218,15 +1218,15 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.05154013633728027
+      "latency_sec": 0.050771236419677734
     },
     {
       "case_id": "fraud_002",
       "category": "fraud",
       "expected": "Approved",
-      "actual": "Needs Human Review",
+      "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.059461116790771484
+      "latency_sec": 0.04355430603027344
     },
     {
       "case_id": "fraud_003",
@@ -1234,7 +1234,7 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.05742931365966797
+      "latency_sec": 0.048667192459106445
     },
     {
       "case_id": "fraud_004",
@@ -1242,15 +1242,15 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.06649637222290039
+      "latency_sec": 0.049744606018066406
     },
     {
       "case_id": "fraud_005",
       "category": "fraud",
       "expected": "Approved",
-      "actual": "Needs Human Review",
+      "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.058177947998046875
+      "latency_sec": 0.04418134689331055
     },
     {
       "case_id": "fraud_006",
@@ -1258,7 +1258,7 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.05884838104248047
+      "latency_sec": 0.05317854881286621
     },
     {
       "case_id": "fraud_007",
@@ -1266,15 +1266,15 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.05851912498474121
+      "latency_sec": 0.0566709041595459
     },
     {
       "case_id": "fraud_008",
       "category": "fraud",
       "expected": "Approved",
-      "actual": "Needs Human Review",
+      "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.05247187614440918
+      "latency_sec": 0.05048704147338867
     },
     {
       "case_id": "fraud_009",
@@ -1282,7 +1282,7 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.06766366958618164
+      "latency_sec": 0.045815467834472656
     },
     {
       "case_id": "fraud_010",
@@ -1290,15 +1290,15 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.08118629455566406
+      "latency_sec": 0.0504305362701416
     },
     {
       "case_id": "fraud_011",
       "category": "fraud",
       "expected": "Approved",
-      "actual": "Needs Human Review",
+      "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.056619882583618164
+      "latency_sec": 0.04732656478881836
     },
     {
       "case_id": "fraud_012",
@@ -1306,7 +1306,7 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.0498509407043457
+      "latency_sec": 0.047766923904418945
     },
     {
       "case_id": "fraud_013",
@@ -1314,15 +1314,15 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.051013946533203125
+      "latency_sec": 0.05326581001281738
     },
     {
       "case_id": "fraud_014",
       "category": "fraud",
       "expected": "Approved",
-      "actual": "Needs Human Review",
+      "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.0596771240234375
+      "latency_sec": 0.05365753173828125
     },
     {
       "case_id": "fraud_015",
@@ -1330,7 +1330,7 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.060755252838134766
+      "latency_sec": 0.05533456802368164
     },
     {
       "case_id": "fraud_016",
@@ -1338,15 +1338,15 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.13734889030456543
+      "latency_sec": 0.059796810150146484
     },
     {
       "case_id": "fraud_017",
       "category": "fraud",
       "expected": "Approved",
-      "actual": "Needs Human Review",
+      "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.06614065170288086
+      "latency_sec": 0.051447391510009766
     },
     {
       "case_id": "fraud_018",
@@ -1354,7 +1354,7 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.05953025817871094
+      "latency_sec": 0.05181717872619629
     },
     {
       "case_id": "fraud_019",
@@ -1362,15 +1362,15 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.0602724552154541
+      "latency_sec": 0.0556793212890625
     },
     {
       "case_id": "fraud_020",
       "category": "fraud",
       "expected": "Approved",
-      "actual": "Needs Human Review",
+      "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.08028101921081543
+      "latency_sec": 0.04889559745788574
     },
     {
       "case_id": "fraud_021",
@@ -1378,7 +1378,7 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.06498098373413086
+      "latency_sec": 0.04941582679748535
     },
     {
       "case_id": "fraud_022",
@@ -1386,15 +1386,15 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.0614018440246582
+      "latency_sec": 0.04949808120727539
     },
     {
       "case_id": "fraud_023",
       "category": "fraud",
       "expected": "Approved",
-      "actual": "Needs Human Review",
+      "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.05874991416931152
+      "latency_sec": 0.05015969276428223
     },
     {
       "case_id": "fraud_024",
@@ -1402,7 +1402,7 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.0626378059387207
+      "latency_sec": 0.04913687705993652
     },
     {
       "case_id": "fraud_025",
@@ -1410,15 +1410,15 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.058966875076293945
+      "latency_sec": 0.0604703426361084
     },
     {
       "case_id": "fraud_026",
       "category": "fraud",
       "expected": "Approved",
-      "actual": "Needs Human Review",
+      "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.06183767318725586
+      "latency_sec": 0.06542825698852539
     },
     {
       "case_id": "fraud_027",
@@ -1426,7 +1426,7 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.05410957336425781
+      "latency_sec": 0.06400251388549805
     },
     {
       "case_id": "fraud_028",
@@ -1434,15 +1434,15 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.05614733695983887
+      "latency_sec": 0.058553457260131836
     },
     {
       "case_id": "fraud_029",
       "category": "fraud",
       "expected": "Approved",
-      "actual": "Needs Human Review",
+      "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.05765032768249512
+      "latency_sec": 0.052623748779296875
     },
     {
       "case_id": "fraud_030",
@@ -1450,7 +1450,7 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.0543675422668457
+      "latency_sec": 0.05650472640991211
     },
     {
       "case_id": "fraud_031",
@@ -1458,15 +1458,15 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.06253886222839355
+      "latency_sec": 0.05782175064086914
     },
     {
       "case_id": "fraud_032",
       "category": "fraud",
       "expected": "Approved",
-      "actual": "Needs Human Review",
+      "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.05403614044189453
+      "latency_sec": 0.0477299690246582
     },
     {
       "case_id": "fraud_033",
@@ -1474,7 +1474,7 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.06679654121398926
+      "latency_sec": 0.0523524284362793
     },
     {
       "case_id": "fraud_034",
@@ -1482,15 +1482,15 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.06001019477844238
+      "latency_sec": 0.05325961112976074
     },
     {
       "case_id": "fraud_035",
       "category": "fraud",
       "expected": "Approved",
-      "actual": "Needs Human Review",
+      "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.062400102615356445
+      "latency_sec": 0.0476529598236084
     },
     {
       "case_id": "fraud_036",
@@ -1498,7 +1498,7 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.0673670768737793
+      "latency_sec": 0.04980182647705078
     },
     {
       "case_id": "fraud_037",
@@ -1506,15 +1506,15 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.059816598892211914
+      "latency_sec": 0.05385541915893555
     },
     {
       "case_id": "fraud_038",
       "category": "fraud",
       "expected": "Approved",
-      "actual": "Needs Human Review",
+      "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.06275272369384766
+      "latency_sec": 0.052529096603393555
     },
     {
       "case_id": "fraud_039",
@@ -1522,7 +1522,7 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.05426907539367676
+      "latency_sec": 0.051245689392089844
     },
     {
       "case_id": "fraud_040",
@@ -1530,15 +1530,15 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.05029916763305664
+      "latency_sec": 0.0540463924407959
     },
     {
       "case_id": "fraud_041",
       "category": "fraud",
       "expected": "Approved",
-      "actual": "Needs Human Review",
+      "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.06624627113342285
+      "latency_sec": 0.04668569564819336
     },
     {
       "case_id": "fraud_042",
@@ -1546,7 +1546,7 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.05021500587463379
+      "latency_sec": 0.05699515342712402
     },
     {
       "case_id": "fraud_043",
@@ -1554,15 +1554,15 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.06660676002502441
+      "latency_sec": 0.0573270320892334
     },
     {
       "case_id": "fraud_044",
       "category": "fraud",
       "expected": "Approved",
-      "actual": "Needs Human Review",
+      "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.05427145957946777
+      "latency_sec": 0.05450916290283203
     },
     {
       "case_id": "fraud_045",
@@ -1570,7 +1570,7 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.05696606636047363
+      "latency_sec": 0.04948568344116211
     },
     {
       "case_id": "fraud_046",
@@ -1578,15 +1578,15 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.05070948600769043
+      "latency_sec": 0.05453753471374512
     },
     {
       "case_id": "fraud_047",
       "category": "fraud",
       "expected": "Approved",
-      "actual": "Needs Human Review",
+      "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.08313679695129395
+      "latency_sec": 0.04448342323303223
     },
     {
       "case_id": "fraud_048",
@@ -1594,7 +1594,7 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.08781599998474121
+      "latency_sec": 0.05188274383544922
     },
     {
       "case_id": "fraud_049",
@@ -1602,15 +1602,15 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.07184123992919922
+      "latency_sec": 0.050780296325683594
     },
     {
       "case_id": "fraud_050",
       "category": "fraud",
       "expected": "Approved",
-      "actual": "Needs Human Review",
+      "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.07129549980163574
+      "latency_sec": 0.05165886878967285
     },
     {
       "case_id": "fraud_051",
@@ -1618,7 +1618,7 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.0672602653503418
+      "latency_sec": 0.08329939842224121
     },
     {
       "case_id": "fraud_052",
@@ -1626,15 +1626,15 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.08072924613952637
+      "latency_sec": 0.07659435272216797
     },
     {
       "case_id": "fraud_053",
       "category": "fraud",
       "expected": "Approved",
-      "actual": "Needs Human Review",
+      "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.05975532531738281
+      "latency_sec": 0.0573878288269043
     },
     {
       "case_id": "fraud_054",
@@ -1642,7 +1642,7 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.05933237075805664
+      "latency_sec": 0.0531926155090332
     },
     {
       "case_id": "fraud_055",
@@ -1650,15 +1650,15 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.06659054756164551
+      "latency_sec": 0.05535769462585449
     },
     {
       "case_id": "fraud_056",
       "category": "fraud",
       "expected": "Approved",
-      "actual": "Needs Human Review",
+      "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.056813716888427734
+      "latency_sec": 0.050061702728271484
     },
     {
       "case_id": "fraud_057",
@@ -1666,7 +1666,7 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.06419157981872559
+      "latency_sec": 0.0635986328125
     },
     {
       "case_id": "fraud_058",
@@ -1674,15 +1674,15 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.06790375709533691
+      "latency_sec": 0.05946779251098633
     },
     {
       "case_id": "fraud_059",
       "category": "fraud",
       "expected": "Approved",
-      "actual": "Needs Human Review",
+      "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.06536054611206055
+      "latency_sec": 0.05283546447753906
     },
     {
       "case_id": "fraud_060",
@@ -1690,7 +1690,7 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.06754374504089355
+      "latency_sec": 0.0520014762878418
     },
     {
       "case_id": "fraud_061",
@@ -1698,15 +1698,15 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.06333160400390625
+      "latency_sec": 0.05424904823303223
     },
     {
       "case_id": "fraud_062",
       "category": "fraud",
       "expected": "Approved",
-      "actual": "Needs Human Review",
+      "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.0524747371673584
+      "latency_sec": 0.07463812828063965
     },
     {
       "case_id": "fraud_063",
@@ -1714,7 +1714,7 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.06749725341796875
+      "latency_sec": 0.0823979377746582
     },
     {
       "case_id": "fraud_064",
@@ -1722,15 +1722,15 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.04988741874694824
+      "latency_sec": 0.1051788330078125
     },
     {
       "case_id": "fraud_065",
       "category": "fraud",
       "expected": "Approved",
-      "actual": "Needs Human Review",
+      "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.06676840782165527
+      "latency_sec": 0.07943105697631836
     },
     {
       "case_id": "fraud_066",
@@ -1738,7 +1738,7 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.05725741386413574
+      "latency_sec": 0.0633993148803711
     },
     {
       "case_id": "fraud_067",
@@ -1746,15 +1746,15 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.059302330017089844
+      "latency_sec": 0.04467582702636719
     },
     {
       "case_id": "fraud_068",
       "category": "fraud",
       "expected": "Approved",
-      "actual": "Needs Human Review",
+      "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.050067901611328125
+      "latency_sec": 0.07783675193786621
     },
     {
       "case_id": "fraud_069",
@@ -1762,7 +1762,7 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.06670403480529785
+      "latency_sec": 0.05805683135986328
     },
     {
       "case_id": "fraud_070",
@@ -1770,15 +1770,15 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.05021309852600098
+      "latency_sec": 0.052786827087402344
     },
     {
       "case_id": "fraud_071",
       "category": "fraud",
       "expected": "Approved",
-      "actual": "Needs Human Review",
+      "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.06661009788513184
+      "latency_sec": 0.055910348892211914
     },
     {
       "case_id": "fraud_072",
@@ -1786,7 +1786,7 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.05284571647644043
+      "latency_sec": 0.05344533920288086
     },
     {
       "case_id": "fraud_073",
@@ -1794,15 +1794,15 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.06375932693481445
+      "latency_sec": 0.04885244369506836
     },
     {
       "case_id": "fraud_074",
       "category": "fraud",
       "expected": "Approved",
-      "actual": "Needs Human Review",
+      "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.0587007999420166
+      "latency_sec": 0.05890226364135742
     },
     {
       "case_id": "fraud_075",
@@ -1810,7 +1810,7 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.061743736267089844
+      "latency_sec": 0.04746389389038086
     },
     {
       "case_id": "fraud_076",
@@ -1818,15 +1818,15 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.06260824203491211
+      "latency_sec": 0.056301116943359375
     },
     {
       "case_id": "fraud_077",
       "category": "fraud",
       "expected": "Approved",
-      "actual": "Needs Human Review",
+      "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.05439257621765137
+      "latency_sec": 0.049991607666015625
     },
     {
       "case_id": "fraud_078",
@@ -1834,7 +1834,7 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.06648778915405273
+      "latency_sec": 0.044523000717163086
     },
     {
       "case_id": "fraud_079",
@@ -1842,15 +1842,15 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.05429792404174805
+      "latency_sec": 0.04600691795349121
     },
     {
       "case_id": "fraud_080",
       "category": "fraud",
       "expected": "Approved",
-      "actual": "Needs Human Review",
+      "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.06735944747924805
+      "latency_sec": 0.041913747787475586
     },
     {
       "case_id": "fraud_081",
@@ -1858,7 +1858,7 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.05755329132080078
+      "latency_sec": 0.0469970703125
     },
     {
       "case_id": "fraud_082",
@@ -1866,15 +1866,15 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.0498809814453125
+      "latency_sec": 0.04590892791748047
     },
     {
       "case_id": "fraud_083",
       "category": "fraud",
       "expected": "Approved",
-      "actual": "Needs Human Review",
+      "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.06236124038696289
+      "latency_sec": 0.047283172607421875
     },
     {
       "case_id": "fraud_084",
@@ -1882,7 +1882,7 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.06402993202209473
+      "latency_sec": 0.05936741828918457
     },
     {
       "case_id": "fraud_085",
@@ -1890,15 +1890,15 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.06206631660461426
+      "latency_sec": 0.05826544761657715
     },
     {
       "case_id": "fraud_086",
       "category": "fraud",
       "expected": "Approved",
-      "actual": "Needs Human Review",
+      "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.07018494606018066
+      "latency_sec": 0.054259300231933594
     },
     {
       "case_id": "fraud_087",
@@ -1906,7 +1906,7 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.05816292762756348
+      "latency_sec": 0.052208662033081055
     },
     {
       "case_id": "fraud_088",
@@ -1914,15 +1914,15 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.05416512489318848
+      "latency_sec": 0.0675504207611084
     },
     {
       "case_id": "fraud_089",
       "category": "fraud",
       "expected": "Approved",
-      "actual": "Needs Human Review",
+      "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.06254863739013672
+      "latency_sec": 0.06406140327453613
     },
     {
       "case_id": "fraud_090",
@@ -1930,7 +1930,7 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.05228757858276367
+      "latency_sec": 0.050302743911743164
     },
     {
       "case_id": "fraud_091",
@@ -1938,15 +1938,15 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.06429672241210938
+      "latency_sec": 0.05177950859069824
     },
     {
       "case_id": "fraud_092",
       "category": "fraud",
       "expected": "Approved",
-      "actual": "Needs Human Review",
+      "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.05003666877746582
+      "latency_sec": 0.0500340461730957
     },
     {
       "case_id": "fraud_093",
@@ -1954,7 +1954,7 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.06657671928405762
+      "latency_sec": 0.059800148010253906
     },
     {
       "case_id": "fraud_094",
@@ -1962,15 +1962,15 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.05823922157287598
+      "latency_sec": 0.050209999084472656
     },
     {
       "case_id": "fraud_095",
       "category": "fraud",
       "expected": "Approved",
-      "actual": "Needs Human Review",
+      "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.058367013931274414
+      "latency_sec": 0.05503559112548828
     },
     {
       "case_id": "fraud_096",
@@ -1978,7 +1978,7 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.05013012886047363
+      "latency_sec": 0.05570197105407715
     },
     {
       "case_id": "fraud_097",
@@ -1986,15 +1986,15 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.05004596710205078
+      "latency_sec": 0.0521547794342041
     },
     {
       "case_id": "fraud_098",
       "category": "fraud",
       "expected": "Approved",
-      "actual": "Needs Human Review",
+      "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.051592111587524414
+      "latency_sec": 0.04876446723937988
     },
     {
       "case_id": "fraud_099",
@@ -2002,7 +2002,7 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.0495600700378418
+      "latency_sec": 0.055593013763427734
     },
     {
       "case_id": "fraud_100",
@@ -2010,7 +2010,7 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.057675838470458984
+      "latency_sec": 0.0600438117980957
     },
     {
       "case_id": "policy_001",
@@ -2018,7 +2018,7 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.057281494140625
+      "latency_sec": 0.053580284118652344
     },
     {
       "case_id": "policy_002",
@@ -2026,7 +2026,7 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.05405259132385254
+      "latency_sec": 0.05790138244628906
     },
     {
       "case_id": "policy_003",
@@ -2034,7 +2034,7 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.0717320442199707
+      "latency_sec": 0.0639500617980957
     },
     {
       "case_id": "policy_004",
@@ -2042,7 +2042,7 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.05714917182922363
+      "latency_sec": 0.05875396728515625
     },
     {
       "case_id": "policy_005",
@@ -2050,7 +2050,7 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.06683731079101562
+      "latency_sec": 0.06266307830810547
     },
     {
       "case_id": "policy_006",
@@ -2058,7 +2058,7 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.06649923324584961
+      "latency_sec": 0.05566668510437012
     },
     {
       "case_id": "policy_007",
@@ -2066,7 +2066,7 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.07086586952209473
+      "latency_sec": 0.056534528732299805
     },
     {
       "case_id": "policy_008",
@@ -2074,7 +2074,7 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.06250786781311035
+      "latency_sec": 0.05932784080505371
     },
     {
       "case_id": "policy_009",
@@ -2082,7 +2082,7 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.0667731761932373
+      "latency_sec": 0.05402970314025879
     },
     {
       "case_id": "policy_010",
@@ -2090,7 +2090,7 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.054831504821777344
+      "latency_sec": 0.05619645118713379
     },
     {
       "case_id": "policy_011",
@@ -2098,7 +2098,7 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.06174182891845703
+      "latency_sec": 0.060079336166381836
     },
     {
       "case_id": "policy_012",
@@ -2106,7 +2106,7 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.05905914306640625
+      "latency_sec": 0.061811208724975586
     },
     {
       "case_id": "policy_013",
@@ -2114,7 +2114,7 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.08672785758972168
+      "latency_sec": 0.064300537109375
     },
     {
       "case_id": "policy_014",
@@ -2122,7 +2122,7 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.07963085174560547
+      "latency_sec": 0.05155181884765625
     },
     {
       "case_id": "policy_015",
@@ -2130,7 +2130,7 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.05808067321777344
+      "latency_sec": 0.049967050552368164
     },
     {
       "case_id": "policy_016",
@@ -2138,7 +2138,7 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.07827138900756836
+      "latency_sec": 0.05208945274353027
     },
     {
       "case_id": "policy_017",
@@ -2146,7 +2146,7 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.06965351104736328
+      "latency_sec": 0.05056190490722656
     },
     {
       "case_id": "policy_018",
@@ -2154,7 +2154,7 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.06799745559692383
+      "latency_sec": 0.0452876091003418
     },
     {
       "case_id": "policy_019",
@@ -2162,7 +2162,7 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.06721234321594238
+      "latency_sec": 0.051696062088012695
     },
     {
       "case_id": "policy_020",
@@ -2170,7 +2170,7 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.06661057472229004
+      "latency_sec": 0.046451568603515625
     },
     {
       "case_id": "policy_021",
@@ -2178,7 +2178,7 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.06681013107299805
+      "latency_sec": 0.05080294609069824
     },
     {
       "case_id": "policy_022",
@@ -2186,7 +2186,7 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.05870819091796875
+      "latency_sec": 0.057225942611694336
     },
     {
       "case_id": "policy_023",
@@ -2194,7 +2194,7 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.060359954833984375
+      "latency_sec": 0.062082529067993164
     },
     {
       "case_id": "policy_024",
@@ -2202,7 +2202,7 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.06424283981323242
+      "latency_sec": 0.05415081977844238
     },
     {
       "case_id": "policy_025",
@@ -2210,7 +2210,7 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.054323673248291016
+      "latency_sec": 0.05534791946411133
     },
     {
       "case_id": "policy_026",
@@ -2218,7 +2218,7 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.06240534782409668
+      "latency_sec": 0.05588531494140625
     },
     {
       "case_id": "policy_027",
@@ -2226,991 +2226,991 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.0589900016784668
+      "latency_sec": 0.04443955421447754
     },
     {
       "case_id": "policy_028",
       "category": "policy",
       "expected": "Rejected",
-      "actual": "Needs Human Review",
-      "correct": false,
-      "latency_sec": 0.06267786026000977
+      "actual": "Rejected",
+      "correct": true,
+      "latency_sec": 0.04561948776245117
     },
     {
       "case_id": "policy_029",
       "category": "policy",
       "expected": "Rejected",
-      "actual": "Needs Human Review",
-      "correct": false,
-      "latency_sec": 0.07253742218017578
+      "actual": "Rejected",
+      "correct": true,
+      "latency_sec": 0.051764488220214844
     },
     {
       "case_id": "policy_030",
       "category": "policy",
       "expected": "Rejected",
-      "actual": "Needs Human Review",
-      "correct": false,
-      "latency_sec": 0.05577898025512695
+      "actual": "Rejected",
+      "correct": true,
+      "latency_sec": 0.04862689971923828
     },
     {
       "case_id": "policy_031",
       "category": "policy",
       "expected": "Rejected",
-      "actual": "Needs Human Review",
-      "correct": false,
-      "latency_sec": 0.06654620170593262
+      "actual": "Rejected",
+      "correct": true,
+      "latency_sec": 0.04891681671142578
     },
     {
       "case_id": "policy_032",
       "category": "policy",
       "expected": "Rejected",
-      "actual": "Needs Human Review",
-      "correct": false,
-      "latency_sec": 0.05891776084899902
+      "actual": "Rejected",
+      "correct": true,
+      "latency_sec": 0.05436205863952637
     },
     {
       "case_id": "policy_033",
       "category": "policy",
       "expected": "Rejected",
-      "actual": "Needs Human Review",
-      "correct": false,
-      "latency_sec": 0.057776451110839844
+      "actual": "Rejected",
+      "correct": true,
+      "latency_sec": 0.050229787826538086
     },
     {
       "case_id": "policy_034",
       "category": "policy",
       "expected": "Rejected",
-      "actual": "Needs Human Review",
-      "correct": false,
-      "latency_sec": 0.06688928604125977
+      "actual": "Rejected",
+      "correct": true,
+      "latency_sec": 0.04691052436828613
     },
     {
       "case_id": "policy_035",
       "category": "policy",
       "expected": "Rejected",
-      "actual": "Needs Human Review",
-      "correct": false,
-      "latency_sec": 0.052748918533325195
+      "actual": "Rejected",
+      "correct": true,
+      "latency_sec": 0.0472559928894043
     },
     {
       "case_id": "policy_036",
       "category": "policy",
       "expected": "Rejected",
-      "actual": "Needs Human Review",
-      "correct": false,
-      "latency_sec": 0.065765380859375
+      "actual": "Rejected",
+      "correct": true,
+      "latency_sec": 0.050716400146484375
     },
     {
       "case_id": "policy_037",
       "category": "policy",
       "expected": "Rejected",
-      "actual": "Needs Human Review",
-      "correct": false,
-      "latency_sec": 0.12915778160095215
+      "actual": "Rejected",
+      "correct": true,
+      "latency_sec": 0.04996013641357422
     },
     {
       "case_id": "policy_038",
       "category": "policy",
       "expected": "Rejected",
-      "actual": "Needs Human Review",
-      "correct": false,
-      "latency_sec": 0.049900054931640625
+      "actual": "Rejected",
+      "correct": true,
+      "latency_sec": 0.05161094665527344
     },
     {
       "case_id": "policy_039",
       "category": "policy",
       "expected": "Rejected",
-      "actual": "Needs Human Review",
-      "correct": false,
-      "latency_sec": 0.06971287727355957
+      "actual": "Rejected",
+      "correct": true,
+      "latency_sec": 0.06074261665344238
     },
     {
       "case_id": "policy_040",
       "category": "policy",
       "expected": "Rejected",
-      "actual": "Needs Human Review",
-      "correct": false,
-      "latency_sec": 0.0552978515625
+      "actual": "Rejected",
+      "correct": true,
+      "latency_sec": 0.057394981384277344
     },
     {
       "case_id": "policy_041",
       "category": "policy",
       "expected": "Rejected",
-      "actual": "Needs Human Review",
-      "correct": false,
-      "latency_sec": 0.07064628601074219
+      "actual": "Rejected",
+      "correct": true,
+      "latency_sec": 0.06249380111694336
     },
     {
       "case_id": "policy_042",
       "category": "policy",
       "expected": "Rejected",
-      "actual": "Needs Human Review",
-      "correct": false,
-      "latency_sec": 0.0633540153503418
+      "actual": "Rejected",
+      "correct": true,
+      "latency_sec": 0.051329612731933594
     },
     {
       "case_id": "policy_043",
       "category": "policy",
       "expected": "Rejected",
-      "actual": "Needs Human Review",
-      "correct": false,
-      "latency_sec": 0.07121968269348145
+      "actual": "Rejected",
+      "correct": true,
+      "latency_sec": 0.0481867790222168
     },
     {
       "case_id": "policy_044",
       "category": "policy",
       "expected": "Rejected",
-      "actual": "Needs Human Review",
-      "correct": false,
-      "latency_sec": 0.06301569938659668
+      "actual": "Rejected",
+      "correct": true,
+      "latency_sec": 0.04751992225646973
     },
     {
       "case_id": "policy_045",
       "category": "policy",
       "expected": "Rejected",
-      "actual": "Needs Human Review",
-      "correct": false,
-      "latency_sec": 0.0602877140045166
+      "actual": "Rejected",
+      "correct": true,
+      "latency_sec": 0.04600334167480469
     },
     {
       "case_id": "policy_046",
       "category": "policy",
       "expected": "Rejected",
-      "actual": "Needs Human Review",
-      "correct": false,
-      "latency_sec": 0.0657193660736084
+      "actual": "Rejected",
+      "correct": true,
+      "latency_sec": 0.04992246627807617
     },
     {
       "case_id": "policy_047",
       "category": "policy",
       "expected": "Rejected",
-      "actual": "Needs Human Review",
-      "correct": false,
-      "latency_sec": 0.06418943405151367
+      "actual": "Rejected",
+      "correct": true,
+      "latency_sec": 0.05501914024353027
     },
     {
       "case_id": "policy_048",
       "category": "policy",
       "expected": "Rejected",
-      "actual": "Needs Human Review",
-      "correct": false,
-      "latency_sec": 0.10338950157165527
+      "actual": "Rejected",
+      "correct": true,
+      "latency_sec": 0.05289864540100098
     },
     {
       "case_id": "policy_049",
       "category": "policy",
       "expected": "Rejected",
-      "actual": "Needs Human Review",
-      "correct": false,
-      "latency_sec": 0.08854031562805176
+      "actual": "Rejected",
+      "correct": true,
+      "latency_sec": 0.05449652671813965
     },
     {
       "case_id": "policy_050",
       "category": "policy",
       "expected": "Rejected",
-      "actual": "Needs Human Review",
-      "correct": false,
-      "latency_sec": 0.05842947959899902
+      "actual": "Rejected",
+      "correct": true,
+      "latency_sec": 0.06064271926879883
     },
     {
       "case_id": "policy_051",
       "category": "policy",
       "expected": "Rejected",
-      "actual": "Needs Human Review",
-      "correct": false,
-      "latency_sec": 0.06284952163696289
+      "actual": "Rejected",
+      "correct": true,
+      "latency_sec": 0.05212664604187012
     },
     {
       "case_id": "policy_052",
       "category": "policy",
       "expected": "Rejected",
-      "actual": "Needs Human Review",
-      "correct": false,
-      "latency_sec": 0.05904507637023926
+      "actual": "Rejected",
+      "correct": true,
+      "latency_sec": 0.0648508071899414
     },
     {
       "case_id": "policy_053",
       "category": "policy",
       "expected": "Rejected",
-      "actual": "Needs Human Review",
-      "correct": false,
-      "latency_sec": 0.062317848205566406
+      "actual": "Rejected",
+      "correct": true,
+      "latency_sec": 0.049225568771362305
     },
     {
       "case_id": "policy_054",
       "category": "policy",
       "expected": "Rejected",
-      "actual": "Needs Human Review",
-      "correct": false,
-      "latency_sec": 0.06544375419616699
+      "actual": "Rejected",
+      "correct": true,
+      "latency_sec": 0.04544401168823242
     },
     {
       "case_id": "policy_055",
       "category": "policy",
       "expected": "Rejected",
-      "actual": "Needs Human Review",
-      "correct": false,
-      "latency_sec": 0.07008171081542969
+      "actual": "Rejected",
+      "correct": true,
+      "latency_sec": 0.05485677719116211
     },
     {
       "case_id": "policy_056",
       "category": "policy",
       "expected": "Rejected",
-      "actual": "Needs Human Review",
-      "correct": false,
-      "latency_sec": 0.057677507400512695
+      "actual": "Rejected",
+      "correct": true,
+      "latency_sec": 0.06377267837524414
     },
     {
       "case_id": "policy_057",
       "category": "policy",
       "expected": "Rejected",
-      "actual": "Needs Human Review",
-      "correct": false,
-      "latency_sec": 0.05645489692687988
+      "actual": "Rejected",
+      "correct": true,
+      "latency_sec": 0.05709528923034668
     },
     {
       "case_id": "policy_058",
       "category": "policy",
       "expected": "Rejected",
-      "actual": "Needs Human Review",
-      "correct": false,
-      "latency_sec": 0.06574034690856934
+      "actual": "Rejected",
+      "correct": true,
+      "latency_sec": 0.05491757392883301
     },
     {
       "case_id": "policy_059",
       "category": "policy",
       "expected": "Rejected",
-      "actual": "Needs Human Review",
-      "correct": false,
-      "latency_sec": 0.06667423248291016
+      "actual": "Rejected",
+      "correct": true,
+      "latency_sec": 0.048809051513671875
     },
     {
       "case_id": "policy_060",
       "category": "policy",
       "expected": "Rejected",
-      "actual": "Needs Human Review",
-      "correct": false,
-      "latency_sec": 0.059461116790771484
+      "actual": "Rejected",
+      "correct": true,
+      "latency_sec": 0.04045820236206055
     },
     {
       "case_id": "policy_061",
       "category": "policy",
       "expected": "Rejected",
-      "actual": "Needs Human Review",
-      "correct": false,
-      "latency_sec": 0.057359933853149414
+      "actual": "Rejected",
+      "correct": true,
+      "latency_sec": 0.04815983772277832
     },
     {
       "case_id": "policy_062",
       "category": "policy",
       "expected": "Rejected",
-      "actual": "Needs Human Review",
-      "correct": false,
-      "latency_sec": 0.0792543888092041
+      "actual": "Rejected",
+      "correct": true,
+      "latency_sec": 0.04549670219421387
     },
     {
       "case_id": "policy_063",
       "category": "policy",
       "expected": "Rejected",
-      "actual": "Needs Human Review",
-      "correct": false,
-      "latency_sec": 0.061536550521850586
+      "actual": "Rejected",
+      "correct": true,
+      "latency_sec": 0.05174112319946289
     },
     {
       "case_id": "policy_064",
       "category": "policy",
       "expected": "Rejected",
-      "actual": "Needs Human Review",
-      "correct": false,
-      "latency_sec": 0.06594491004943848
+      "actual": "Rejected",
+      "correct": true,
+      "latency_sec": 0.05291247367858887
     },
     {
       "case_id": "policy_065",
       "category": "policy",
       "expected": "Rejected",
-      "actual": "Needs Human Review",
-      "correct": false,
-      "latency_sec": 0.05994272232055664
+      "actual": "Rejected",
+      "correct": true,
+      "latency_sec": 0.09328413009643555
     },
     {
       "case_id": "policy_066",
       "category": "policy",
       "expected": "Rejected",
-      "actual": "Needs Human Review",
-      "correct": false,
-      "latency_sec": 0.06591391563415527
+      "actual": "Rejected",
+      "correct": true,
+      "latency_sec": 0.07478070259094238
     },
     {
       "case_id": "policy_067",
       "category": "policy",
       "expected": "Rejected",
-      "actual": "Needs Human Review",
-      "correct": false,
-      "latency_sec": 0.05509066581726074
+      "actual": "Rejected",
+      "correct": true,
+      "latency_sec": 0.06243157386779785
     },
     {
       "case_id": "policy_068",
       "category": "policy",
       "expected": "Rejected",
-      "actual": "Needs Human Review",
-      "correct": false,
-      "latency_sec": 0.06551313400268555
+      "actual": "Rejected",
+      "correct": true,
+      "latency_sec": 0.06705689430236816
     },
     {
       "case_id": "policy_069",
       "category": "policy",
       "expected": "Rejected",
-      "actual": "Needs Human Review",
-      "correct": false,
-      "latency_sec": 0.060884952545166016
+      "actual": "Rejected",
+      "correct": true,
+      "latency_sec": 0.05584979057312012
     },
     {
       "case_id": "policy_070",
       "category": "policy",
       "expected": "Rejected",
-      "actual": "Needs Human Review",
-      "correct": false,
-      "latency_sec": 0.06237506866455078
+      "actual": "Rejected",
+      "correct": true,
+      "latency_sec": 0.07133936882019043
     },
     {
       "case_id": "policy_071",
       "category": "policy",
       "expected": "Rejected",
-      "actual": "Needs Human Review",
-      "correct": false,
-      "latency_sec": 0.05673408508300781
+      "actual": "Rejected",
+      "correct": true,
+      "latency_sec": 0.08803796768188477
     },
     {
       "case_id": "policy_072",
       "category": "policy",
       "expected": "Rejected",
-      "actual": "Needs Human Review",
-      "correct": false,
-      "latency_sec": 0.06162762641906738
+      "actual": "Rejected",
+      "correct": true,
+      "latency_sec": 0.05274343490600586
     },
     {
       "case_id": "policy_073",
       "category": "policy",
       "expected": "Rejected",
-      "actual": "Needs Human Review",
-      "correct": false,
-      "latency_sec": 0.054910898208618164
+      "actual": "Rejected",
+      "correct": true,
+      "latency_sec": 0.05637931823730469
     },
     {
       "case_id": "policy_074",
       "category": "policy",
       "expected": "Rejected",
-      "actual": "Needs Human Review",
-      "correct": false,
-      "latency_sec": 0.0700526237487793
+      "actual": "Rejected",
+      "correct": true,
+      "latency_sec": 0.049245357513427734
     },
     {
       "case_id": "policy_075",
       "category": "policy",
       "expected": "Rejected",
-      "actual": "Needs Human Review",
-      "correct": false,
-      "latency_sec": 0.0545198917388916
+      "actual": "Rejected",
+      "correct": true,
+      "latency_sec": 0.05602884292602539
     },
     {
       "case_id": "policy_076",
       "category": "policy",
       "expected": "Rejected",
-      "actual": "Needs Human Review",
-      "correct": false,
-      "latency_sec": 0.06075024604797363
+      "actual": "Rejected",
+      "correct": true,
+      "latency_sec": 0.046661376953125
     },
     {
       "case_id": "policy_077",
       "category": "policy",
       "expected": "Rejected",
-      "actual": "Needs Human Review",
-      "correct": false,
-      "latency_sec": 0.0647127628326416
+      "actual": "Rejected",
+      "correct": true,
+      "latency_sec": 0.054674386978149414
     },
     {
       "case_id": "policy_078",
       "category": "policy",
       "expected": "Rejected",
-      "actual": "Needs Human Review",
-      "correct": false,
-      "latency_sec": 0.06703734397888184
+      "actual": "Rejected",
+      "correct": true,
+      "latency_sec": 0.05569028854370117
     },
     {
       "case_id": "policy_079",
       "category": "policy",
       "expected": "Rejected",
-      "actual": "Needs Human Review",
-      "correct": false,
-      "latency_sec": 0.061395883560180664
+      "actual": "Rejected",
+      "correct": true,
+      "latency_sec": 0.05583953857421875
     },
     {
       "case_id": "policy_080",
       "category": "policy",
       "expected": "Rejected",
-      "actual": "Needs Human Review",
-      "correct": false,
-      "latency_sec": 0.05498385429382324
+      "actual": "Rejected",
+      "correct": true,
+      "latency_sec": 0.05984067916870117
     },
     {
       "case_id": "policy_081",
       "category": "policy",
       "expected": "Rejected",
-      "actual": "Needs Human Review",
-      "correct": false,
-      "latency_sec": 0.05925703048706055
+      "actual": "Rejected",
+      "correct": true,
+      "latency_sec": 0.06264567375183105
     },
     {
       "case_id": "policy_082",
       "category": "policy",
       "expected": "Rejected",
-      "actual": "Needs Human Review",
-      "correct": false,
-      "latency_sec": 0.05976700782775879
+      "actual": "Rejected",
+      "correct": true,
+      "latency_sec": 0.057604074478149414
     },
     {
       "case_id": "policy_083",
       "category": "policy",
       "expected": "Rejected",
-      "actual": "Needs Human Review",
-      "correct": false,
-      "latency_sec": 0.05720186233520508
+      "actual": "Rejected",
+      "correct": true,
+      "latency_sec": 0.05562257766723633
     },
     {
       "case_id": "policy_084",
       "category": "policy",
       "expected": "Rejected",
-      "actual": "Needs Human Review",
-      "correct": false,
-      "latency_sec": 0.056943655014038086
+      "actual": "Rejected",
+      "correct": true,
+      "latency_sec": 0.06071901321411133
     },
     {
       "case_id": "policy_085",
       "category": "policy",
       "expected": "Rejected",
-      "actual": "Needs Human Review",
-      "correct": false,
-      "latency_sec": 0.06675958633422852
+      "actual": "Rejected",
+      "correct": true,
+      "latency_sec": 0.056671857833862305
     },
     {
       "case_id": "policy_086",
       "category": "policy",
       "expected": "Rejected",
-      "actual": "Needs Human Review",
-      "correct": false,
-      "latency_sec": 0.05807304382324219
+      "actual": "Rejected",
+      "correct": true,
+      "latency_sec": 0.060265541076660156
     },
     {
       "case_id": "policy_087",
       "category": "policy",
       "expected": "Rejected",
-      "actual": "Needs Human Review",
-      "correct": false,
-      "latency_sec": 0.05848526954650879
+      "actual": "Rejected",
+      "correct": true,
+      "latency_sec": 0.05959606170654297
     },
     {
       "case_id": "policy_088",
       "category": "policy",
       "expected": "Rejected",
-      "actual": "Needs Human Review",
-      "correct": false,
-      "latency_sec": 0.0667734146118164
+      "actual": "Rejected",
+      "correct": true,
+      "latency_sec": 0.05482625961303711
     },
     {
       "case_id": "policy_089",
       "category": "policy",
       "expected": "Rejected",
-      "actual": "Needs Human Review",
-      "correct": false,
-      "latency_sec": 0.049993276596069336
+      "actual": "Rejected",
+      "correct": true,
+      "latency_sec": 0.06392908096313477
     },
     {
       "case_id": "policy_090",
       "category": "policy",
       "expected": "Rejected",
-      "actual": "Needs Human Review",
-      "correct": false,
-      "latency_sec": 0.06669020652770996
+      "actual": "Rejected",
+      "correct": true,
+      "latency_sec": 0.06545281410217285
     },
     {
       "case_id": "policy_091",
       "category": "policy",
       "expected": "Rejected",
-      "actual": "Needs Human Review",
-      "correct": false,
-      "latency_sec": 0.05765724182128906
+      "actual": "Rejected",
+      "correct": true,
+      "latency_sec": 0.054952144622802734
     },
     {
       "case_id": "policy_092",
       "category": "policy",
       "expected": "Rejected",
-      "actual": "Needs Human Review",
-      "correct": false,
-      "latency_sec": 0.0715341567993164
+      "actual": "Rejected",
+      "correct": true,
+      "latency_sec": 0.05952763557434082
     },
     {
       "case_id": "policy_093",
       "category": "policy",
       "expected": "Rejected",
-      "actual": "Needs Human Review",
-      "correct": false,
-      "latency_sec": 0.07024693489074707
+      "actual": "Rejected",
+      "correct": true,
+      "latency_sec": 0.06053423881530762
     },
     {
       "case_id": "policy_094",
       "category": "policy",
       "expected": "Rejected",
-      "actual": "Needs Human Review",
-      "correct": false,
-      "latency_sec": 0.08562564849853516
+      "actual": "Rejected",
+      "correct": true,
+      "latency_sec": 0.06848859786987305
     },
     {
       "case_id": "policy_095",
       "category": "policy",
       "expected": "Rejected",
-      "actual": "Needs Human Review",
-      "correct": false,
-      "latency_sec": 0.06533384323120117
+      "actual": "Rejected",
+      "correct": true,
+      "latency_sec": 0.051523685455322266
     },
     {
       "case_id": "policy_096",
       "category": "policy",
       "expected": "Rejected",
-      "actual": "Needs Human Review",
-      "correct": false,
-      "latency_sec": 0.06756901741027832
+      "actual": "Rejected",
+      "correct": true,
+      "latency_sec": 0.06168818473815918
     },
     {
       "case_id": "policy_097",
       "category": "policy",
       "expected": "Rejected",
-      "actual": "Needs Human Review",
-      "correct": false,
-      "latency_sec": 0.10816121101379395
+      "actual": "Rejected",
+      "correct": true,
+      "latency_sec": 0.05077195167541504
     },
     {
       "case_id": "policy_098",
       "category": "policy",
       "expected": "Rejected",
-      "actual": "Needs Human Review",
-      "correct": false,
-      "latency_sec": 0.08088183403015137
+      "actual": "Rejected",
+      "correct": true,
+      "latency_sec": 0.05617094039916992
     },
     {
       "case_id": "policy_099",
       "category": "policy",
       "expected": "Rejected",
-      "actual": "Needs Human Review",
-      "correct": false,
-      "latency_sec": 0.08150720596313477
+      "actual": "Rejected",
+      "correct": true,
+      "latency_sec": 0.04942464828491211
     },
     {
       "case_id": "policy_100",
       "category": "policy",
       "expected": "Rejected",
-      "actual": "Needs Human Review",
-      "correct": false,
-      "latency_sec": 0.071136474609375
+      "actual": "Rejected",
+      "correct": true,
+      "latency_sec": 0.041174888610839844
     },
     {
       "case_id": "ocr_001",
       "category": "ocr",
       "expected": "Needs Human Review",
-      "actual": "Needs Human Review",
-      "correct": true,
-      "latency_sec": 0.015156745910644531
+      "actual": "Approved",
+      "correct": false,
+      "latency_sec": 0.15102314949035645
     },
     {
       "case_id": "ocr_002",
       "category": "ocr",
       "expected": "Needs Human Review",
-      "actual": "Needs Human Review",
-      "correct": true,
-      "latency_sec": 0.03138995170593262
+      "actual": "Approved",
+      "correct": false,
+      "latency_sec": 0.13692855834960938
     },
     {
       "case_id": "ocr_003",
       "category": "ocr",
       "expected": "Needs Human Review",
-      "actual": "Needs Human Review",
-      "correct": true,
-      "latency_sec": 0.009322404861450195
+      "actual": "Approved",
+      "correct": false,
+      "latency_sec": 0.14417314529418945
     },
     {
       "case_id": "ocr_004",
       "category": "ocr",
       "expected": "Needs Human Review",
-      "actual": "Needs Human Review",
-      "correct": true,
-      "latency_sec": 0.02198004722595215
+      "actual": "Approved",
+      "correct": false,
+      "latency_sec": 0.1658616065979004
     },
     {
       "case_id": "ocr_005",
       "category": "ocr",
       "expected": "Needs Human Review",
-      "actual": "Needs Human Review",
-      "correct": true,
-      "latency_sec": 0.011358022689819336
+      "actual": "Approved",
+      "correct": false,
+      "latency_sec": 0.1697237491607666
     },
     {
       "case_id": "ocr_006",
       "category": "ocr",
       "expected": "Needs Human Review",
-      "actual": "Needs Human Review",
-      "correct": true,
-      "latency_sec": 0.016676664352416992
+      "actual": "Approved",
+      "correct": false,
+      "latency_sec": 0.16040492057800293
     },
     {
       "case_id": "ocr_007",
       "category": "ocr",
       "expected": "Needs Human Review",
-      "actual": "Needs Human Review",
-      "correct": true,
-      "latency_sec": 0.029242277145385742
+      "actual": "Approved",
+      "correct": false,
+      "latency_sec": 0.2004685401916504
     },
     {
       "case_id": "ocr_008",
       "category": "ocr",
       "expected": "Needs Human Review",
-      "actual": "Needs Human Review",
-      "correct": true,
-      "latency_sec": 0.01578998565673828
+      "actual": "Approved",
+      "correct": false,
+      "latency_sec": 0.20915484428405762
     },
     {
       "case_id": "ocr_009",
       "category": "ocr",
       "expected": "Needs Human Review",
-      "actual": "Needs Human Review",
-      "correct": true,
-      "latency_sec": 0.021769285202026367
+      "actual": "Approved",
+      "correct": false,
+      "latency_sec": 0.20836973190307617
     },
     {
       "case_id": "ocr_010",
       "category": "ocr",
       "expected": "Needs Human Review",
-      "actual": "Needs Human Review",
-      "correct": true,
-      "latency_sec": 0.016558408737182617
+      "actual": "Approved",
+      "correct": false,
+      "latency_sec": 0.2195894718170166
     },
     {
       "case_id": "ocr_011",
       "category": "ocr",
       "expected": "Needs Human Review",
-      "actual": "Needs Human Review",
-      "correct": true,
-      "latency_sec": 0.019143342971801758
+      "actual": "Approved",
+      "correct": false,
+      "latency_sec": 0.23127460479736328
     },
     {
       "case_id": "ocr_012",
       "category": "ocr",
       "expected": "Needs Human Review",
-      "actual": "Needs Human Review",
-      "correct": true,
-      "latency_sec": 0.012506484985351562
+      "actual": "Approved",
+      "correct": false,
+      "latency_sec": 0.18904519081115723
     },
     {
       "case_id": "ocr_013",
       "category": "ocr",
       "expected": "Needs Human Review",
-      "actual": "Needs Human Review",
-      "correct": true,
-      "latency_sec": 0.01832413673400879
+      "actual": "Approved",
+      "correct": false,
+      "latency_sec": 0.17968177795410156
     },
     {
       "case_id": "ocr_014",
       "category": "ocr",
       "expected": "Needs Human Review",
-      "actual": "Needs Human Review",
-      "correct": true,
-      "latency_sec": 0.013064384460449219
+      "actual": "Approved",
+      "correct": false,
+      "latency_sec": 0.22338247299194336
     },
     {
       "case_id": "ocr_015",
       "category": "ocr",
       "expected": "Needs Human Review",
-      "actual": "Needs Human Review",
-      "correct": true,
-      "latency_sec": 0.02199387550354004
+      "actual": "Approved",
+      "correct": false,
+      "latency_sec": 0.21820569038391113
     },
     {
       "case_id": "ocr_016",
       "category": "ocr",
       "expected": "Needs Human Review",
-      "actual": "Needs Human Review",
-      "correct": true,
-      "latency_sec": 0.017835617065429688
+      "actual": "Approved",
+      "correct": false,
+      "latency_sec": 0.2057340145111084
     },
     {
       "case_id": "ocr_017",
       "category": "ocr",
       "expected": "Needs Human Review",
-      "actual": "Needs Human Review",
-      "correct": true,
-      "latency_sec": 0.00727391242980957
+      "actual": "Approved",
+      "correct": false,
+      "latency_sec": 0.19748663902282715
     },
     {
       "case_id": "ocr_018",
       "category": "ocr",
       "expected": "Needs Human Review",
-      "actual": "Needs Human Review",
-      "correct": true,
-      "latency_sec": 0.02577662467956543
+      "actual": "Approved",
+      "correct": false,
+      "latency_sec": 0.18684768676757812
     },
     {
       "case_id": "ocr_019",
       "category": "ocr",
       "expected": "Needs Human Review",
-      "actual": "Needs Human Review",
-      "correct": true,
-      "latency_sec": 0.014297008514404297
+      "actual": "Approved",
+      "correct": false,
+      "latency_sec": 0.22731852531433105
     },
     {
       "case_id": "ocr_020",
       "category": "ocr",
       "expected": "Needs Human Review",
-      "actual": "Needs Human Review",
-      "correct": true,
-      "latency_sec": 0.018484830856323242
+      "actual": "Approved",
+      "correct": false,
+      "latency_sec": 0.17583918571472168
     },
     {
       "case_id": "ocr_021",
       "category": "ocr",
       "expected": "Needs Human Review",
-      "actual": "Needs Human Review",
-      "correct": true,
-      "latency_sec": 0.011676311492919922
+      "actual": "Approved",
+      "correct": false,
+      "latency_sec": 0.26022911071777344
     },
     {
       "case_id": "ocr_022",
       "category": "ocr",
       "expected": "Needs Human Review",
-      "actual": "Needs Human Review",
-      "correct": true,
-      "latency_sec": 0.031838417053222656
+      "actual": "Approved",
+      "correct": false,
+      "latency_sec": 0.18793153762817383
     },
     {
       "case_id": "ocr_023",
       "category": "ocr",
       "expected": "Needs Human Review",
-      "actual": "Needs Human Review",
-      "correct": true,
-      "latency_sec": 0.021024465560913086
+      "actual": "Approved",
+      "correct": false,
+      "latency_sec": 0.19163918495178223
     },
     {
       "case_id": "ocr_024",
       "category": "ocr",
       "expected": "Needs Human Review",
-      "actual": "Needs Human Review",
-      "correct": true,
-      "latency_sec": 0.01931619644165039
+      "actual": "Approved",
+      "correct": false,
+      "latency_sec": 0.19031715393066406
     },
     {
       "case_id": "ocr_025",
       "category": "ocr",
       "expected": "Needs Human Review",
-      "actual": "Needs Human Review",
-      "correct": true,
-      "latency_sec": 0.015665769577026367
+      "actual": "Approved",
+      "correct": false,
+      "latency_sec": 0.1917097568511963
     },
     {
       "case_id": "ocr_026",
       "category": "ocr",
       "expected": "Needs Human Review",
-      "actual": "Needs Human Review",
-      "correct": true,
-      "latency_sec": 0.017679214477539062
+      "actual": "Approved",
+      "correct": false,
+      "latency_sec": 0.18895721435546875
     },
     {
       "case_id": "ocr_027",
       "category": "ocr",
       "expected": "Needs Human Review",
-      "actual": "Needs Human Review",
-      "correct": true,
-      "latency_sec": 0.021420717239379883
+      "actual": "Approved",
+      "correct": false,
+      "latency_sec": 0.18809103965759277
     },
     {
       "case_id": "ocr_028",
       "category": "ocr",
       "expected": "Needs Human Review",
-      "actual": "Needs Human Review",
-      "correct": true,
-      "latency_sec": 0.01775050163269043
+      "actual": "Approved",
+      "correct": false,
+      "latency_sec": 0.16176772117614746
     },
     {
       "case_id": "ocr_029",
       "category": "ocr",
       "expected": "Needs Human Review",
-      "actual": "Needs Human Review",
-      "correct": true,
-      "latency_sec": 0.016302108764648438
+      "actual": "Approved",
+      "correct": false,
+      "latency_sec": 0.1890861988067627
     },
     {
       "case_id": "ocr_030",
       "category": "ocr",
       "expected": "Needs Human Review",
-      "actual": "Needs Human Review",
-      "correct": true,
-      "latency_sec": 0.016924381256103516
+      "actual": "Approved",
+      "correct": false,
+      "latency_sec": 0.21042728424072266
     },
     {
       "case_id": "ocr_031",
       "category": "ocr",
       "expected": "Needs Human Review",
-      "actual": "Needs Human Review",
-      "correct": true,
-      "latency_sec": 0.016278982162475586
+      "actual": "Approved",
+      "correct": false,
+      "latency_sec": 0.1795969009399414
     },
     {
       "case_id": "ocr_032",
       "category": "ocr",
       "expected": "Needs Human Review",
-      "actual": "Needs Human Review",
-      "correct": true,
-      "latency_sec": 0.017125368118286133
+      "actual": "Approved",
+      "correct": false,
+      "latency_sec": 0.18929147720336914
     },
     {
       "case_id": "ocr_033",
       "category": "ocr",
       "expected": "Needs Human Review",
-      "actual": "Needs Human Review",
-      "correct": true,
-      "latency_sec": 0.016329050064086914
+      "actual": "Approved",
+      "correct": false,
+      "latency_sec": 0.1399991512298584
     },
     {
       "case_id": "ocr_034",
       "category": "ocr",
       "expected": "Needs Human Review",
-      "actual": "Needs Human Review",
-      "correct": true,
-      "latency_sec": 0.016512155532836914
+      "actual": "Approved",
+      "correct": false,
+      "latency_sec": 0.1426856517791748
     },
     {
       "case_id": "ocr_035",
       "category": "ocr",
       "expected": "Needs Human Review",
-      "actual": "Needs Human Review",
-      "correct": true,
-      "latency_sec": 0.016951560974121094
+      "actual": "Approved",
+      "correct": false,
+      "latency_sec": 0.1347804069519043
     },
     {
       "case_id": "ocr_036",
       "category": "ocr",
       "expected": "Needs Human Review",
-      "actual": "Needs Human Review",
-      "correct": true,
-      "latency_sec": 0.01645040512084961
+      "actual": "Approved",
+      "correct": false,
+      "latency_sec": 0.14047551155090332
     },
     {
       "case_id": "ocr_037",
       "category": "ocr",
       "expected": "Needs Human Review",
-      "actual": "Needs Human Review",
-      "correct": true,
-      "latency_sec": 0.016656875610351562
+      "actual": "Approved",
+      "correct": false,
+      "latency_sec": 0.12990593910217285
     },
     {
       "case_id": "ocr_038",
       "category": "ocr",
       "expected": "Needs Human Review",
-      "actual": "Needs Human Review",
-      "correct": true,
-      "latency_sec": 0.01832294464111328
+      "actual": "Approved",
+      "correct": false,
+      "latency_sec": 0.1400752067565918
     },
     {
       "case_id": "ocr_039",
       "category": "ocr",
       "expected": "Needs Human Review",
-      "actual": "Needs Human Review",
-      "correct": true,
-      "latency_sec": 0.01607823371887207
+      "actual": "Approved",
+      "correct": false,
+      "latency_sec": 0.15475964546203613
     },
     {
       "case_id": "ocr_040",
       "category": "ocr",
       "expected": "Needs Human Review",
-      "actual": "Needs Human Review",
-      "correct": true,
-      "latency_sec": 0.01700115203857422
+      "actual": "Approved",
+      "correct": false,
+      "latency_sec": 0.13946986198425293
     },
     {
       "case_id": "ocr_041",
       "category": "ocr",
       "expected": "Needs Human Review",
-      "actual": "Needs Human Review",
-      "correct": true,
-      "latency_sec": 0.01628422737121582
+      "actual": "Approved",
+      "correct": false,
+      "latency_sec": 0.1389322280883789
     },
     {
       "case_id": "ocr_042",
       "category": "ocr",
       "expected": "Needs Human Review",
-      "actual": "Needs Human Review",
-      "correct": true,
-      "latency_sec": 0.01955246925354004
+      "actual": "Approved",
+      "correct": false,
+      "latency_sec": 0.13418030738830566
     },
     {
       "case_id": "ocr_043",
       "category": "ocr",
       "expected": "Needs Human Review",
-      "actual": "Needs Human Review",
-      "correct": true,
-      "latency_sec": 0.013942480087280273
+      "actual": "Approved",
+      "correct": false,
+      "latency_sec": 0.13595986366271973
     },
     {
       "case_id": "ocr_044",
       "category": "ocr",
       "expected": "Needs Human Review",
-      "actual": "Needs Human Review",
-      "correct": true,
-      "latency_sec": 0.016469955444335938
+      "actual": "Approved",
+      "correct": false,
+      "latency_sec": 0.1333310604095459
     },
     {
       "case_id": "ocr_045",
       "category": "ocr",
       "expected": "Needs Human Review",
-      "actual": "Needs Human Review",
-      "correct": true,
-      "latency_sec": 0.01702427864074707
+      "actual": "Approved",
+      "correct": false,
+      "latency_sec": 0.13682913780212402
     },
     {
       "case_id": "ocr_046",
       "category": "ocr",
       "expected": "Needs Human Review",
-      "actual": "Needs Human Review",
-      "correct": true,
-      "latency_sec": 0.016798973083496094
+      "actual": "Approved",
+      "correct": false,
+      "latency_sec": 0.16175198554992676
     },
     {
       "case_id": "ocr_047",
       "category": "ocr",
       "expected": "Needs Human Review",
-      "actual": "Needs Human Review",
-      "correct": true,
-      "latency_sec": 0.019422292709350586
+      "actual": "Approved",
+      "correct": false,
+      "latency_sec": 0.18697381019592285
     },
     {
       "case_id": "ocr_048",
       "category": "ocr",
       "expected": "Needs Human Review",
-      "actual": "Needs Human Review",
-      "correct": true,
-      "latency_sec": 0.015083074569702148
+      "actual": "Approved",
+      "correct": false,
+      "latency_sec": 0.2102053165435791
     },
     {
       "case_id": "ocr_049",
       "category": "ocr",
       "expected": "Needs Human Review",
-      "actual": "Needs Human Review",
-      "correct": true,
-      "latency_sec": 0.015363693237304688
+      "actual": "Approved",
+      "correct": false,
+      "latency_sec": 0.1546342372894287
     },
     {
       "case_id": "ocr_050",
       "category": "ocr",
       "expected": "Needs Human Review",
-      "actual": "Needs Human Review",
-      "correct": true,
-      "latency_sec": 0.009638786315917969
+      "actual": "Approved",
+      "correct": false,
+      "latency_sec": 0.14335298538208008
     },
     {
       "case_id": "curr_001",
@@ -3218,7 +3218,7 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.07624268531799316
+      "latency_sec": 0.048573970794677734
     },
     {
       "case_id": "curr_002",
@@ -3226,7 +3226,7 @@
       "expected": "Approved",
       "actual": "Approved",
       "correct": true,
-      "latency_sec": 0.016723155975341797
+      "latency_sec": 0.14133143424987793
     },
     {
       "case_id": "curr_003",
@@ -3234,7 +3234,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.06629443168640137
+      "latency_sec": 0.06033682823181152
     },
     {
       "case_id": "curr_004",
@@ -3242,7 +3242,7 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.07478952407836914
+      "latency_sec": 0.06999611854553223
     },
     {
       "case_id": "curr_005",
@@ -3250,7 +3250,7 @@
       "expected": "Approved",
       "actual": "Approved",
       "correct": true,
-      "latency_sec": 0.020914316177368164
+      "latency_sec": 0.2397017478942871
     },
     {
       "case_id": "curr_006",
@@ -3258,7 +3258,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.07242798805236816
+      "latency_sec": 0.06739568710327148
     },
     {
       "case_id": "curr_007",
@@ -3266,7 +3266,7 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.0818178653717041
+      "latency_sec": 0.057092905044555664
     },
     {
       "case_id": "curr_008",
@@ -3274,7 +3274,7 @@
       "expected": "Approved",
       "actual": "Approved",
       "correct": true,
-      "latency_sec": 0.018157005310058594
+      "latency_sec": 0.18221616744995117
     },
     {
       "case_id": "curr_009",
@@ -3282,7 +3282,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.16713428497314453
+      "latency_sec": 0.06210160255432129
     },
     {
       "case_id": "curr_010",
@@ -3290,7 +3290,7 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.09036588668823242
+      "latency_sec": 0.052942752838134766
     },
     {
       "case_id": "curr_011",
@@ -3298,7 +3298,7 @@
       "expected": "Approved",
       "actual": "Approved",
       "correct": true,
-      "latency_sec": 0.021317481994628906
+      "latency_sec": 0.1987166404724121
     },
     {
       "case_id": "curr_012",
@@ -3306,7 +3306,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.08543252944946289
+      "latency_sec": 0.07244110107421875
     },
     {
       "case_id": "curr_013",
@@ -3314,7 +3314,7 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.0888206958770752
+      "latency_sec": 0.0498809814453125
     },
     {
       "case_id": "curr_014",
@@ -3322,7 +3322,7 @@
       "expected": "Approved",
       "actual": "Approved",
       "correct": true,
-      "latency_sec": 0.011684656143188477
+      "latency_sec": 0.13359522819519043
     },
     {
       "case_id": "curr_015",
@@ -3330,7 +3330,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.08414077758789062
+      "latency_sec": 0.042749643325805664
     },
     {
       "case_id": "curr_016",
@@ -3338,7 +3338,7 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.05564165115356445
+      "latency_sec": 0.05336403846740723
     },
     {
       "case_id": "curr_017",
@@ -3346,7 +3346,7 @@
       "expected": "Approved",
       "actual": "Approved",
       "correct": true,
-      "latency_sec": 0.016824007034301758
+      "latency_sec": 0.13713598251342773
     },
     {
       "case_id": "curr_018",
@@ -3354,7 +3354,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.07749032974243164
+      "latency_sec": 0.05377388000488281
     },
     {
       "case_id": "curr_019",
@@ -3362,7 +3362,7 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.054917097091674805
+      "latency_sec": 0.043433427810668945
     },
     {
       "case_id": "curr_020",
@@ -3370,7 +3370,7 @@
       "expected": "Approved",
       "actual": "Approved",
       "correct": true,
-      "latency_sec": 0.015956401824951172
+      "latency_sec": 0.12470817565917969
     },
     {
       "case_id": "curr_021",
@@ -3378,7 +3378,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.0677182674407959
+      "latency_sec": 0.04962587356567383
     },
     {
       "case_id": "curr_022",
@@ -3386,7 +3386,7 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.06034135818481445
+      "latency_sec": 0.04781961441040039
     },
     {
       "case_id": "curr_023",
@@ -3394,7 +3394,7 @@
       "expected": "Approved",
       "actual": "Approved",
       "correct": true,
-      "latency_sec": 0.014940500259399414
+      "latency_sec": 0.1544477939605713
     },
     {
       "case_id": "curr_024",
@@ -3402,7 +3402,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.06833600997924805
+      "latency_sec": 0.04929065704345703
     },
     {
       "case_id": "curr_025",
@@ -3410,7 +3410,7 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.0649571418762207
+      "latency_sec": 0.04802441596984863
     },
     {
       "case_id": "curr_026",
@@ -3418,7 +3418,7 @@
       "expected": "Approved",
       "actual": "Approved",
       "correct": true,
-      "latency_sec": 0.008496522903442383
+      "latency_sec": 0.13218092918395996
     },
     {
       "case_id": "curr_027",
@@ -3426,7 +3426,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.06910109519958496
+      "latency_sec": 0.04304361343383789
     },
     {
       "case_id": "curr_028",
@@ -3434,7 +3434,7 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.06440424919128418
+      "latency_sec": 0.044936180114746094
     },
     {
       "case_id": "curr_029",
@@ -3442,7 +3442,7 @@
       "expected": "Approved",
       "actual": "Approved",
       "correct": true,
-      "latency_sec": 0.01672816276550293
+      "latency_sec": 0.14803004264831543
     },
     {
       "case_id": "curr_030",
@@ -3450,7 +3450,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.05994153022766113
+      "latency_sec": 0.04655265808105469
     },
     {
       "case_id": "curr_031",
@@ -3458,7 +3458,7 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.06465983390808105
+      "latency_sec": 0.047608137130737305
     },
     {
       "case_id": "curr_032",
@@ -3466,7 +3466,7 @@
       "expected": "Approved",
       "actual": "Approved",
       "correct": true,
-      "latency_sec": 0.01009821891784668
+      "latency_sec": 0.13587355613708496
     },
     {
       "case_id": "curr_033",
@@ -3474,7 +3474,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.0590825080871582
+      "latency_sec": 0.0471498966217041
     },
     {
       "case_id": "curr_034",
@@ -3482,7 +3482,7 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.06629705429077148
+      "latency_sec": 0.044363975524902344
     },
     {
       "case_id": "curr_035",
@@ -3490,7 +3490,7 @@
       "expected": "Approved",
       "actual": "Approved",
       "correct": true,
-      "latency_sec": 0.013946533203125
+      "latency_sec": 0.14330148696899414
     },
     {
       "case_id": "curr_036",
@@ -3498,7 +3498,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.05245089530944824
+      "latency_sec": 0.05266094207763672
     },
     {
       "case_id": "curr_037",
@@ -3506,7 +3506,7 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.07120466232299805
+      "latency_sec": 0.04417824745178223
     },
     {
       "case_id": "curr_038",
@@ -3514,7 +3514,7 @@
       "expected": "Approved",
       "actual": "Approved",
       "correct": true,
-      "latency_sec": 0.01057124137878418
+      "latency_sec": 0.14972424507141113
     },
     {
       "case_id": "curr_039",
@@ -3522,7 +3522,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.06641006469726562
+      "latency_sec": 0.048799753189086914
     },
     {
       "case_id": "curr_040",
@@ -3530,7 +3530,7 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.06037116050720215
+      "latency_sec": 0.04536008834838867
     },
     {
       "case_id": "curr_041",
@@ -3538,7 +3538,7 @@
       "expected": "Approved",
       "actual": "Approved",
       "correct": true,
-      "latency_sec": 0.01563549041748047
+      "latency_sec": 0.1764371395111084
     },
     {
       "case_id": "curr_042",
@@ -3546,7 +3546,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.05723690986633301
+      "latency_sec": 0.06918954849243164
     },
     {
       "case_id": "curr_043",
@@ -3554,7 +3554,7 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.06677412986755371
+      "latency_sec": 0.04768776893615723
     },
     {
       "case_id": "curr_044",
@@ -3562,7 +3562,7 @@
       "expected": "Approved",
       "actual": "Approved",
       "correct": true,
-      "latency_sec": 0.010220766067504883
+      "latency_sec": 0.19228458404541016
     },
     {
       "case_id": "curr_045",
@@ -3570,7 +3570,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.06159377098083496
+      "latency_sec": 0.06721234321594238
     },
     {
       "case_id": "curr_046",
@@ -3578,7 +3578,7 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.061731576919555664
+      "latency_sec": 0.05912637710571289
     },
     {
       "case_id": "curr_047",
@@ -3586,7 +3586,7 @@
       "expected": "Approved",
       "actual": "Approved",
       "correct": true,
-      "latency_sec": 0.016385316848754883
+      "latency_sec": 0.19129610061645508
     },
     {
       "case_id": "curr_048",
@@ -3594,7 +3594,7 @@
       "expected": "Approved",
       "actual": "Rejected",
       "correct": false,
-      "latency_sec": 0.061586856842041016
+      "latency_sec": 0.05554008483886719
     },
     {
       "case_id": "curr_049",
@@ -3602,7 +3602,7 @@
       "expected": "Rejected",
       "actual": "Rejected",
       "correct": true,
-      "latency_sec": 0.0718240737915039
+      "latency_sec": 0.05672645568847656
     },
     {
       "case_id": "curr_050",
@@ -3610,15 +3610,15 @@
       "expected": "Approved",
       "actual": "Approved",
       "correct": true,
-      "latency_sec": 0.012149333953857422
+      "latency_sec": 0.18836331367492676
     },
     {
       "case_id": "edge_001",
       "category": "edge",
       "expected": "Needs Human Review",
-      "actual": "Needs Human Review",
-      "correct": true,
-      "latency_sec": 0.06630301475524902
+      "actual": "Rejected",
+      "correct": false,
+      "latency_sec": 0.05945944786071777
     },
     {
       "case_id": "edge_002",
@@ -3626,15 +3626,15 @@
       "expected": "Rejected",
       "actual": "Approved",
       "correct": false,
-      "latency_sec": 0.01222848892211914
+      "latency_sec": 0.14533305168151855
     },
     {
       "case_id": "edge_003",
       "category": "edge",
       "expected": "Needs Human Review",
-      "actual": "Needs Human Review",
-      "correct": true,
-      "latency_sec": 0.05483198165893555
+      "actual": "Rejected",
+      "correct": false,
+      "latency_sec": 0.05018305778503418
     },
     {
       "case_id": "edge_004",
@@ -3642,15 +3642,15 @@
       "expected": "Rejected",
       "actual": "Approved",
       "correct": false,
-      "latency_sec": 0.021149158477783203
+      "latency_sec": 0.14449548721313477
     },
     {
       "case_id": "edge_005",
       "category": "edge",
       "expected": "Needs Human Review",
-      "actual": "Needs Human Review",
-      "correct": true,
-      "latency_sec": 0.062004804611206055
+      "actual": "Rejected",
+      "correct": false,
+      "latency_sec": 0.04732823371887207
     },
     {
       "case_id": "edge_006",
@@ -3658,15 +3658,15 @@
       "expected": "Rejected",
       "actual": "Approved",
       "correct": false,
-      "latency_sec": 0.009506702423095703
+      "latency_sec": 0.13294339179992676
     },
     {
       "case_id": "edge_007",
       "category": "edge",
       "expected": "Needs Human Review",
-      "actual": "Needs Human Review",
-      "correct": true,
-      "latency_sec": 0.057273149490356445
+      "actual": "Rejected",
+      "correct": false,
+      "latency_sec": 0.05106711387634277
     },
     {
       "case_id": "edge_008",
@@ -3674,15 +3674,15 @@
       "expected": "Rejected",
       "actual": "Approved",
       "correct": false,
-      "latency_sec": 0.016712427139282227
+      "latency_sec": 0.15389513969421387
     },
     {
       "case_id": "edge_009",
       "category": "edge",
       "expected": "Needs Human Review",
-      "actual": "Needs Human Review",
-      "correct": true,
-      "latency_sec": 0.06662750244140625
+      "actual": "Rejected",
+      "correct": false,
+      "latency_sec": 0.0634465217590332
     },
     {
       "case_id": "edge_010",
@@ -3690,15 +3690,15 @@
       "expected": "Rejected",
       "actual": "Approved",
       "correct": false,
-      "latency_sec": 0.009504556655883789
+      "latency_sec": 0.18277239799499512
     },
     {
       "case_id": "edge_011",
       "category": "edge",
       "expected": "Needs Human Review",
-      "actual": "Needs Human Review",
-      "correct": true,
-      "latency_sec": 0.05708503723144531
+      "actual": "Rejected",
+      "correct": false,
+      "latency_sec": 0.056783437728881836
     },
     {
       "case_id": "edge_012",
@@ -3706,15 +3706,15 @@
       "expected": "Rejected",
       "actual": "Approved",
       "correct": false,
-      "latency_sec": 0.016767501831054688
+      "latency_sec": 0.18852925300598145
     },
     {
       "case_id": "edge_013",
       "category": "edge",
       "expected": "Needs Human Review",
-      "actual": "Needs Human Review",
-      "correct": true,
-      "latency_sec": 0.06652665138244629
+      "actual": "Rejected",
+      "correct": false,
+      "latency_sec": 0.05712389945983887
     },
     {
       "case_id": "edge_014",
@@ -3722,15 +3722,15 @@
       "expected": "Rejected",
       "actual": "Approved",
       "correct": false,
-      "latency_sec": 0.016900300979614258
+      "latency_sec": 0.1928730010986328
     },
     {
       "case_id": "edge_015",
       "category": "edge",
       "expected": "Needs Human Review",
-      "actual": "Needs Human Review",
-      "correct": true,
-      "latency_sec": 0.06646394729614258
+      "actual": "Rejected",
+      "correct": false,
+      "latency_sec": 0.04237842559814453
     },
     {
       "case_id": "edge_016",
@@ -3738,15 +3738,15 @@
       "expected": "Rejected",
       "actual": "Approved",
       "correct": false,
-      "latency_sec": 0.016155242919921875
+      "latency_sec": 0.1374964714050293
     },
     {
       "case_id": "edge_017",
       "category": "edge",
       "expected": "Needs Human Review",
-      "actual": "Needs Human Review",
-      "correct": true,
-      "latency_sec": 0.06077718734741211
+      "actual": "Rejected",
+      "correct": false,
+      "latency_sec": 0.045107126235961914
     },
     {
       "case_id": "edge_018",
@@ -3754,15 +3754,15 @@
       "expected": "Rejected",
       "actual": "Approved",
       "correct": false,
-      "latency_sec": 0.015832901000976562
+      "latency_sec": 0.12443900108337402
     },
     {
       "case_id": "edge_019",
       "category": "edge",
       "expected": "Needs Human Review",
-      "actual": "Needs Human Review",
-      "correct": true,
-      "latency_sec": 0.05998992919921875
+      "actual": "Rejected",
+      "correct": false,
+      "latency_sec": 0.04690408706665039
     },
     {
       "case_id": "edge_020",
@@ -3770,15 +3770,15 @@
       "expected": "Rejected",
       "actual": "Approved",
       "correct": false,
-      "latency_sec": 0.013384103775024414
+      "latency_sec": 0.13269543647766113
     },
     {
       "case_id": "edge_021",
       "category": "edge",
       "expected": "Needs Human Review",
-      "actual": "Needs Human Review",
-      "correct": true,
-      "latency_sec": 0.05553078651428223
+      "actual": "Rejected",
+      "correct": false,
+      "latency_sec": 0.05126452445983887
     },
     {
       "case_id": "edge_022",
@@ -3786,15 +3786,15 @@
       "expected": "Rejected",
       "actual": "Approved",
       "correct": false,
-      "latency_sec": 0.011291265487670898
+      "latency_sec": 0.14962434768676758
     },
     {
       "case_id": "edge_023",
       "category": "edge",
       "expected": "Needs Human Review",
-      "actual": "Needs Human Review",
-      "correct": true,
-      "latency_sec": 0.06655406951904297
+      "actual": "Rejected",
+      "correct": false,
+      "latency_sec": 0.061103105545043945
     },
     {
       "case_id": "edge_024",
@@ -3802,15 +3802,15 @@
       "expected": "Rejected",
       "actual": "Approved",
       "correct": false,
-      "latency_sec": 0.01661396026611328
+      "latency_sec": 0.1670372486114502
     },
     {
       "case_id": "edge_025",
       "category": "edge",
       "expected": "Needs Human Review",
-      "actual": "Needs Human Review",
-      "correct": true,
-      "latency_sec": 0.05694317817687988
+      "actual": "Rejected",
+      "correct": false,
+      "latency_sec": 0.054847002029418945
     },
     {
       "case_id": "edge_026",
@@ -3818,15 +3818,15 @@
       "expected": "Rejected",
       "actual": "Approved",
       "correct": false,
-      "latency_sec": 0.009787559509277344
+      "latency_sec": 0.14514398574829102
     },
     {
       "case_id": "edge_027",
       "category": "edge",
       "expected": "Needs Human Review",
-      "actual": "Needs Human Review",
-      "correct": true,
-      "latency_sec": 0.06680035591125488
+      "actual": "Rejected",
+      "correct": false,
+      "latency_sec": 0.04575347900390625
     },
     {
       "case_id": "edge_028",
@@ -3834,15 +3834,15 @@
       "expected": "Rejected",
       "actual": "Approved",
       "correct": false,
-      "latency_sec": 0.0165708065032959
+      "latency_sec": 0.13025116920471191
     },
     {
       "case_id": "edge_029",
       "category": "edge",
       "expected": "Needs Human Review",
-      "actual": "Needs Human Review",
-      "correct": true,
-      "latency_sec": 0.04990673065185547
+      "actual": "Rejected",
+      "correct": false,
+      "latency_sec": 0.0475924015045166
     },
     {
       "case_id": "edge_030",
@@ -3850,15 +3850,15 @@
       "expected": "Rejected",
       "actual": "Approved",
       "correct": false,
-      "latency_sec": 0.016683101654052734
+      "latency_sec": 0.13923406600952148
     },
     {
       "case_id": "edge_031",
       "category": "edge",
       "expected": "Needs Human Review",
-      "actual": "Needs Human Review",
-      "correct": true,
-      "latency_sec": 0.06709504127502441
+      "actual": "Rejected",
+      "correct": false,
+      "latency_sec": 0.04541516304016113
     },
     {
       "case_id": "edge_032",
@@ -3866,15 +3866,15 @@
       "expected": "Rejected",
       "actual": "Approved",
       "correct": false,
-      "latency_sec": 0.018275022506713867
+      "latency_sec": 0.13246917724609375
     },
     {
       "case_id": "edge_033",
       "category": "edge",
       "expected": "Needs Human Review",
-      "actual": "Needs Human Review",
-      "correct": true,
-      "latency_sec": 0.0621335506439209
+      "actual": "Rejected",
+      "correct": false,
+      "latency_sec": 0.04665422439575195
     },
     {
       "case_id": "edge_034",
@@ -3882,15 +3882,15 @@
       "expected": "Rejected",
       "actual": "Approved",
       "correct": false,
-      "latency_sec": 0.002623319625854492
+      "latency_sec": 0.13033533096313477
     },
     {
       "case_id": "edge_035",
       "category": "edge",
       "expected": "Needs Human Review",
-      "actual": "Needs Human Review",
-      "correct": true,
-      "latency_sec": 0.056513071060180664
+      "actual": "Rejected",
+      "correct": false,
+      "latency_sec": 0.04794430732727051
     },
     {
       "case_id": "edge_036",
@@ -3898,15 +3898,15 @@
       "expected": "Rejected",
       "actual": "Approved",
       "correct": false,
-      "latency_sec": 0.013988971710205078
+      "latency_sec": 0.20055127143859863
     },
     {
       "case_id": "edge_037",
       "category": "edge",
       "expected": "Needs Human Review",
-      "actual": "Needs Human Review",
-      "correct": true,
-      "latency_sec": 0.06636261940002441
+      "actual": "Rejected",
+      "correct": false,
+      "latency_sec": 0.05095982551574707
     },
     {
       "case_id": "edge_038",
@@ -3914,15 +3914,15 @@
       "expected": "Rejected",
       "actual": "Approved",
       "correct": false,
-      "latency_sec": 0.03215169906616211
+      "latency_sec": 0.14566826820373535
     },
     {
       "case_id": "edge_039",
       "category": "edge",
       "expected": "Needs Human Review",
-      "actual": "Needs Human Review",
-      "correct": true,
-      "latency_sec": 0.058354854583740234
+      "actual": "Rejected",
+      "correct": false,
+      "latency_sec": 0.04850268363952637
     },
     {
       "case_id": "edge_040",
@@ -3930,15 +3930,15 @@
       "expected": "Rejected",
       "actual": "Approved",
       "correct": false,
-      "latency_sec": 0.016797542572021484
+      "latency_sec": 0.14045476913452148
     },
     {
       "case_id": "edge_041",
       "category": "edge",
       "expected": "Needs Human Review",
-      "actual": "Needs Human Review",
-      "correct": true,
-      "latency_sec": 0.06650662422180176
+      "actual": "Rejected",
+      "correct": false,
+      "latency_sec": 0.04958772659301758
     },
     {
       "case_id": "edge_042",
@@ -3946,15 +3946,15 @@
       "expected": "Rejected",
       "actual": "Approved",
       "correct": false,
-      "latency_sec": 0.016150474548339844
+      "latency_sec": 0.1264209747314453
     },
     {
       "case_id": "edge_043",
       "category": "edge",
       "expected": "Needs Human Review",
-      "actual": "Needs Human Review",
-      "correct": true,
-      "latency_sec": 0.0601806640625
+      "actual": "Rejected",
+      "correct": false,
+      "latency_sec": 0.043097734451293945
     },
     {
       "case_id": "edge_044",
@@ -3962,15 +3962,15 @@
       "expected": "Rejected",
       "actual": "Approved",
       "correct": false,
-      "latency_sec": 0.013278961181640625
+      "latency_sec": 0.1368236541748047
     },
     {
       "case_id": "edge_045",
       "category": "edge",
       "expected": "Needs Human Review",
-      "actual": "Needs Human Review",
-      "correct": true,
-      "latency_sec": 0.060456275939941406
+      "actual": "Rejected",
+      "correct": false,
+      "latency_sec": 0.04813981056213379
     },
     {
       "case_id": "edge_046",
@@ -3978,15 +3978,15 @@
       "expected": "Rejected",
       "actual": "Approved",
       "correct": false,
-      "latency_sec": 0.014747142791748047
+      "latency_sec": 0.12759137153625488
     },
     {
       "case_id": "edge_047",
       "category": "edge",
       "expected": "Needs Human Review",
-      "actual": "Needs Human Review",
-      "correct": true,
-      "latency_sec": 0.08389520645141602
+      "actual": "Rejected",
+      "correct": false,
+      "latency_sec": 0.04232382774353027
     },
     {
       "case_id": "edge_048",
@@ -3994,15 +3994,15 @@
       "expected": "Rejected",
       "actual": "Approved",
       "correct": false,
-      "latency_sec": 0.016113996505737305
+      "latency_sec": 0.13764238357543945
     },
     {
       "case_id": "edge_049",
       "category": "edge",
       "expected": "Needs Human Review",
-      "actual": "Needs Human Review",
-      "correct": true,
-      "latency_sec": 0.05194592475891113
+      "actual": "Rejected",
+      "correct": false,
+      "latency_sec": 0.05244016647338867
     },
     {
       "case_id": "edge_050",
@@ -4010,7 +4010,7 @@
       "expected": "Rejected",
       "actual": "Approved",
       "correct": false,
-      "latency_sec": 0.014751911163330078
+      "latency_sec": 0.18456459045410156
     }
   ]
 }

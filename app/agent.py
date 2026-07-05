@@ -49,21 +49,22 @@ class MockGemini(Gemini):
                         si_str = "".join(p.text for p in si.parts if p.text)
                     else:
                         si_str = str(si)
+            print(f"DEBUG MockGemini: agent={getattr(llm_request, 'app_name', 'None')}, si_str={repr(si_str)}, contents_str={repr(contents_str)}")
 
             # 1. Classify user intent
             if "intent_classifier" in si_str or "intent_classifier" in contents_str or "Classify the user intent" in contents_str:
                 text_lower = contents_str.lower()
                 if any(re.search(rf"\b{kw}\b", text_lower) for kw in ["hello", "hi", "hey", "bye", "goodbye", "thanks", "thank you", "greetings"]):
                     intent = "CONVERSATION"
-                elif "please audit" in text_lower or "audit this expense" in text_lower or "audit" in text_lower:
+                elif any(re.search(rf"\b{kw}\b", text_lower) for kw in ["please audit", "audit this expense", "audit"]):
                     intent = "AUDIT"
-                elif "policy" in text_lower or "limit" in text_lower or "what is" in text_lower or "rules" in text_lower:
+                elif any(re.search(rf"\b{kw}\b", text_lower) for kw in ["policy", "policies", "limit", "limits", "rule", "rules", "allowed"]) or "what is" in text_lower:
                     intent = "POLICY"
-                elif "compare" in text_lower or "summarize" in text_lower or "query" in text_lower or "travel expenses above" in text_lower or "departments" in text_lower:
+                elif any(re.search(rf"\b{kw}\b", text_lower) for kw in ["compare", "summarize", "query", "departments"]) or "travel expenses above" in text_lower:
                     intent = "QUERY"
-                elif "calculate" in text_lower or "reimbursable" in text_lower or "total" in text_lower or "math" in text_lower or "sum" in text_lower:
+                elif any(re.search(rf"\b{kw}\b", text_lower) for kw in ["calculate", "reimbursable", "math", "total sum", "sum of"]):
                     intent = "CALCULATE"
-                elif "extract" in text_lower or "receipt" in text_lower:
+                elif any(re.search(rf"\b{kw}\b", text_lower) for kw in ["extract", "receipt"]):
                     intent = "EXTRACT"
                 else:
                     intent = "AUDIT"
@@ -76,6 +77,8 @@ class MockGemini(Gemini):
                 or "Receipt Extractor" in contents_str
                 or "extractor" in contents_str
                 or "Analyze the user's input" in contents_str
+                or "merchant, date, amount, currency" in si_str.lower()
+                or "extract merchant, date" in si_str.lower()
             ):
                 # We extract a list of expenses matching the ExpenseList schema.
                 expenses = []
@@ -219,6 +222,8 @@ class MockGemini(Gemini):
                 or "Policy Verifier" in contents_str
                 or "verifier" in contents_str
                 or "Compare the provided expense details" in contents_str
+                or "spending limits" in si_str.lower()
+                or "expense categories" in si_str.lower()
             ):
                 text = '{"compliant": true, "violations": [], "audit_notes": "Policy limits checked."}'
 
@@ -444,11 +449,15 @@ Identify:
 
 
 # Helper function to run agents programmatically
-async def run_agent_helper(agent: Agent, text: str) -> Any:
+async def run_agent_helper(agent: Agent, text: str, session_id: Optional[str] = None) -> Any:
     from google.adk.runners import Runner
     from google.adk.sessions.in_memory_session_service import InMemorySessionService
     from google.adk.memory.in_memory_memory_service import InMemoryMemoryService
     from google.adk.utils._schema_utils import validate_schema
+    from app.utils.prompt_loader import PromptLoader
+    
+    # Load prompt dynamically from the A/B testing registry
+    agent.instruction = PromptLoader.load_prompt(agent.name, session_id=session_id)
     
     runner = Runner(
         app_name=agent.name,
@@ -799,11 +808,11 @@ async def intent_router(ctx: Context, node_input: str) -> Event:
             confidence = max(confidence, part_conf)
     else:
         intent, confidence = _detect_intent(text)
-        
+        llm_intent = None
         # Hybrid classifier ensemble with LLM intent classifier agent
         if os.getenv("MOCK_LLM", "true").lower() == "false" or True:
             try:
-                parsed = await run_agent_helper(intent_classifier, text)
+                parsed = await run_agent_helper(intent_classifier_agent, text, session_id=ctx.session.id)
                 llm_intent = str(parsed.get("intent", intent)).upper()
                 if llm_intent in ["POLICY", "CALCULATE", "EXTRACT", "QUERY", "AUDIT", "CONVERSATION"]:
                     if llm_intent == "CONVERSATION" or intent == "CONVERSATION":
@@ -812,8 +821,9 @@ async def intent_router(ctx: Context, node_input: str) -> Event:
                         if intent == "AUDIT" or confidence < 0.95:
                             intent = llm_intent
                             confidence = 0.98
-            except Exception:
-                pass
+            except Exception as e:
+                print(f"DEBUG intent_router EXCEPTION: {e}")
+        print(f"DEBUG intent_router: text={repr(text)}, _detect_intent={repr(intent)}, llm_intent={repr(llm_intent)}, final={repr(intent)}")
         intents = [intent]
 
     # Store routing info in state for later evaluation
@@ -893,7 +903,7 @@ async def query_handler(ctx: Context, node_input: str) -> Event:
                 query_params["currency"] = "INR"
     else:
         try:
-            parsed = await run_agent_helper(query_parser_agent, text)
+            parsed = await run_agent_helper(query_parser_agent, text, session_id=ctx.session.id)
             query_params = parsed.model_dump()
         except Exception:
             pass
@@ -1009,7 +1019,7 @@ Information provided matches general corporate policy guidelines."""
 
 async def extract_handler(ctx: Context, node_input: str) -> Event:
     """Extract details from receipt/image."""
-    extracted = await run_agent_helper(receipt_extractor, node_input)
+    extracted = await run_agent_helper(receipt_extractor, node_input, session_id=ctx.session.id)
     expenses = extracted.get("expenses", [])
     
     if not expenses:
@@ -1227,8 +1237,11 @@ async def audit_orchestrator_node(ctx: Context, node_input: str) -> Event:
     # Step 5: Extraction
     # -------------------------------------------------------------------------
     try:
-        extracted = await run_agent_helper(receipt_extractor, raw_text)
+        extracted = await run_agent_helper(receipt_extractor, raw_text, session_id=ctx.session.id)
     except Exception as e:
+        import traceback
+        print("EXCEPTION IN run_agent_helper(receipt_extractor):", e)
+        traceback.print_exc()
         extracted = {"expenses": []}
     expenses_raw = extracted.get("expenses", [])
     

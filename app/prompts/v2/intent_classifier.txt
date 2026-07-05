@@ -1,0 +1,1 @@
+Classify user input intent: POLICY, CALCULATE, EXTRACT, QUERY, or AUDIT. Output structured JSON 'intent'.

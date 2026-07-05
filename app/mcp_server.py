@@ -1,16 +1,13 @@
+import asyncio
+from functools import lru_cache
 import mcp.server.fastmcp as fastmcp
 
 # Create an MCP server instance named ExpenseAuditMCPServer
 mcp = fastmcp.FastMCP("ExpenseAuditMCPServer")
 
 
-@mcp.tool()
-def get_corporate_limits() -> str:
-    """Get the current corporate spending limits policy for meals, travel, and software.
-
-    Returns:
-        A string summarizing the category limits.
-    """
+@lru_cache(maxsize=128)
+def _get_corporate_limits_cached() -> str:
     return (
         "Meals limit: Maximum $50.00 per transaction.\n"
         "Travel/Hotel limit: Maximum $300.00 per transaction.\n"
@@ -19,16 +16,8 @@ def get_corporate_limits() -> str:
     )
 
 
-@mcp.tool()
-def get_exchange_rate(base_currency: str) -> float:
-    """Get exchange rate to USD for a given currency code.
-
-    Args:
-        base_currency: 3-letter currency code (e.g. EUR, GBP, INR, CAD).
-
-    Returns:
-        The conversion rate to USD (multiplication factor). Returns 1.0 if currency is USD or unknown.
-    """
+@lru_cache(maxsize=128)
+def _get_exchange_rate_cached(base_currency: str) -> float:
     rates = {
         "EUR": 1.10,
         "GBP": 1.30,
@@ -41,16 +30,8 @@ def get_exchange_rate(base_currency: str) -> float:
     return rates.get(base_currency.upper(), 1.0)
 
 
-@mcp.tool()
-def check_vendor_restrictions(vendor_name: str) -> str:
-    """Check if a merchant or vendor is restricted under corporate expense policy.
-
-    Args:
-        vendor_name: The name of the vendor (merchant).
-
-    Returns:
-        A status message indicating if the vendor is flagged or OK.
-    """
+@lru_cache(maxsize=128)
+def _check_vendor_restrictions_cached(vendor_name: str) -> str:
     vendor_lower = vendor_name.lower()
     restricted_keywords = [
         "casino",
@@ -67,5 +48,51 @@ def check_vendor_restrictions(vendor_name: str) -> str:
     return f"OK: Vendor '{vendor_name}' is not flagged as restricted."
 
 
+@mcp.tool()
+async def get_corporate_limits() -> str:
+    """Get the current corporate spending limits policy for meals, travel, and software.
+
+    Returns:
+        A string summarizing the category limits.
+    """
+    try:
+        return await asyncio.wait_for(asyncio.to_thread(_get_corporate_limits_cached), timeout=2.0)
+    except asyncio.TimeoutError:
+        return "ERROR: Corporate limits lookup timed out."
+
+
+@mcp.tool()
+async def get_exchange_rate(base_currency: str) -> float:
+    """Get exchange rate to USD for a given currency code.
+
+    Args:
+        base_currency: 3-letter currency code (e.g. EUR, GBP, INR, CAD).
+
+    Returns:
+        The conversion rate to USD (multiplication factor). Returns 1.0 if currency is USD or unknown.
+    """
+    try:
+        return await asyncio.wait_for(asyncio.to_thread(_get_exchange_rate_cached, base_currency), timeout=2.0)
+    except asyncio.TimeoutError:
+        return 1.0
+
+
+@mcp.tool()
+async def check_vendor_restrictions(vendor_name: str) -> str:
+    """Check if a merchant or vendor is restricted under corporate expense policy.
+
+    Args:
+        vendor_name: The name of the vendor (merchant).
+
+    Returns:
+        A status message indicating if the vendor is flagged or OK.
+    """
+    try:
+        return await asyncio.wait_for(asyncio.to_thread(_check_vendor_restrictions_cached, vendor_name), timeout=2.0)
+    except asyncio.TimeoutError:
+        return f"TIMEOUT: Check for vendor '{vendor_name}' timed out. Defaulting to OK."
+
+
 if __name__ == "__main__":
     mcp.run()
+

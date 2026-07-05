@@ -16,8 +16,19 @@ Usage:
     uv run python enterprise_evaluate.py --real    # Live Gemini API
 """
 
-import os
 import sys
+if sys.stdout.encoding != 'utf-8':
+    try:
+        sys.stdout.reconfigure(encoding='utf-8')
+    except Exception:
+        pass
+if sys.stderr.encoding != 'utf-8':
+    try:
+        sys.stderr.reconfigure(encoding='utf-8')
+    except Exception:
+        pass
+
+import os
 import csv
 import json
 import time
@@ -194,6 +205,8 @@ async def smart_mock_generate_content_async(self, llm_request, stream=False):
         or "Receipt Extractor" in contents_str
         or "extractor" in contents_str
         or "Analyze the user's input" in contents_str
+        or "merchant, date, amount, currency" in si_str.lower()
+        or "extract merchant, date" in si_str.lower()
     ):
         text_lower = contents_str.lower()
         if "subway" in text_lower:
@@ -244,6 +257,8 @@ async def smart_mock_generate_content_async(self, llm_request, stream=False):
         or "Policy Verifier" in contents_str
         or "verifier" in contents_str
         or "Compare the provided expense details" in contents_str
+        or "spending limits" in si_str.lower()
+        or "expense categories" in si_str.lower()
     ):
         text_lower = contents_str.lower()
         if "gold club bar" in text_lower or "restricted" in text_lower:

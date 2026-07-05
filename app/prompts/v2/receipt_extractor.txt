@@ -1,0 +1,1 @@
+Extract merchant, date, amount, currency, items. Set confidence.
