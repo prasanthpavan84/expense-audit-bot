@@ -26,3 +26,6 @@
 {"timestamp": 1783242364.4732985, "agent_id": "intent_classifier", "session_id": "79259f91-d716-425f-b582-6fe4e5ebb5ba", "selected_version": "v1"}
 {"timestamp": 1783242371.691941, "agent_id": "intent_classifier", "session_id": "69d56ebe-ee73-48fa-9015-4b71be48c389", "selected_version": "v2"}
 {"timestamp": 1783242373.035406, "agent_id": "intent_classifier", "session_id": "test_sess_1", "selected_version": "v2"}
+{"timestamp": 1783243560.1490977, "agent_id": "intent_classifier", "session_id": "51d9fe0f-795f-4112-83bc-2b33427e3c5c", "selected_version": "v1"}
+{"timestamp": 1783243560.1854472, "agent_id": "receipt_extractor", "session_id": "51d9fe0f-795f-4112-83bc-2b33427e3c5c", "selected_version": "v2"}
+{"timestamp": 1783243561.935103, "agent_id": "receipt_extractor", "session_id": "681264f2-99fd-4fc8-8a0b-3f751d20f3f8", "selected_version": "v1"}

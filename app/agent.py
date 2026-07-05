@@ -239,8 +239,7 @@ class MockGemini(Gemini):
             yield response
         else:
             import asyncio
-            max_attempts = 5
-            backoff_sec = 6.0
+            max_attempts = 8
             for attempt in range(max_attempts):
                 try:
                     async for response in super().generate_content_async(
@@ -251,7 +250,9 @@ class MockGemini(Gemini):
                 except Exception as e:
                     err_msg = str(e)
                     is_rate_limit = "429" in err_msg or "RESOURCE_EXHAUSTED" in err_msg or "quota" in err_msg.lower()
-                    if is_rate_limit and attempt < 8:
+                    is_server_err = any(term in err_msg.lower() for term in ["500", "503", "service unavailable", "internal error", "deadline exceeded", "connection", "timeout", "temp", "transient"])
+                    
+                    if (is_rate_limit or is_server_err) and attempt < (max_attempts - 1):
                         delay = 15.0
                         delay_match = re.search(r"retry(?:ing)? in (\d+(?:\.\d+)?)s", err_msg, re.IGNORECASE)
                         if not delay_match:
@@ -262,8 +263,8 @@ class MockGemini(Gemini):
                             except Exception:
                                 pass
                         else:
-                            delay = 12.0 * (1.5 ** attempt)
-                        print(f"RATE LIMIT (429) DETECTED. Sleeping for {delay:.2f}s before retry {attempt+1}/8...")
+                            delay = 6.0 * (2.0 ** attempt)
+                        print(f"RETRYABLE ERROR ({'Rate Limit' if is_rate_limit else 'Server Error'}) DETECTED: {err_msg[:80]}. Sleeping for {delay:.2f}s before retry {attempt+1}/{max_attempts}...")
                         await asyncio.sleep(delay)
                     else:
                         raise e
@@ -810,19 +811,21 @@ async def intent_router(ctx: Context, node_input: str) -> Event:
         intent, confidence = _detect_intent(text)
         llm_intent = None
         # Hybrid classifier ensemble with LLM intent classifier agent
-        if os.getenv("MOCK_LLM", "true").lower() == "false" or True:
-            try:
-                parsed = await run_agent_helper(intent_classifier_agent, text, session_id=ctx.session.id)
-                llm_intent = str(parsed.get("intent", intent)).upper()
-                if llm_intent in ["POLICY", "CALCULATE", "EXTRACT", "QUERY", "AUDIT", "CONVERSATION"]:
-                    if llm_intent == "CONVERSATION" or intent == "CONVERSATION":
-                        intent = "CONVERSATION"
-                    else:
-                        if intent == "AUDIT" or confidence < 0.95:
-                            intent = llm_intent
-                            confidence = 0.98
-            except Exception as e:
-                print(f"DEBUG intent_router EXCEPTION: {e}")
+        # Bypass LLM if local rule is highly confident (confidence >= 0.95)
+        if confidence < 0.95:
+            if os.getenv("MOCK_LLM", "true").lower() == "false" or True:
+                try:
+                    parsed = await run_agent_helper(intent_classifier_agent, text, session_id=ctx.session.id)
+                    llm_intent = str(parsed.get("intent", intent)).upper()
+                    if llm_intent in ["POLICY", "CALCULATE", "EXTRACT", "QUERY", "AUDIT", "CONVERSATION"]:
+                        if llm_intent == "CONVERSATION" or intent == "CONVERSATION":
+                            intent = "CONVERSATION"
+                        else:
+                            if intent == "AUDIT" or confidence < 0.95:
+                                intent = llm_intent
+                                confidence = 0.98
+                except Exception as e:
+                    print(f"DEBUG intent_router EXCEPTION: {e}")
         print(f"DEBUG intent_router: text={repr(text)}, _detect_intent={repr(intent)}, llm_intent={repr(llm_intent)}, final={repr(intent)}")
         intents = [intent]
 
@@ -841,30 +844,35 @@ def _detect_intent(text: str) -> tuple[str, float]:
     # 0. Check for CONVERSATION
     conv_kws = [r"\bhello\b", r"\bhi\b", r"\bhey\b", r"\bgood morning\b", r"\bgood afternoon\b", r"\bgood evening\b", r"\bhowdy\b", r"\bgreetings\b", r"\bbye\b", r"\bgoodbye\b", r"\bthanks\b", r"\bthank you\b"]
     if any(re.search(pat, text_lower) for pat in conv_kws):
-        return "CONVERSATION", 0.9
+        return "CONVERSATION", 1.0
         
     # 1. Check for POLICY questions
     policy_kws = [r"\bpolicy", r"\bpolicies", r"\blimit", r"\brule", r"\bwhat is the\b", r"\bhow much\b", r"\ballowed\b"]
     if any(re.search(pat, text_lower) for pat in policy_kws):
-        return "POLICY", 0.9
+        return "POLICY", 1.0
         
     # 2. Check for QUERY (history, compare, trends, search)
     query_kws = [r"\bcompare", r"\btrend", r"\bquery", r"\bsearch", r"\bhistory", r"\bshow spending\b", r"\bdepartment", r"\bsummarize"]
     if any(re.search(pat, text_lower) for pat in query_kws):
-        return "QUERY", 0.9
+        return "QUERY", 1.0
         
     # 3. Check for CALCULATE (sum, math, add, calculate)
     calc_kws = [r"\bcalculate", r"\bmath", r"\bsum of\b", r"\badd\b", r"\btotal sum\b"]
     if any(re.search(pat, text_lower) for pat in calc_kws):
-        return "CALCULATE", 0.9
+        return "CALCULATE", 1.0
         
     # 4. Check for EXTRACT (extract text, parse receipt text)
     extract_kws = [r"\bextract", r"\bocr\b", r"\bparse receipt", r"\bread receipt"]
     if any(re.search(pat, text_lower) for pat in extract_kws):
-        return "EXTRACT", 0.9
+        return "EXTRACT", 1.0
+        
+    # 4b. Check for explicit AUDIT triggers
+    audit_kws = [r"\baudit\b", r"\bexpense\b", r"\breceipt\b", r"\bclaim\b", r"\binvoice\b"]
+    if any(re.search(pat, text_lower) for pat in audit_kws):
+        return "AUDIT", 1.0
         
     # 5. Default is AUDIT
-    return "AUDIT", 0.9
+    return "AUDIT", 0.8
 
 
 async def query_handler(ctx: Context, node_input: str) -> Event:
