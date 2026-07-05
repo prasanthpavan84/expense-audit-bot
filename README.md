@@ -122,4 +122,4 @@ graph TD
 
 ## Demo Script
 
-The timed, spoken presentation script can be found here: [DEMO_SCRIPT.txt](DEMO_SCRIPT.txt).
+The timed, spoken presentation script can be found here: [DEMO_SCRIPT.txt](file:///c:/New folder/akd-workspace/expense-audit-bot/DEMO_SCRIPT.txt).

@@ -124,13 +124,63 @@ class KnowledgeRetrievalService(BaseService):
             except Exception:
                 pass
 
-        # Fallback: Keyword intersection matching
-        query_words = set(re.sub(r"[^\w\s]", "", query.lower()).split())
+        # Fallback: TF-IDF Vector Space Model with Synonym-Expansion
+        synonyms = {
+            "meals": ["food", "pizza", "dinner", "lunch", "starbucks", "eat", "eating", "coffee", "restaurant", "cafe", "meal"],
+            "hotel": ["motel", "stay", "accommodation", "lodging", "inn", "room", "night", "hotel"],
+            "taxi": ["cab", "ride", "uber", "lyft", "transport", "taxi"],
+            "flight": ["plane", "airfare", "travel", "trip", "airline", "flight"],
+            "software": ["license", "saas", "subscription", "it", "tool", "software"],
+            "casino": ["gambling", "club", "bar", "liquor", "pub", "lounge", "restricted"],
+            "intern": ["role", "multiplier", "factor", "employee", "intern", "associate", "manager", "executive"]
+        }
+
+        def tokenize(text: str) -> List[str]:
+            words = re.sub(r"[^\w\s]", "", text.lower()).split()
+            expanded_words = []
+            for w in words:
+                expanded_words.append(w)
+                for key, syns in synonyms.items():
+                    if w == key or w in syns:
+                        expanded_words.append(key)
+            return expanded_words
+
+        # Compute TF-IDF for all chunks
+        docs = [tokenize(c) for c in self.chunks]
+        num_docs = len(docs)
+        
+        vocab = set(w for d in docs for w in d)
+        
+        # IDF
+        idf = {}
+        for word in vocab:
+            doc_count = sum(1 for d in docs if word in d)
+            idf[word] = math.log((1 + num_docs) / (1 + doc_count)) + 1
+            
+        # Doc vectors
+        doc_vectors = []
+        for d in docs:
+            vec = {}
+            for word in vocab:
+                tf = d.count(word) / (len(d) if len(d) > 0 else 1)
+                vec[word] = tf * idf[word]
+            doc_vectors.append(vec)
+            
+        # Query vector
+        q_words = tokenize(query)
+        q_vec = {}
+        for word in vocab:
+            q_tf = q_words.count(word) / (len(q_words) if len(q_words) > 0 else 1)
+            q_vec[word] = q_tf * idf[word]
+            
+        # Cosine similarity
         scored_chunks = []
-        for chunk in self.chunks:
-            chunk_words = set(re.sub(r"[^\w\s]", "", chunk.lower()).split())
-            intersection = query_words.intersection(chunk_words)
-            scored_chunks.append((len(intersection), chunk))
+        for idx, doc_vec in enumerate(doc_vectors):
+            dot = sum(q_vec[w] * doc_vec[w] for w in vocab)
+            mag_q = math.sqrt(sum(q_vec[w] ** 2 for w in vocab))
+            mag_d = math.sqrt(sum(doc_vec[w] ** 2 for w in vocab))
+            sim = dot / (mag_q * mag_d) if mag_q > 0 and mag_d > 0 else 0.0
+            scored_chunks.append((sim, self.chunks[idx]))
             
         scored_chunks.sort(key=lambda x: x[0], reverse=True)
-        return [chunk for score, chunk in scored_chunks[:top_k]]
+        return [chunk for sim, chunk in scored_chunks[:top_k]]

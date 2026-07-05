@@ -563,6 +563,22 @@ def check_human_review_trigger(details: dict, total_claimed: float, currency: st
     if details.get("ocr_confidence_score", 1.0) < 0.7:
         return f"Low OCR Confidence Score ({details.get('ocr_confidence_score'):.2f})"
         
+    # 5. Low Calibrated Confidence triggers review (< 0.65)
+    from app.utils.finance import calculate_calibrated_confidence
+    ocr_conf = details.get("ocr_confidence_score", 1.0)
+    intent_conf = details.get("intent_confidence", 0.9)
+    field_confs = []
+    for f in ["merchant_provenance", "date_provenance", "amount_provenance", "currency_provenance"]:
+        prov = details.get(f)
+        if prov:
+            if hasattr(prov, "confidence"):
+                field_confs.append(prov.confidence)
+            elif isinstance(prov, dict):
+                field_confs.append(prov.get("confidence", 1.0))
+    calibrated_conf = calculate_calibrated_confidence(intent_conf, ocr_conf, field_confs)
+    if calibrated_conf < 0.65:
+        return f"Low Calibrated Confidence ({calibrated_conf:.2f}) [Limit < 0.65]"
+
     return None
 
 
@@ -784,6 +800,21 @@ async def intent_router(ctx: Context, node_input: str) -> Event:
             confidence = max(confidence, part_conf)
     else:
         intent, confidence = _detect_intent(text)
+        
+        # Hybrid classifier ensemble with LLM intent classifier agent
+        if os.getenv("MOCK_LLM", "true").lower() == "false" or True:
+            try:
+                parsed = await run_agent_helper(intent_classifier, text)
+                llm_intent = str(parsed.get("intent", intent)).upper()
+                if llm_intent in ["POLICY", "CALCULATE", "EXTRACT", "QUERY", "AUDIT", "CONVERSATION"]:
+                    if llm_intent == "CONVERSATION" or intent == "CONVERSATION":
+                        intent = "CONVERSATION"
+                    else:
+                        if intent == "AUDIT" or confidence < 0.95:
+                            intent = llm_intent
+                            confidence = 0.98
+            except Exception:
+                pass
         intents = [intent]
 
     # Store routing info in state for later evaluation
@@ -804,22 +835,22 @@ def _detect_intent(text: str) -> tuple[str, float]:
         return "CONVERSATION", 0.9
         
     # 1. Check for POLICY questions
-    policy_kws = [r"\bpolicy\b", r"\blimit\b", r"\brules\b", r"\bwhat is the\b", r"\bhow much\b", r"\ballowed\b"]
+    policy_kws = [r"\bpolicy", r"\bpolicies", r"\blimit", r"\brule", r"\bwhat is the\b", r"\bhow much\b", r"\ballowed\b"]
     if any(re.search(pat, text_lower) for pat in policy_kws):
         return "POLICY", 0.9
         
     # 2. Check for QUERY (history, compare, trends, search)
-    query_kws = [r"\bcompare\b", r"\btrends\b", r"\bquery\b", r"\bsearch\b", r"\bhistory\b", r"\bshow spending\b", r"\bdepartments\b", r"\bsummarize\b"]
+    query_kws = [r"\bcompare", r"\btrend", r"\bquery", r"\bsearch", r"\bhistory", r"\bshow spending\b", r"\bdepartment", r"\bsummarize"]
     if any(re.search(pat, text_lower) for pat in query_kws):
         return "QUERY", 0.9
         
     # 3. Check for CALCULATE (sum, math, add, calculate)
-    calc_kws = [r"\bcalculate\b", r"\bmath\b", r"\bsum of\b", r"\badd\b", r"\btotal sum\b"]
+    calc_kws = [r"\bcalculate", r"\bmath", r"\bsum of\b", r"\badd\b", r"\btotal sum\b"]
     if any(re.search(pat, text_lower) for pat in calc_kws):
         return "CALCULATE", 0.9
         
     # 4. Check for EXTRACT (extract text, parse receipt text)
-    extract_kws = [r"\bextract\b", r"\bocr\b", r"\bparse receipt\b", r"\bread receipt\b"]
+    extract_kws = [r"\bextract", r"\bocr\b", r"\bparse receipt", r"\bread receipt"]
     if any(re.search(pat, text_lower) for pat in extract_kws):
         return "EXTRACT", 0.9
         
@@ -1544,12 +1575,98 @@ def finalize_expense(ctx: Context, node_input: str):
         )
         yield Event(output=updated_response)
     else:
+        # Run DPL (Deterministic Decision Policy Layer) validator & Schema Healing
+        max_fraud = max(e.get("fraud_score", 0.0) for e in audited_expenses) if audited_expenses else 0.0
+        
+        dpl_escalated = False
+        dpl_rejected = False
+        dpl_reasons = []
+        
+        if max_fraud > 80.0:
+            dpl_escalated = True
+            dpl_reasons.append(f"Fraud score ({max_fraud:.0f}) exceeds threshold (> 80.0)")
+
+        # 2. Check missing receipt for AUDIT intent
+        flow_intent = ctx.state.get("flow_intent", "AUDIT")
+        if flow_intent == "AUDIT" and not audited_expenses:
+            dpl_rejected = True
+            dpl_reasons.append("Missing or unparseable receipt details")
+
+        # 3. Check Policy compliance
+        for exp in audited_expenses:
+            if exp.get("status") == "Rejected":
+                dpl_rejected = True
+                dpl_reasons.append(f"Policy violated: {', '.join(exp.get('violations', []))}")
+
+        # 4. Check Calibrated Confidence < 0.65 -> HITL
+        ocr_conf = ctx.state.get("ocr_confidence_score", 1.0)
+        intent_conf = ctx.state.get("intent_confidence", 0.9)
+        field_confs = []
+        for e in audited_expenses:
+            for f in ["merchant_provenance", "date_provenance", "amount_provenance", "currency_provenance"]:
+                prov = e.get(f)
+                if prov:
+                    if hasattr(prov, "confidence"):
+                        field_confs.append(prov.confidence)
+                    elif isinstance(prov, dict):
+                        field_confs.append(prov.get("confidence", 1.0))
+        from app.utils.finance import calculate_calibrated_confidence
+        calibrated_conf = calculate_calibrated_confidence(intent_conf, ocr_conf, field_confs)
+        if calibrated_conf < 0.65:
+            dpl_escalated = True
+            dpl_reasons.append(f"Calibrated confidence {calibrated_conf:.2f} is below 0.65")
+            
+        decision = ctx.state.get("orchestrator_decision", "Approved")
+        reasoning = "The expense is fully compliant."
+        
+        if dpl_rejected:
+            decision = "Denied"
+            reasoning = f"Deterministic Policy Override: Rejected due to: {'; '.join(dpl_reasons)}."
+        elif dpl_escalated:
+            decision = "Needs Human Review"
+            reasoning = f"Deterministic Policy Override: Escalated to Human Review due to: {'; '.join(dpl_reasons)}."
+            
+        # Format-healing schema check
+        output_str = node_input
+        if "### Final Decision" not in output_str or "```json" not in output_str:
+            currency = "USD"
+            if audited_expenses:
+                currency = audited_expenses[0].get("currency", "USD")
+            
+            report_data = {
+                "expenses": audited_expenses,
+                "total_claimed": sum(e.get("amount", 0.0) for e in audited_expenses),
+                "total_reimbursable": sum(e.get("reimbursable", 0.0) for e in audited_expenses),
+                "total_rejected": sum(e.get("rejected", 0.0) for e in audited_expenses),
+                "compliance_score": (sum(1 for e in audited_expenses if e["status"] in ["Approved", "Approved with Exception"]) / len(audited_expenses) * 100.0) if audited_expenses else 100.0,
+                "currency": currency,
+                "decision": decision,
+                "reasoning": reasoning
+            }
+            output_str = generate_markdown_report(report_data)
+        else:
+            # Override decision and reasoning inside existing output text
+            output_str = re.sub(
+                r"### Final Decision\n\*\*[^\*]+\*\*",
+                f"### Final Decision\n**{decision}**",
+                output_str
+            )
+            output_str = re.sub(
+                r"### Clear Reasoning\n.*",
+                f"### Clear Reasoning\n{reasoning}",
+                output_str,
+                flags=re.DOTALL
+            )
+            
+        ctx.state["orchestrator_decision"] = decision
+        ctx.state["formatted_response"] = output_str
+
         yield Event(
             content=types.Content(
-                role="model", parts=[types.Part.from_text(text=node_input)]
+                role="model", parts=[types.Part.from_text(text=output_str)]
             )
         )
-        yield Event(output=node_input)
+        yield Event(output=output_str)
 
 
 # -----------------------------------------------------------------------------
