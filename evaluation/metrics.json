@@ -1,0 +1,15 @@
+{
+  "ocr_accuracy": 1.0,
+  "policy_accuracy": 1.0,
+  "security_accuracy": 1.0,
+  "overall_accuracy": 1.0,
+  "baseline_accuracy": 0.9090909090909091,
+  "avg_latency_sec": 1.256,
+  "p95_latency_sec": 1.796,
+  "peak_memory_mb": 134.4,
+  "success_rate": 1.0,
+  "failure_rate": 0.0,
+  "total_cases": 66,
+  "passed_cases": 66,
+  "failed_cases": 0
+}
