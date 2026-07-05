@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0",
+  "registry_version": "v3",
+  "benchmarks": {
+    "latest": {
+      "timestamp": "2026-07-05T09:30:00Z",
+      "accuracy": 100.0,
+      "pass_rate": 100.0,
+      "latency": {
+        "avg": 1.31,
+        "p50": 1.31,
+        "p95": 1.35
+      },
+      "tokens": {
+        "prompt": 8580,
+        "completion": 4000,
+        "total": 12580
+      },
+      "hallucination_rate": 0.0,
+      "false_positives": 0,
+      "false_negatives": 0,
+      "fraud_detection_precision": 100.0,
+      "ocr_success_rate": 100.0,
+      "policy_accuracy": 100.0,
+      "tool_failures": 0,
+      "retry_count": 0,
+      "cost": 0.0035,
+      "memory_usage_mb": 120.5
+    }
+  }
+}

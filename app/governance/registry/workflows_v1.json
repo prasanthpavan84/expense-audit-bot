@@ -1,0 +1,40 @@
+{
+  "schema_version": "1.0",
+  "registry_version": "v1",
+  "workflows": {
+    "expense_audit": {
+      "active_version": "v1",
+      "versions": {
+        "v1": {
+          "nodes": {
+            "receipt_extractor": {
+              "timeout": 15.0,
+              "retries": 3,
+              "parallel": false
+            },
+            "fraud_detector": {
+              "timeout": 5.0,
+              "retries": 1,
+              "parallel": true
+            },
+            "policy_verifier": {
+              "timeout": 5.0,
+              "retries": 1,
+              "parallel": true
+            },
+            "report_generator": {
+              "timeout": 10.0,
+              "retries": 2,
+              "parallel": false
+            }
+          },
+          "execution_order": [
+            "receipt_extractor",
+            ["fraud_detector", "policy_verifier"],
+            "report_generator"
+          ]
+        }
+      }
+    }
+  }
+}

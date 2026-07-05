@@ -1,0 +1,46 @@
+{
+  "schema_version": "1.0",
+  "registry_version": "v1",
+  "models": {
+    "gemini-2.0-flash": {
+      "display_name": "Gemini 2.0 Flash",
+      "context_limit": 1048576,
+      "pricing": {
+        "input_per_1m": 0.075,
+        "output_per_1m": 0.30
+      },
+      "capabilities": {
+        "structured_output": true,
+        "json_mode": true,
+        "tool_calling": true,
+        "streaming": true,
+        "vision": true,
+        "long_context": true,
+        "thinking": false,
+        "reasoning": false,
+        "function_calling": true
+      },
+      "fallback": "gemini-1.5-flash"
+    },
+    "gemini-1.5-flash": {
+      "display_name": "Gemini 1.5 Flash",
+      "context_limit": 1048576,
+      "pricing": {
+        "input_per_1m": 0.075,
+        "output_per_1m": 0.30
+      },
+      "capabilities": {
+        "structured_output": true,
+        "json_mode": true,
+        "tool_calling": true,
+        "streaming": true,
+        "vision": true,
+        "long_context": true,
+        "thinking": false,
+        "reasoning": false,
+        "function_calling": true
+      },
+      "fallback": null
+    }
+  }
+}

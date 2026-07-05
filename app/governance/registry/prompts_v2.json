@@ -1,0 +1,50 @@
+{
+  "schema_version": "1.0",
+  "registry_version": "v2",
+  "prompts": {
+    "receipt_extractor": {
+      "active_version": "v2",
+      "versions": {
+        "v2": {
+          "token_budget": 6000,
+          "compatible_models": ["gemini-2.0-flash", "gemini-1.5-flash"],
+          "requires_structured_output": true,
+          "required_tools": ["mcp_toolset_extractor"]
+        }
+      }
+    },
+    "intent_classifier": {
+      "active_version": "v2",
+      "versions": {
+        "v2": {
+          "token_budget": 1000,
+          "compatible_models": ["gemini-2.0-flash", "gemini-1.5-flash"],
+          "requires_structured_output": true,
+          "required_tools": []
+        }
+      }
+    },
+    "policy_verifier": {
+      "active_version": "v2",
+      "versions": {
+        "v2": {
+          "token_budget": 3000,
+          "compatible_models": ["gemini-2.0-flash", "gemini-1.5-flash"],
+          "requires_structured_output": true,
+          "required_tools": []
+        }
+      }
+    },
+    "query_parser": {
+      "active_version": "v2",
+      "versions": {
+        "v2": {
+          "token_budget": 2000,
+          "compatible_models": ["gemini-2.0-flash", "gemini-1.5-flash"],
+          "requires_structured_output": true,
+          "required_tools": []
+        }
+      }
+    }
+  }
+}

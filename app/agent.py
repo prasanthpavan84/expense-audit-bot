@@ -28,6 +28,9 @@ from app.fraud_detector import calculate_fraud_score
 from app.query_engine import execute_query, add_expense_to_db, load_database
 from app.report_generator import generate_markdown_report, generate_csv_report, generate_json_report
 
+# Import governance package to trigger registry loading and validation on startup
+import app.governance
+
 
 class MockGemini(Gemini):
     async def generate_content_async(
@@ -1702,6 +1705,19 @@ async def conversation_handler(ctx: Context, node_input: str) -> Event:
     return Event(output=reply)
 
 
+async def registry_orchestrator_node(ctx: Context, node_input: str) -> Event:
+    """Placeholder orchestrator node for Phase 11."""
+    raise NotImplementedError("Registry workflow engine planned for Phase 11")
+
+
+# -----------------------------------------------------------------------------
+# Orchestrator Bootstrapper Factory
+# -----------------------------------------------------------------------------
+active_orchestrator = audit_orchestrator_node
+if os.getenv("ENABLE_WORKFLOW_REGISTRY", "false").lower() == "true":
+    active_orchestrator = registry_orchestrator_node
+
+
 # -----------------------------------------------------------------------------
 # Workflow Graph
 # -----------------------------------------------------------------------------
@@ -1721,7 +1737,7 @@ root_agent = Workflow(
                 "EXTRACT": extract_handler,
                 "QUERY": query_handler,
                 "CONVERSATION": conversation_handler,
-                "__DEFAULT__": audit_orchestrator_node,
+                "__DEFAULT__": active_orchestrator,
             },
         ),
         (policy_handler, finalize_expense),
@@ -1729,7 +1745,7 @@ root_agent = Workflow(
         (extract_handler, finalize_expense),
         (query_handler, finalize_expense),
         (conversation_handler, finalize_expense),
-        (audit_orchestrator_node, route_decision),
+        (active_orchestrator, route_decision),
         (
             route_decision,
             {"needs_review": human_review, "__DEFAULT__": finalize_expense},

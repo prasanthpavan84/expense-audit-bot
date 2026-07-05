@@ -1,0 +1,27 @@
+{
+  "schema_version": "1.0",
+  "registry_version": "v1",
+  "environments": {
+    "development": {
+      "project_id": "gen-lang-client-0010601537",
+      "region": "us-east1",
+      "model_version": "v1",
+      "prompt_version": "v2",
+      "git_commit": "uncommitted",
+      "build_number": "1.0.0-dev",
+      "deployment_date": "2026-07-05",
+      "cpu": "1",
+      "memory": "4Gi",
+      "min_instances": 1,
+      "max_instances": 10,
+      "concurrency": 8,
+      "workers": 1,
+      "secrets_required": ["GEMINI_API_KEY"],
+      "environment_variables": {
+        "MOCK_LLM": "True",
+        "DATABASE_PATH": "app/database.json"
+      },
+      "rollback_target": null
+    }
+  }
+}

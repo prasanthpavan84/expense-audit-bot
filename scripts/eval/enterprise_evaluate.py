@@ -648,6 +648,7 @@ class EnterpriseEvaluator:
 
         # Result stores
         self.all_results: List[Dict[str, Any]] = []
+        self.detailed_results: List[Dict[str, Any]] = []
         self.failed_cases: List[Dict[str, Any]] = []
         self.category_stats: Dict[str, Dict[str, Any]] = {}  # cat -> {tp,fp,tn,fn,latencies,...}
         self.latencies: List[float] = []
@@ -787,6 +788,18 @@ class EnterpriseEvaluator:
                     "errors": "; ".join(result["errors"]) if result["errors"] else "",
                 }
                 self.all_results.append(record)
+                
+                detailed_record = {
+                    "case_id": case_id,
+                    "dataset": csv_name,
+                    "category": category,
+                    "input": prompt,
+                    "output": result["output"],
+                    "state": result["state"],
+                    "passed": passed,
+                    "reason": reason
+                }
+                self.detailed_results.append(detailed_record)
 
                 if not passed:
                     severity = SEVERITY_MAP.get(category, "Medium")
@@ -984,6 +997,7 @@ class EnterpriseEvaluator:
         os.makedirs(REPORT_DIR, exist_ok=True)
 
         self._write_performance_metrics_json(metrics)
+        self._write_detailed_results_json()
         self._write_overall_metrics_csv(metrics)
         self._write_category_scores_csv(metrics)
         self._write_failed_test_cases_csv()
@@ -998,6 +1012,11 @@ class EnterpriseEvaluator:
         path = os.path.join(REPORT_DIR, "performance_metrics.json")
         with open(path, "w", encoding="utf-8") as f:
             json.dump(metrics, f, indent=2, default=str)
+
+    def _write_detailed_results_json(self):
+        path = os.path.join(REPORT_DIR, "detailed_results.json")
+        with open(path, "w", encoding="utf-8") as f:
+            json.dump(self.detailed_results, f, indent=2, default=str)
 
     # -- 2. overall_metrics.csv --
     def _write_overall_metrics_csv(self, metrics):
