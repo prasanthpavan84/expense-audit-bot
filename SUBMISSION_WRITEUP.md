@@ -29,11 +29,11 @@ graph TD
 
 ## Concepts Used
 
-1. **ADK Workflow**: Coordinates the step-by-step pipeline from receipt scanning to final report. Located in [app/agent.py:L298-L310](file:///c:/Users/prasa/OneDrive/Desktop/New%20folder/akd-workspace/expense-audit-bot/app/agent.py#L298-L310).
-2. **LlmAgent**: Model-driven agents configured for specialized extraction and auditing tasks. Located in [app/agent.py:L43-L106](file:///c:/Users/prasa/OneDrive/Desktop/New%20folder/akd-workspace/expense-audit-bot/app/agent.py#L43-L106).
-3. **AgentTool**: Connects the `audit_orchestrator` to its specialized sub-agents so they can be run dynamically as tools. Located in [app/agent.py:L116-L129](file:///c:/Users/prasa/OneDrive/Desktop/New%20folder/akd-workspace/expense-audit-bot/app/agent.py#L116-L129).
-4. **MCP Server**: FastMCP server exposing tools for category limit policies, exchange rates, and restricted merchants. Located in [app/mcp_server.py:L1-L47](file:///c:/Users/prasa/OneDrive/Desktop/New%20folder/akd-workspace/expense-audit-bot/app/mcp_server.py#L1-L47).
-5. **Security Checkpoint**: Intercepts prompt injections, scrubs sensitive PII, and logs JSON audit events. Located in [app/agent.py:L130-L245](file:///c:/Users/prasa/OneDrive/Desktop/New%20folder/akd-workspace/expense-audit-bot/app/agent.py#L130-L245).
+1. **ADK Workflow**: Coordinates the step-by-step pipeline from receipt scanning to final report. Located in [app/agent.py:L1687-L1720](file:///c:/New folder/akd-workspace/expense-audit-bot/app/agent.py#L1687-L1720).
+2. **LlmAgent**: Model-driven agents configured for specialized extraction and auditing tasks. Located in [app/agent.py:L367-L435](file:///c:/New folder/akd-workspace/expense-audit-bot/app/agent.py#L367-L435).
+3. **AgentTool**: Connects the `audit_orchestrator` to its specialized sub-agents so they can be run dynamically as tools. Located in [app/agent.py:L413](file:///c:/New folder/akd-workspace/expense-audit-bot/app/agent.py#L413).
+4. **MCP Server**: FastMCP server exposing tools for category limit policies, exchange rates, and restricted merchants. Located in [app/mcp_server.py:L7-L68](file:///c:/New folder/akd-workspace/expense-audit-bot/app/mcp_server.py#L7-L68).
+5. **Security Checkpoint**: Intercepts prompt injections, scrubs sensitive PII, and logs JSON audit events. Located in [app/agent.py:L587-L700](file:///c:/New folder/akd-workspace/expense-audit-bot/app/agent.py#L587-L700).
 6. **Agents CLI**: Project creation, environments configuration, and playground orchestration.
 
 ## Security Design
