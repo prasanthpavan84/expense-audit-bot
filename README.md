@@ -14,6 +14,9 @@ An end-to-end secure corporate expense report auditing system built with Google 
 * **Benchmark Report**: [Detailed Performance Report](performance_report.md)
 * **Rule Engine Comparison**: [Comparative Model Parity](benchmark_comparison.md)
 
+> [!NOTE]
+> **Deterministic Evaluation Notice**: The benchmark scores and performance metrics documented in this repository are gathered using a deterministic offline evaluation framework (mock interception mode). They validate state-machine routing, regex security checks, and data serialization pathways under controlled inputs. They do not represent live LLM production performance under stochastic, real-world, or unconstrained model API drift.
+
 ## Prerequisites
 
 - Python 3.11 or higher
@@ -145,4 +148,4 @@ graph TD
 
 ## Demo Script
 
-The timed, spoken presentation script can be found here: [DEMO_SCRIPT.txt](file:///c:/New folder/akd-workspace/expense-audit-bot/DEMO_SCRIPT.txt).
+The timed, spoken presentation script can be found here: [DEMO_SCRIPT.txt](DEMO_SCRIPT.txt).

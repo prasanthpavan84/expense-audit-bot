@@ -29,13 +29,13 @@ graph TD
 
 ## Concepts Used
 
-1. **ADK Workflow**: Coordinates the step-by-step pipeline from receipt scanning to final report. Located in [app/agent.py:L1687-L1720](file:///c:/New folder/akd-workspace/expense-audit-bot/app/agent.py#L1687-L1720).
-2. **LlmAgent**: Model-driven agents configured for specialized extraction and auditing tasks. Located in [app/agent.py:L367-L435](file:///c:/New folder/akd-workspace/expense-audit-bot/app/agent.py#L367-L435).
-3. **AgentTool**: Connects the `audit_orchestrator` to its specialized sub-agents so they can be run dynamically as tools. Located in [app/agent.py:L413](file:///c:/New folder/akd-workspace/expense-audit-bot/app/agent.py#L413).
-4. **MCP Server**: FastMCP server exposing tools for category limit policies, exchange rates, and restricted merchants. Located in [app/mcp_server.py:L7-L68](file:///c:/New folder/akd-workspace/expense-audit-bot/app/mcp_server.py#L7-L68).
-5. **Security Checkpoint**: Intercepts prompt injections, scrubs sensitive PII, and logs JSON audit events. Located in [app/agent.py:L587-L700](file:///c:/New folder/akd-workspace/expense-audit-bot/app/agent.py#L587-L700).
+1. **ADK Workflow**: Coordinates the step-by-step pipeline from receipt scanning to final report. Located in [app/agent.py:L1687-L1720](app/agent.py#L1687-L1720).
+2. **LlmAgent**: Model-driven agents configured for specialized extraction and auditing tasks. Located in [app/agent.py:L367-L435](app/agent.py#L367-L435).
+3. **AgentTool**: Connects the `audit_orchestrator` to its specialized sub-agents so they can be run dynamically as tools. Located in [app/agent.py:L413](app/agent.py#L413).
+4. **MCP Server**: FastMCP server exposing tools for category limit policies, exchange rates, and restricted merchants. Located in [app/mcp_server.py:L7-L68](app/mcp_server.py#L7-L68).
+5. **Security Checkpoint**: Intercepts prompt injections, scrubs sensitive PII, and logs JSON audit events. Located in [app/agent.py:L587-L700](app/agent.py#L587-L700).
 6. **Agents CLI**: Project creation, environments configuration, and playground orchestration.
-7. **Prompt A/B Testing**: Deterministic split allocation and dynamic prompt versioning loader. Located in [app/core/prompt_ab_registry.py](file:///c:/New%20folder/akd-workspace/expense-audit-bot/app/core/prompt_ab_registry.py) and [app/utils/prompt_loader.py](file:///c:/New%20folder/akd-workspace/expense-audit-bot/app/utils/prompt_loader.py).
+7. **Prompt A/B Testing**: Deterministic split allocation and dynamic prompt versioning loader. Located in [app/core/prompt_ab_registry.py](app/core/prompt_ab_registry.py) and [app/utils/prompt_loader.py](app/utils/prompt_loader.py).
 
 ## Prompt A/B Testing & Cost Optimization Design
 
@@ -73,6 +73,18 @@ The project includes three distinct test cases covering all graph paths:
 2. **Scenario B (Needs Review/HITL)**: $280 hotel charge. The agent flags it as compliant but because it's $\ge \$200$, it initiates the human approval pause.
 3. **Scenario C (Auto-Denied)**: $90 drinks at Gold Club Bar. The check flags "Bar" as a restricted vendor, auto-rejecting the claim.
 
+## Engineering Decisions & Operational Reliability Improvements
+
+To ensure enterprise-grade stability and reliability in continuous integration (CI) environments, we implemented critical operational enhancements:
+- **Startup Observability (Phase 1)**: Integrated real-time stdout/stderr log capture on the integration test server subprocess. If startup fails, a detailed diagnostic report (including subprocess exit codes, full stderr tracebacks, command strings, and current working directory) is printed to the test logs rather than failing with a generic timeout.
+- **CI Environment Compatibility (Phase 2)**: Isolated integration tests from Google Cloud authentication dependencies. By setting `GOOGLE_CLOUD_AGENT_ENGINE_ENABLE_TELEMETRY = "false"` in GHA CI and integration test environments, we bypassed Google Cloud SDK default credential requirements, ensuring deterministic test execution without modifying runtime production logic.
+- **Robust Process Polling (Phase 3)**: Replaced fixed wait times and passive timeouts with active process status checking (`process.poll()`). This allows the test suite to fail immediately and report tracebacks upon a server crash, saving valuable runner minutes.
+- **Configurable Startup Timeout**: Extracted the hardcoded timeout into a configurable environment variable `STARTUP_TIMEOUT` (defaulting to 90 seconds) to adapt test runs to slower or busier CI runner instances.
+- **Security-First Env Redaction**: Implemented automatic pattern-matching redaction for diagnostic logs, masking credentials and secrets (like keys, tokens, and passwords) before dumping the environment variables.
+- **CI Log Artifact Uploads**: Structured the test suite to output `stdout.log` and `stderr.log` files on startup failure, integrated with a GitHub Actions step to preserve and upload these logs as workflow artifacts.
+
+
 ## Impact / Value Statement
 
 `ExpenseAuditBot` increases audit throughput by over 90% while enforcing 100% compliance. Finance departments benefit from reduced processing overhead and automated double-checks, while employees receive near-instant reimbursement feedback for compliant business costs.
+

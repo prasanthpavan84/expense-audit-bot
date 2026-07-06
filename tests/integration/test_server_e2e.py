@@ -49,9 +49,14 @@ FEEDBACK_URL = BASE_URL + "/feedback"
 HEADERS = {"Content-Type": "application/json"}
 
 
-def log_output(pipe: Any, log_func: Any) -> None:
-    """Log the output from the given pipe."""
+stdout_lines = []
+stderr_lines = []
+
+
+def log_output(pipe: Any, log_func: Any, lines_accumulator: list[str]) -> None:
+    """Log the output from the given pipe and accumulate it."""
     for line in iter(pipe.readline, ""):
+        lines_accumulator.append(line)
         log_func(line.strip())
 
 
@@ -69,6 +74,12 @@ def start_server() -> subprocess.Popen[str]:
     ]
     env = os.environ.copy()
     env["INTEGRATION_TEST"] = "TRUE"
+    # Phase 2: Disable telemetry in CI/tests to prevent credential dependency
+    env["GOOGLE_CLOUD_AGENT_ENGINE_ENABLE_TELEMETRY"] = "false"
+    
+    stdout_lines.clear()
+    stderr_lines.clear()
+    
     process = subprocess.Popen(
         command,
         stdout=subprocess.PIPE,
@@ -80,21 +91,27 @@ def start_server() -> subprocess.Popen[str]:
 
     # Start threads to log stdout and stderr in real-time
     threading.Thread(
-        target=log_output, args=(process.stdout, logger.info), daemon=True
+        target=log_output, args=(process.stdout, logger.info, stdout_lines), daemon=True
     ).start()
     threading.Thread(
-        target=log_output, args=(process.stderr, logger.error), daemon=True
+        target=log_output, args=(process.stderr, logger.error, stderr_lines), daemon=True
     ).start()
 
     return process
 
 
-def wait_for_server(timeout: int = 90, interval: int = 1) -> bool:
+def wait_for_server(process: subprocess.Popen[str], timeout: int = 90, interval: float = 0.5) -> bool:
     """Wait for the server to be ready (agent card requires the lifespan to run)."""
     start_time = time.time()
     while time.time() - start_time < timeout:
+        # Phase 3: Check if the process terminated early
+        ret_code = process.poll()
+        if ret_code is not None:
+            logger.error(f"Server process terminated early with exit code {ret_code}")
+            return False
+            
         try:
-            response = requests.get(AGENT_CARD_URL, timeout=10)
+            response = requests.get(AGENT_CARD_URL, timeout=5)
             if response.status_code == 200:
                 logger.info("Server is ready")
                 return True
@@ -105,13 +122,74 @@ def wait_for_server(timeout: int = 90, interval: int = 1) -> bool:
     return False
 
 
+def get_redacted_env() -> dict[str, str]:
+    """Return a copy of the environment variables with sensitive keys redacted."""
+    sensitive_substrings = {
+        "key", "secret", "token", "password", "auth", "credential", "private", "api"
+    }
+    redacted = {}
+    for k, v in os.environ.items():
+        k_lower = k.lower()
+        if any(s in k_lower for s in sensitive_substrings):
+            redacted[k] = "********"
+        else:
+            redacted[k] = v
+    return redacted
+
+
 @pytest.fixture(scope="session")
 def server_fixture(request: Any) -> Iterator[subprocess.Popen[str]]:
     """Pytest fixture to start and stop the server for testing."""
     logger.info("Starting server process")
     server_process = start_server()
-    if not wait_for_server():
-        pytest.fail("Server failed to start")
+    timeout = int(os.getenv("STARTUP_TIMEOUT", "90"))
+    if not wait_for_server(server_process, timeout=timeout):
+        ret_code = server_process.poll()
+        stdout_content = "".join(stdout_lines)
+        stderr_content = "".join(stderr_lines)
+        cwd = os.getcwd()
+        command_str = " ".join([
+            sys.executable,
+            "-m",
+            "uvicorn",
+            "app.fast_api_app:app",
+            "--host",
+            "0.0.0.0",
+            "--port",
+            "8000",
+        ])
+        
+        # Write logs to disk for CI artifact uploads
+        try:
+            with open("stdout.log", "w", encoding="utf-8") as f:
+                f.write(stdout_content)
+            with open("stderr.log", "w", encoding="utf-8") as f:
+                f.write(stderr_content)
+        except Exception as e:
+            logger.error(f"Failed to write log files: {e}")
+            
+        try:
+            server_process.terminate()
+            server_process.wait(timeout=5)
+        except Exception:
+            pass
+            
+        env_vars_str = json.dumps(get_redacted_env(), indent=2)
+        diagnostic_msg = (
+            f"\nServer failed to start\n"
+            f"Exit Code: {ret_code}\n"
+            f"Timeout Duration: {timeout} seconds\n"
+            f"Startup Command: {command_str}\n"
+            f"Working Directory: {cwd}\n"
+            f"Environment Variables:\n{env_vars_str}\n"
+            f"----------------------------------------\n"
+            f"stdout:\n{stdout_content}\n"
+            f"----------------------------------------\n"
+            f"stderr:\n{stderr_content}\n"
+            f"----------------------------------------\n"
+        )
+        pytest.fail(diagnostic_msg)
+        
     logger.info("Server process started")
 
     def stop_server() -> None:
@@ -122,6 +200,7 @@ def server_fixture(request: Any) -> Iterator[subprocess.Popen[str]]:
 
     request.addfinalizer(stop_server)
     yield server_process
+
 
 
 def test_adk_run_sse(server_fixture: subprocess.Popen[str]) -> None:

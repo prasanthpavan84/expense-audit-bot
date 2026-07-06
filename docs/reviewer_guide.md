@@ -8,3 +8,7 @@ This guide compiles anticipated questions from technical reviewers and interview
 
 ## 2. Dynamic Performance Collection
 * Process execution statistics (CPU, memory footprints) are captured using the system's `psutil` interface at the start and end of each case, ensuring no overhead or instrumentation files are added to production execution paths.
+
+## 3. System Health Monitoring
+* **System Health Endpoint**: The application exposes a high-level status monitoring route at `/api/v1/system/health`. This endpoint evaluates database health, LLM access (Gemini), and MCP server connectivity, returning a structured JSON status report.
+

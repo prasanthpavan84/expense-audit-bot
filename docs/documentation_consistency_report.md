@@ -5,11 +5,11 @@ This report presents the consistency audit findings across all documentation fil
 ## 1. Document Metrics Synchronization Audit
 
 We mapped and verified every cited metric percentage across the following files:
-* [README.md](file:///c:/New%20folder/akd-workspace/expense-audit-bot/README.md)
-* [InterviewGuide.md](file:///c:/New%20folder/akd-workspace/expense-audit-bot/docs/InterviewGuide.md)
-* [reports/master_report.md](file:///c:/New%20folder/akd-workspace/expense-audit-bot/reports/master_report.md)
-* [reports/executive_summary.md](file:///c:/New%20folder/akd-workspace/expense-audit-bot/reports/executive_summary.md)
-* [evaluation/scorecard.json](file:///c:/New%20folder/akd-workspace/expense-audit-bot/evaluation/scorecard.json)
+* [README.md](../README.md)
+* [InterviewGuide.md](InterviewGuide.md)
+* [reports/master_report.md](../reports/master_report.md)
+* [reports/executive_summary.md](../reports/executive_summary.md)
+* [evaluation/scorecard.json](../evaluation/scorecard.json)
 
 ### Alignment Verification:
 1. **Target Metrics**: The subsystem metrics listed in `InterviewGuide.md` (e.g. 98.2% OCR accuracy, 95.8% Fraud Detection) represent the system's live LLM baseline targets.

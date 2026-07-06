@@ -11,7 +11,7 @@ This report presents the findings of the external evaluation audit conducted on 
 * **Evidence**: `reports/performance_report.md` lists average and P95 latency but omits standard deviation and the Z-score calculation ranges.
 
 ### Gate 2: Report Credibility (Severity: High)
-* **Gap**: There is a significant mismatch between the target metrics cited in [InterviewGuide.md](file:///c:/New%20folder/akd-workspace/expense-audit-bot/docs/InterviewGuide.md) and the actual measurements stored in `metrics.json`.
+* **Gap**: There is a significant mismatch between the target metrics cited in [InterviewGuide.md](../docs/InterviewGuide.md) and the actual measurements stored in `metrics.json`.
 * **Evidence**: `InterviewGuide.md` claims **98.2% Receipt Extraction**, **95.8% Fraud Detection**, and **95.0% Reflection**, but these metrics are not explicitly evaluated or broken out in `metrics.json` (which only aggregates overall OCR and compliance values).
 * **Impact**: Reviewers will flag this as a consistency violation since the numbers do not trace back to the same benchmark run.
 

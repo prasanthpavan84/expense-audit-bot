@@ -30,5 +30,16 @@ jobs:
         uv pip install pytest pytest-asyncio pytest-cov psutil
 
     - name: Run tests
+      env:
+        GOOGLE_CLOUD_AGENT_ENGINE_ENABLE_TELEMETRY: "false"
       run: |
         uv run pytest
+
+    - name: Upload server logs
+      if: failure()
+      uses: actions/upload-artifact@v4
+      with:
+        name: server-logs
+        path: |
+          stdout.log
+          stderr.log
