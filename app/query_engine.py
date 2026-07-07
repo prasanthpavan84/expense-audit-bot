@@ -3,7 +3,7 @@ import os
 import threading
 from typing import List, Dict, Any, Optional
 
-db_lock = threading.Lock()
+db_lock = threading.RLock()
 
 def get_db_path() -> str:
     return os.getenv("DATABASE_PATH", os.path.join(os.path.dirname(__file__), "database.json"))
@@ -29,12 +29,13 @@ def save_database(data: List[Dict[str, Any]]) -> None:
             pass
 
 def add_expense_to_db(expense: Dict[str, Any]) -> None:
-    db = load_database()
-    # Check if duplicate id exists to avoid duplicate insertions
-    if any(item.get("id") == expense.get("id") for item in db):
-        return
-    db.append(expense)
-    save_database(db)
+    with db_lock:
+        db = load_database()
+        # Check if duplicate id exists to avoid duplicate insertions
+        if any(item.get("id") == expense.get("id") for item in db):
+            return
+        db.append(expense)
+        save_database(db)
 
 def execute_query(query_params: Dict[str, Any]) -> Dict[str, Any]:
     """

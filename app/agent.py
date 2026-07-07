@@ -1498,7 +1498,7 @@ None
 def route_decision(ctx: Context, node_input: str) -> Event:
     """Routes the workflow based on the orchestrator's decision."""
     decision = ctx.state.get("orchestrator_decision", "").lower()
-    if "needs review" in decision or "needs_review" in decision:
+    if ("needs" in decision and "review" in decision) or "needs_review" in decision:
         return Event(
             output=node_input, route="needs_review", state={"orchestrator_decision": decision}
         )
@@ -1561,7 +1561,7 @@ def finalize_expense(ctx: Context, node_input: str):
         }
         
         # Only persist to database.json if approved/finalized
-        if status_val in ["Approved", "Approved with Exception", "Approved by Auditor"]:
+        if status_val in ["Approved", "Approved with Exception", "Approved by Auditor", "Partially Approved"]:
             add_expense_to_db(db_item)
             
         # Add to local session history to support duplicate checking on subsequent turns
