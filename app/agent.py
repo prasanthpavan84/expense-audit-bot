@@ -26,7 +26,11 @@ from app.validation import validate_expenses
 from app.policy_engine import evaluate_policy, load_company_policy
 from app.fraud_detector import calculate_fraud_score
 from app.query_engine import execute_query, add_expense_to_db, load_database
-from app.report_generator import generate_markdown_report, generate_csv_report, generate_json_report
+from app.report_generator import (
+    generate_markdown_report,
+    generate_csv_report,
+    generate_json_report,
+)
 
 # Import governance package to trigger registry loading and validation on startup
 import app.governance
@@ -52,22 +56,74 @@ class MockGemini(Gemini):
                         si_str = "".join(p.text for p in si.parts if p.text)
                     else:
                         si_str = str(si)
-            print(f"DEBUG MockGemini: agent={getattr(llm_request, 'app_name', 'None')}, si_str={repr(si_str)}, contents_str={repr(contents_str)}")
+            print(
+                f"DEBUG MockGemini: agent={getattr(llm_request, 'app_name', 'None')}, si_str={repr(si_str)}, contents_str={repr(contents_str)}"
+            )
 
             # 1. Classify user intent
-            if "intent_classifier" in si_str or "intent_classifier" in contents_str or "Classify the user intent" in contents_str:
+            if (
+                "intent_classifier" in si_str
+                or "intent_classifier" in contents_str
+                or "Classify the user intent" in contents_str
+            ):
                 text_lower = contents_str.lower()
-                if any(re.search(rf"\b{kw}\b", text_lower) for kw in ["hello", "hi", "hey", "bye", "goodbye", "thanks", "thank you", "greetings"]):
+                if any(
+                    re.search(rf"\b{kw}\b", text_lower)
+                    for kw in [
+                        "hello",
+                        "hi",
+                        "hey",
+                        "bye",
+                        "goodbye",
+                        "thanks",
+                        "thank you",
+                        "greetings",
+                    ]
+                ):
                     intent = "CONVERSATION"
-                elif any(re.search(rf"\b{kw}\b", text_lower) for kw in ["please audit", "audit this expense", "audit"]):
+                elif any(
+                    re.search(rf"\b{kw}\b", text_lower)
+                    for kw in ["please audit", "audit this expense", "audit"]
+                ):
                     intent = "AUDIT"
-                elif any(re.search(rf"\b{kw}\b", text_lower) for kw in ["policy", "policies", "limit", "limits", "rule", "rules", "allowed"]) or "what is" in text_lower:
+                elif (
+                    any(
+                        re.search(rf"\b{kw}\b", text_lower)
+                        for kw in [
+                            "policy",
+                            "policies",
+                            "limit",
+                            "limits",
+                            "rule",
+                            "rules",
+                            "allowed",
+                        ]
+                    )
+                    or "what is" in text_lower
+                ):
                     intent = "POLICY"
-                elif any(re.search(rf"\b{kw}\b", text_lower) for kw in ["compare", "summarize", "query", "departments"]) or "travel expenses above" in text_lower:
+                elif (
+                    any(
+                        re.search(rf"\b{kw}\b", text_lower)
+                        for kw in ["compare", "summarize", "query", "departments"]
+                    )
+                    or "travel expenses above" in text_lower
+                ):
                     intent = "QUERY"
-                elif any(re.search(rf"\b{kw}\b", text_lower) for kw in ["calculate", "reimbursable", "math", "total sum", "sum of"]):
+                elif any(
+                    re.search(rf"\b{kw}\b", text_lower)
+                    for kw in [
+                        "calculate",
+                        "reimbursable",
+                        "math",
+                        "total sum",
+                        "sum of",
+                    ]
+                ):
                     intent = "CALCULATE"
-                elif any(re.search(rf"\b{kw}\b", text_lower) for kw in ["extract", "receipt"]):
+                elif any(
+                    re.search(rf"\b{kw}\b", text_lower) for kw in ["extract", "receipt"]
+                ):
                     intent = "EXTRACT"
                 else:
                     intent = "AUDIT"
@@ -85,20 +141,30 @@ class MockGemini(Gemini):
             ):
                 # We extract a list of expenses matching the ExpenseList schema.
                 expenses = []
-                
+
                 # Check for multiple lines indicating a list of items to audit
-                raw_lines = contents_str.split("\\n") if "\\n" in contents_str else contents_str.split("\n")
-                
+                raw_lines = (
+                    contents_str.split("\\n")
+                    if "\\n" in contents_str
+                    else contents_str.split("\n")
+                )
+
                 # Helper to extract info from a single text block
                 def parse_block(txt: str) -> Optional[dict]:
                     # Remove date pattern to prevent date separators being matched as negative signs
                     txt_clean = re.sub(r"\d{4}-\d{2}-\d{2}", "", txt)
-                    
+
                     # Extract amount (supporting negative signs)
                     amount = 0.0
-                    neg_match = re.search(r"(?<!\d)-\s*[\$₹£€]?\s*(\d+(?:\.\d+)?)", txt_clean)
-                    amt_match = re.search(r"[-+]?\s*[\$₹£€]?\s*(\d+(?:\.\d+)?)\s*(?:USD|INR|EUR|CAD|GBP|JPY|₹|\$)?", txt_clean, re.IGNORECASE)
-                    
+                    neg_match = re.search(
+                        r"(?<!\d)-\s*[\$₹£€]?\s*(\d+(?:\.\d+)?)", txt_clean
+                    )
+                    amt_match = re.search(
+                        r"[-+]?\s*[\$₹£€]?\s*(\d+(?:\.\d+)?)\s*(?:USD|INR|EUR|CAD|GBP|JPY|₹|\$)?",
+                        txt_clean,
+                        re.IGNORECASE,
+                    )
+
                     if neg_match:
                         amount = -float(neg_match.group(1))
                     elif amt_match:
@@ -106,9 +172,13 @@ class MockGemini(Gemini):
 
                     # Extract currency
                     currency = "USD"
-                    currency_match = re.search(r"\b(USD|INR|EUR|CAD|GBP|JPY)\b|([\$₹€£])", txt, re.IGNORECASE)
+                    currency_match = re.search(
+                        r"\b(USD|INR|EUR|CAD|GBP|JPY)\b|([\$₹€£])", txt, re.IGNORECASE
+                    )
                     if currency_match:
-                        curr = (currency_match.group(1) or currency_match.group(2)).upper()
+                        curr = (
+                            currency_match.group(1) or currency_match.group(2)
+                        ).upper()
                         if curr == "₹":
                             currency = "INR"
                         elif curr == "$" or curr == "USD":
@@ -119,7 +189,7 @@ class MockGemini(Gemini):
                             currency = "GBP"
                         else:
                             currency = curr
-                            
+
                     # Extract merchant
                     merchant = "Subway"
                     if "mcdonalds" in txt.lower() or "burger king" in txt.lower():
@@ -134,7 +204,7 @@ class MockGemini(Gemini):
                         merchant = "Taxi ride"
                     elif "starbucks" in txt.lower():
                         merchant = "Starbucks"
-                    
+
                     # Extract date
                     date_val = "Unknown"
                     date_match = re.search(r"(\d{4}-\d{2}-\d{2})", txt)
@@ -151,26 +221,48 @@ class MockGemini(Gemini):
 
                     # Extract category
                     category = "Meals"
-                    if "hotel" in txt.lower() or "stay" in txt.lower() or "accommodation" in txt.lower():
+                    if (
+                        "hotel" in txt.lower()
+                        or "stay" in txt.lower()
+                        or "accommodation" in txt.lower()
+                    ):
                         category = "Hotel"
                     elif "flight" in txt.lower() or "travel" in txt.lower():
                         category = "Travel"
                     elif "software" in txt.lower() or "license" in txt.lower():
                         category = "Software"
-                    elif "taxi" in txt.lower() or "ride" in txt.lower() or "cab" in txt.lower():
+                    elif (
+                        "taxi" in txt.lower()
+                        or "ride" in txt.lower()
+                        or "cab" in txt.lower()
+                    ):
                         category = "Taxi"
-                    
+
                     # Restrictions check
-                    restricted_keywords = ["casino", "gambling", "club", "bar", "liquor", "pub", "lounge"]
-                    is_restricted = any(w in merchant.lower() for w in restricted_keywords)
+                    restricted_keywords = [
+                        "casino",
+                        "gambling",
+                        "club",
+                        "bar",
+                        "liquor",
+                        "pub",
+                        "lounge",
+                    ]
+                    is_restricted = any(
+                        w in merchant.lower() for w in restricted_keywords
+                    )
                     if is_restricted:
                         category = "Restricted"
-                        
+
                     # Fraud / tampering simulations based on words
-                    manipulated = "manipulated" in txt.lower() or "edited" in txt.lower() or "tampered" in txt.lower()
+                    manipulated = (
+                        "manipulated" in txt.lower()
+                        or "edited" in txt.lower()
+                        or "tampered" in txt.lower()
+                    )
                     ocr_score = 0.5 if "blurry" in txt.lower() else 1.0
                     readability = ["blurry"] if "blurry" in txt.lower() else []
-                    
+
                     return {
                         "merchant": merchant,
                         "date": date_val,
@@ -183,35 +275,48 @@ class MockGemini(Gemini):
                         "readability_issues": readability,
                         "manipulated_receipt": manipulated,
                         "employee_id": "EMP102",
-                        "department": "Engineering"
+                        "department": "Engineering",
                     }
 
                 # Check for 150 and 70 multi-receipt reimbursement case
                 if "150" in text_lower and "70" in text_lower:
-                    expenses = [{
-                        "merchant": "Hilton stay and meals",
-                        "date": "2026-06-26",
-                        "amount": 200.00,
-                        "currency": "USD",
-                        "category": "Travel",
-                        "items": ["Room", "Meals"],
-                        "items_list": [],
-                        "ocr_confidence_score": 1.0,
-                        "readability_issues": [],
-                        "manipulated_receipt": False,
-                        "employee_id": "EMP102",
-                        "department": "Engineering"
-                    }]
+                    expenses = [
+                        {
+                            "merchant": "Hilton stay and meals",
+                            "date": "2026-06-26",
+                            "amount": 200.00,
+                            "currency": "USD",
+                            "category": "Travel",
+                            "items": ["Room", "Meals"],
+                            "items_list": [],
+                            "ocr_confidence_score": 1.0,
+                            "readability_issues": [],
+                            "manipulated_receipt": False,
+                            "employee_id": "EMP102",
+                            "department": "Engineering",
+                        }
+                    ]
                 else:
                     # Check if multiple lines have expenses (batch simulation)
                     has_multiline = False
                     for line in raw_lines:
-                        if any(kw in line.lower() for kw in ["taxi", "hotel", "pizza", "bar", "lunch", "stay", "flight"]):
+                        if any(
+                            kw in line.lower()
+                            for kw in [
+                                "taxi",
+                                "hotel",
+                                "pizza",
+                                "bar",
+                                "lunch",
+                                "stay",
+                                "flight",
+                            ]
+                        ):
                             block = parse_block(line)
                             if block and abs(block["amount"]) > 0:
                                 expenses.append(block)
                                 has_multiline = True
-                                
+
                     if not has_multiline or not expenses:
                         # Fallback single block parser
                         expenses = [parse_block(contents_str)]
@@ -242,6 +347,7 @@ class MockGemini(Gemini):
             yield response
         else:
             import asyncio
+
             max_attempts = 8
             for attempt in range(max_attempts):
                 try:
@@ -252,22 +358,49 @@ class MockGemini(Gemini):
                     return
                 except Exception as e:
                     err_msg = str(e)
-                    is_rate_limit = "429" in err_msg or "RESOURCE_EXHAUSTED" in err_msg or "quota" in err_msg.lower()
-                    is_server_err = any(term in err_msg.lower() for term in ["500", "503", "service unavailable", "internal error", "deadline exceeded", "connection", "timeout", "temp", "transient"])
-                    
-                    if (is_rate_limit or is_server_err) and attempt < (max_attempts - 1):
+                    is_rate_limit = (
+                        "429" in err_msg
+                        or "RESOURCE_EXHAUSTED" in err_msg
+                        or "quota" in err_msg.lower()
+                    )
+                    is_server_err = any(
+                        term in err_msg.lower()
+                        for term in [
+                            "500",
+                            "503",
+                            "service unavailable",
+                            "internal error",
+                            "deadline exceeded",
+                            "connection",
+                            "timeout",
+                            "temp",
+                            "transient",
+                        ]
+                    )
+
+                    if (is_rate_limit or is_server_err) and attempt < (
+                        max_attempts - 1
+                    ):
                         delay = 15.0
-                        delay_match = re.search(r"retry(?:ing)? in (\d+(?:\.\d+)?)s", err_msg, re.IGNORECASE)
+                        delay_match = re.search(
+                            r"retry(?:ing)? in (\d+(?:\.\d+)?)s", err_msg, re.IGNORECASE
+                        )
                         if not delay_match:
-                            delay_match = re.search(r"retryDelay':\s*'(\d+s?)'", err_msg, re.IGNORECASE)
+                            delay_match = re.search(
+                                r"retryDelay':\s*'(\d+s?)'", err_msg, re.IGNORECASE
+                            )
                         if delay_match:
                             try:
-                                delay = float(delay_match.group(1).replace("s", "")) + 1.5
+                                delay = (
+                                    float(delay_match.group(1).replace("s", "")) + 1.5
+                                )
                             except Exception:
                                 pass
                         else:
-                            delay = 6.0 * (2.0 ** attempt)
-                        print(f"RETRYABLE ERROR ({'Rate Limit' if is_rate_limit else 'Server Error'}) DETECTED: {err_msg[:80]}. Sleeping for {delay:.2f}s before retry {attempt+1}/{max_attempts}...")
+                            delay = 6.0 * (2.0**attempt)
+                        print(
+                            f"RETRYABLE ERROR ({'Rate Limit' if is_rate_limit else 'Server Error'}) DETECTED: {err_msg[:80]}. Sleeping for {delay:.2f}s before retry {attempt + 1}/{max_attempts}..."
+                        )
                         await asyncio.sleep(delay)
                     else:
                         raise e
@@ -286,7 +419,9 @@ model = MockGemini(
 def log_audit(event_type: str, severity: str, details: dict):
     """Write structured JSON audit log."""
     log_entry = {
-        "timestamp": datetime.datetime.utcnow().isoformat() + "Z",
+        "timestamp": datetime.datetime.now(datetime.timezone.utc)
+        .isoformat()
+        .replace("+00:00", "Z"),
         "event_type": event_type,
         "severity": severity,
         **details,
@@ -327,20 +462,35 @@ class ExpenseDetails(BaseModel):
     amount: float = Field(description="The total amount of the expense.")
     currency: str = Field(description="The currency code (e.g. USD, EUR, INR).")
     category: str = Field(description="The category of the expense.")
-    items: List[str] = Field(default=[], description="List of individual items purchased.")
+    items: List[str] = Field(
+        default=[], description="List of individual items purchased."
+    )
     items_list: List[IndividualItem] = Field(
         default=[],
-        description="Structured list of individual items with their specific amounts and categories."
+        description="Structured list of individual items with their specific amounts and categories.",
     )
-    ocr_confidence_score: float = Field(default=1.0, description="OCR confidence score from 0.0 to 1.0.")
-    readability_issues: List[str] = Field(default=[], description="List of readability issues (e.g. blurry, rotated).")
-    manipulated_receipt: bool = Field(default=False, description="Flag indicating if receipt has been tampered/edited.")
-    employee_id: str = Field(default="EMP102", description="The employee ID submitting the expense.")
-    department: str = Field(default="Engineering", description="The department of the employee.")
+    ocr_confidence_score: float = Field(
+        default=1.0, description="OCR confidence score from 0.0 to 1.0."
+    )
+    readability_issues: List[str] = Field(
+        default=[], description="List of readability issues (e.g. blurry, rotated)."
+    )
+    manipulated_receipt: bool = Field(
+        default=False,
+        description="Flag indicating if receipt has been tampered/edited.",
+    )
+    employee_id: str = Field(
+        default="EMP102", description="The employee ID submitting the expense."
+    )
+    department: str = Field(
+        default="Engineering", description="The department of the employee."
+    )
 
 
 class ExpenseList(BaseModel):
-    expenses: List[ExpenseDetails] = Field(description="The list of extracted expenses.")
+    expenses: List[ExpenseDetails] = Field(
+        description="The list of extracted expenses."
+    )
 
 
 class PolicyVerification(BaseModel):
@@ -360,14 +510,22 @@ class IntentClassification(BaseModel):
 
 
 class StructuredQuerySchema(BaseModel):
-    action: str = Field(description="Action to perform: FILTER, COMPARE_DEPTS, SUMMARIZE_EMPLOYEE, EXPLAIN")
+    action: str = Field(
+        description="Action to perform: FILTER, COMPARE_DEPTS, SUMMARIZE_EMPLOYEE, EXPLAIN"
+    )
     category: Optional[str] = Field(default=None, description="Category filter")
-    amount_min: Optional[float] = Field(default=None, description="Minimum amount filter")
-    amount_max: Optional[float] = Field(default=None, description="Maximum amount filter")
+    amount_min: Optional[float] = Field(
+        default=None, description="Minimum amount filter"
+    )
+    amount_max: Optional[float] = Field(
+        default=None, description="Maximum amount filter"
+    )
     currency: Optional[str] = Field(default=None, description="Currency filter")
     employee_id: Optional[str] = Field(default=None, description="Employee ID filter")
     department: Optional[str] = Field(default=None, description="Department filter")
-    target_expense_id: Optional[str] = Field(default=None, description="Expense ID to explain")
+    target_expense_id: Optional[str] = Field(
+        default=None, description="Expense ID to explain"
+    )
 
 
 # -----------------------------------------------------------------------------
@@ -453,16 +611,18 @@ Identify:
 
 
 # Helper function to run agents programmatically
-async def run_agent_helper(agent: Agent, text: str, session_id: Optional[str] = None) -> Any:
+async def run_agent_helper(
+    agent: Agent, text: str, session_id: Optional[str] = None
+) -> Any:
     from google.adk.runners import Runner
     from google.adk.sessions.in_memory_session_service import InMemorySessionService
     from google.adk.memory.in_memory_memory_service import InMemoryMemoryService
     from google.adk.utils._schema_utils import validate_schema
     from app.utils.prompt_loader import PromptLoader
-    
+
     # Load prompt dynamically from the A/B testing registry
     agent.instruction = PromptLoader.load_prompt(agent.name, session_id=session_id)
-    
+
     runner = Runner(
         app_name=agent.name,
         agent=agent,
@@ -477,25 +637,25 @@ async def run_agent_helper(agent: Agent, text: str, session_id: Optional[str] = 
         role="user",
         parts=[types.Part.from_text(text=text)],
     )
-    
+
     last_content = None
     async for event in runner.run_async(
         user_id=session.user_id, session_id=session.id, new_message=content
     ):
         if event.content:
             last_content = event.content
-            
+
     await runner.close()
-    
+
     if last_content is None or last_content.parts is None:
         raise ValueError(f"Agent {agent.name} did not return any output.")
-        
+
     parts_text = []
     for p in last_content.parts:
         if not p.thought and p.text:
             parts_text.append(p.text)
     merged_text = "\n".join(parts_text)
-    
+
     if agent.output_schema:
         return validate_schema(agent.output_schema, merged_text)
     return merged_text
@@ -510,11 +670,23 @@ def parse_items_from_text(text: str) -> list:
         if "limits" in line_lower:
             break
         # Match something like: Flight ₹18,000 or Flight: 18000 or Meals $4,200 (supporting negative sign)
-        match = re.search(r"^([a-zA-Z\s]+)\s*[:\-₹\$£€]?\s*(?:[\$₹£€]|\bUSD\b|\bINR\b)?\s*(-?[\d,]+(?:\.\d+)?)", line.strip())
+        match = re.search(
+            r"^([a-zA-Z\s]+)\s*[:\-₹\$£€]?\s*(?:[\$₹£€]|\bUSD\b|\bINR\b)?\s*(-?[\d,]+(?:\.\d+)?)",
+            line.strip(),
+        )
         if match:
             cat = match.group(1).strip()
             # Filter out common non-item words
-            if cat.lower() in ["total", "claimed", "employee", "id", "limits", "limit", "meals limit", "hotel limit"]:
+            if cat.lower() in [
+                "total",
+                "claimed",
+                "employee",
+                "id",
+                "limits",
+                "limit",
+                "meals limit",
+                "hotel limit",
+            ]:
                 continue
             val = float(match.group(2).replace(",", ""))
             items.append({"name": cat, "claimed_amount": val, "category": cat})
@@ -531,7 +703,9 @@ def extract_custom_limits(text: str) -> dict:
             in_limits_section = True
             continue
         if in_limits_section:
-            match = re.search(r"([a-zA-Z\s]+)\s*(?:[\$₹£€]|\bUSD\b|\bINR\b)?\s*([\d,]+)", line)
+            match = re.search(
+                r"([a-zA-Z\s]+)\s*(?:[\$₹£€]|\bUSD\b|\bINR\b)?\s*([\d,]+)", line
+            )
             if match:
                 cat = match.group(1).strip().capitalize()
                 val = float(match.group(2).replace(",", ""))
@@ -542,18 +716,37 @@ def extract_custom_limits(text: str) -> dict:
 def detect_business_exceptions(text: str) -> Optional[str]:
     text_lower = text.lower()
     # 1. Executive approval (completely bypasses limits)
-    if any(phrase in text_lower for phrase in ["executive approval", "ceo approved", "vp approved", "approved by ceo", "approved by vp", "approved by boss", "manager approved", "approved by manager"]):
+    if any(
+        phrase in text_lower
+        for phrase in [
+            "executive approval",
+            "ceo approved",
+            "vp approved",
+            "approved by ceo",
+            "approved by vp",
+            "approved by boss",
+            "manager approved",
+            "approved by manager",
+        ]
+    ):
         return "Executive Approval Justification"
     # 2. Conference justification
-    if any(phrase in text_lower for phrase in ["conference", "seminar", "summit", "workshop"]):
+    if any(
+        phrase in text_lower
+        for phrase in ["conference", "seminar", "summit", "workshop"]
+    ):
         return "Conference Justification"
     # 3. Emergency justification
-    if any(phrase in text_lower for phrase in ["emergency", "urgent medical", "crisis"]):
+    if any(
+        phrase in text_lower for phrase in ["emergency", "urgent medical", "crisis"]
+    ):
         return "Emergency Justification"
     return None
 
 
-def check_human_review_trigger(details: dict, total_claimed: float, currency: str) -> Optional[str]:
+def check_human_review_trigger(
+    details: dict, total_claimed: float, currency: str
+) -> Optional[str]:
     # 1. Required information is missing
     missing_fields = []
     for field in ["merchant", "date", "amount", "currency"]:
@@ -562,32 +755,42 @@ def check_human_review_trigger(details: dict, total_claimed: float, currency: st
             missing_fields.append(field)
     if missing_fields:
         return f"Missing required information: {', '.join(missing_fields)}"
-        
+
     # 2. Unsupported currency detected (only USD and INR are supported)
     if currency not in ["USD", "INR"]:
         return f"Unsupported currency detected: {currency}"
-        
+
     # 3. Expense exceeds configurable approval limits ($200 USD or ₹16,600 INR)
-    if (currency == "USD" and total_claimed >= 200.0) or (currency == "INR" and total_claimed >= 16600.0):
+    if (currency == "USD" and total_claimed >= 200.0) or (
+        currency == "INR" and total_claimed >= 16600.0
+    ):
         return f"Total claimed amount {currency} {total_claimed:,.2f} exceeds configurable approval limit."
-        
+
     # 4. Low OCR readability triggers review
     if details.get("ocr_confidence_score", 1.0) < 0.7:
         return f"Low OCR Confidence Score ({details.get('ocr_confidence_score'):.2f})"
-        
+
     # 5. Low Calibrated Confidence triggers review (< 0.65)
     from app.utils.finance import calculate_calibrated_confidence
+
     ocr_conf = details.get("ocr_confidence_score", 1.0)
     intent_conf = details.get("intent_confidence", 0.9)
     field_confs = []
-    for f in ["merchant_provenance", "date_provenance", "amount_provenance", "currency_provenance"]:
+    for f in [
+        "merchant_provenance",
+        "date_provenance",
+        "amount_provenance",
+        "currency_provenance",
+    ]:
         prov = details.get(f)
         if prov:
             if hasattr(prov, "confidence"):
                 field_confs.append(prov.confidence)
             elif isinstance(prov, dict):
                 field_confs.append(prov.get("confidence", 1.0))
-    calibrated_conf = calculate_calibrated_confidence(intent_conf, ocr_conf, field_confs)
+    calibrated_conf = calculate_calibrated_confidence(
+        intent_conf, ocr_conf, field_confs
+    )
     if calibrated_conf < 0.65:
         return f"Low Calibrated Confidence ({calibrated_conf:.2f}) [Limit < 0.65]"
 
@@ -622,7 +825,7 @@ def security_checkpoint(ctx: Context, node_input: Any = None) -> Event:
 
     # 1. Credit Cards
     cc_regex = r"\b(?:\d[ -]*?){13,19}\b"
-    
+
     def is_valid_luhn(card_number: str) -> bool:
         digits = [int(d) for d in re.sub(r"\D", "", card_number)]
         if len(digits) < 13 or len(digits) > 19:
@@ -674,7 +877,7 @@ def security_checkpoint(ctx: Context, node_input: Any = None) -> Event:
         "bypass policy",
         "override limit",
         "approve this regardless",
-        "admin override"
+        "admin override",
     ]
     injection_detected = False
     matched_keyword = None
@@ -698,7 +901,10 @@ def security_checkpoint(ctx: Context, node_input: Any = None) -> Event:
             if o < 32 and char not in "\r\n\t":
                 has_control = True
                 break
-        if has_control or any(esc in text for esc in ["\\u0000", "\\u0001", "\\u0002", "\\x00", "\\x01", "\\x02"]):
+        if has_control or any(
+            esc in text
+            for esc in ["\\u0000", "\\u0001", "\\u0002", "\\x00", "\\x01", "\\x02"]
+        ):
             injection_detected = True
             matched_keyword = "malicious unicode / control characters"
 
@@ -804,8 +1010,8 @@ async def intent_router(ctx: Context, node_input: str) -> Event:
     # Split multi‑intent requests if enabled via env var
     intents = []
     confidence = 0.0
-    if os.getenv("ENABLE_MULTI_INTENT", "false").lower() == "true" and ';' in text:
-        parts = [p.strip() for p in text.split(';') if p.strip()]
+    if os.getenv("ENABLE_MULTI_INTENT", "false").lower() == "true" and ";" in text:
+        parts = [p.strip() for p in text.split(";") if p.strip()]
         for part in parts:
             part_intent, part_conf = _detect_intent(part)
             intents.append(part_intent)
@@ -818,9 +1024,18 @@ async def intent_router(ctx: Context, node_input: str) -> Event:
         if confidence < 0.95:
             if os.getenv("MOCK_LLM", "true").lower() == "false" or True:
                 try:
-                    parsed = await run_agent_helper(intent_classifier_agent, text, session_id=ctx.session.id)
+                    parsed = await run_agent_helper(
+                        intent_classifier_agent, text, session_id=ctx.session.id
+                    )
                     llm_intent = str(parsed.get("intent", intent)).upper()
-                    if llm_intent in ["POLICY", "CALCULATE", "EXTRACT", "QUERY", "AUDIT", "CONVERSATION"]:
+                    if llm_intent in [
+                        "POLICY",
+                        "CALCULATE",
+                        "EXTRACT",
+                        "QUERY",
+                        "AUDIT",
+                        "CONVERSATION",
+                    ]:
                         if llm_intent == "CONVERSATION" or intent == "CONVERSATION":
                             intent = "CONVERSATION"
                         else:
@@ -829,7 +1044,9 @@ async def intent_router(ctx: Context, node_input: str) -> Event:
                                 confidence = 0.98
                 except Exception as e:
                     print(f"DEBUG intent_router EXCEPTION: {e}")
-        print(f"DEBUG intent_router: text={repr(text)}, _detect_intent={repr(intent)}, llm_intent={repr(llm_intent)}, final={repr(intent)}")
+        print(
+            f"DEBUG intent_router: text={repr(text)}, _detect_intent={repr(intent)}, llm_intent={repr(llm_intent)}, final={repr(intent)}"
+        )
         intents = [intent]
 
     # Store routing info in state for later evaluation
@@ -838,42 +1055,79 @@ async def intent_router(ctx: Context, node_input: str) -> Event:
     # Return the first intent as route for the graph execution
     return Event(output=text, route=intents[0])
 
+
 def _detect_intent(text: str) -> tuple[str, float]:
     """Simple keyword‑based intent detection with confidence.
     Returns (intent, confidence) where confidence is 0‑1.
     """
     text_lower = text.lower()
-    
+
     # 0. Check for CONVERSATION
-    conv_kws = [r"\bhello\b", r"\bhi\b", r"\bhey\b", r"\bgood morning\b", r"\bgood afternoon\b", r"\bgood evening\b", r"\bhowdy\b", r"\bgreetings\b", r"\bbye\b", r"\bgoodbye\b", r"\bthanks\b", r"\bthank you\b"]
+    conv_kws = [
+        r"\bhello\b",
+        r"\bhi\b",
+        r"\bhey\b",
+        r"\bgood morning\b",
+        r"\bgood afternoon\b",
+        r"\bgood evening\b",
+        r"\bhowdy\b",
+        r"\bgreetings\b",
+        r"\bbye\b",
+        r"\bgoodbye\b",
+        r"\bthanks\b",
+        r"\bthank you\b",
+    ]
     if any(re.search(pat, text_lower) for pat in conv_kws):
         return "CONVERSATION", 1.0
-        
+
     # 1. Check for POLICY questions
-    policy_kws = [r"\bpolicy", r"\bpolicies", r"\blimit", r"\brule", r"\bwhat is the\b", r"\bhow much\b", r"\ballowed\b"]
+    policy_kws = [
+        r"\bpolicy",
+        r"\bpolicies",
+        r"\blimit",
+        r"\brule",
+        r"\bwhat is the\b",
+        r"\bhow much\b",
+        r"\ballowed\b",
+    ]
     if any(re.search(pat, text_lower) for pat in policy_kws):
         return "POLICY", 1.0
-        
+
     # 2. Check for QUERY (history, compare, trends, search)
-    query_kws = [r"\bcompare", r"\btrend", r"\bquery", r"\bsearch", r"\bhistory", r"\bshow spending\b", r"\bdepartment", r"\bsummarize"]
+    query_kws = [
+        r"\bcompare",
+        r"\btrend",
+        r"\bquery",
+        r"\bsearch",
+        r"\bhistory",
+        r"\bshow spending\b",
+        r"\bdepartment",
+        r"\bsummarize",
+    ]
     if any(re.search(pat, text_lower) for pat in query_kws):
         return "QUERY", 1.0
-        
+
     # 3. Check for CALCULATE (sum, math, add, calculate)
     calc_kws = [r"\bcalculate", r"\bmath", r"\bsum of\b", r"\badd\b", r"\btotal sum\b"]
     if any(re.search(pat, text_lower) for pat in calc_kws):
         return "CALCULATE", 1.0
-        
+
     # 4. Check for EXTRACT (extract text, parse receipt text)
     extract_kws = [r"\bextract", r"\bocr\b", r"\bparse receipt", r"\bread receipt"]
     if any(re.search(pat, text_lower) for pat in extract_kws):
         return "EXTRACT", 1.0
-        
+
     # 4b. Check for explicit AUDIT triggers
-    audit_kws = [r"\baudit\b", r"\bexpense\b", r"\breceipt\b", r"\bclaim\b", r"\binvoice\b"]
+    audit_kws = [
+        r"\baudit\b",
+        r"\bexpense\b",
+        r"\breceipt\b",
+        r"\bclaim\b",
+        r"\binvoice\b",
+    ]
     if any(re.search(pat, text_lower) for pat in audit_kws):
         return "AUDIT", 1.0
-        
+
     # 5. Default is AUDIT
     return "AUDIT", 0.8
 
@@ -881,7 +1135,7 @@ def _detect_intent(text: str) -> tuple[str, float]:
 async def query_handler(ctx: Context, node_input: str) -> Event:
     """Answers database queries and aggregations using structured queries."""
     text = node_input
-    
+
     # Run structured query extraction
     query_params = {
         "action": "FILTER",
@@ -891,9 +1145,9 @@ async def query_handler(ctx: Context, node_input: str) -> Event:
         "currency": None,
         "employee_id": None,
         "department": None,
-        "target_expense_id": None
+        "target_expense_id": None,
     }
-    
+
     if os.getenv("MOCK_LLM", "True").lower() == "true":
         # Parsing rules for mocks
         text_lower = text.lower()
@@ -914,40 +1168,42 @@ async def query_handler(ctx: Context, node_input: str) -> Event:
                 query_params["currency"] = "INR"
     else:
         try:
-            parsed = await run_agent_helper(query_parser_agent, text, session_id=ctx.session.id)
+            parsed = await run_agent_helper(
+                query_parser_agent, text, session_id=ctx.session.id
+            )
             query_params = parsed.model_dump()
         except Exception:
             pass
-            
+
     # Execute query
     query_result = execute_query(query_params)
-    
+
     # Format query outcome
     ans = ""
     action = query_result.get("action")
     data = query_result.get("data")
-    
+
     if action == "COMPARE_DEPTS":
         ans = "### Department Spending Comparison\n\n| Department | Total Claimed (USD) | Reimbursable (USD) | Risk Score | Risk Level |\n|---|---|---|---|---|\n"
         for d in data:
             ans += f"| {d['department']} | ${d['total_claimed']:,.2f} | ${d['reimbursable']:,.2f} | {d['avg_fraud_risk']:.1f}% | {d['risk_level']} |\n"
         ans += "\n**Key Insight**: Marketing department has the highest medium-risk audit flags due to multiple restricted keyword occurrences."
-        
+
     elif action == "SUMMARIZE_EMPLOYEE":
         ans = f"### Employee Spending Summary Report\n\n* **Employee ID**: {data.get('employee_id')}\n* **Department**: {data.get('department')}\n* **Total Claims**: {data.get('total_claims')}\n* **Total Claimed**: {data.get('total_claimed'):,.2f}\n* **Total Reimbursable**: {data.get('total_reimbursable'):,.2f}\n\n**Category Breakdown**:\n"
         for cat, amt in data.get("category_breakdown", {}).items():
             ans += f"- {cat}: {amt:,.2f}\n"
-            
+
     elif action == "EXPLAIN":
         if data:
             ans = f"### Rejection Explanation\n\n* **Merchant**: {data.get('merchant')}\n* **Amount**: {data.get('currency')} {data.get('amount')}\n* **Status**: {data.get('status')}\n* **Fraud Score**: {data.get('fraud_score')}\n\n**Reasoning**: Rejection was determined deterministically. Details: {', '.join(data.get('violations', [])) or 'No policy violations found.'}"
         else:
             ans = "No matching expense found to explain."
-            
-    else: # FILTER
+
+    else:  # FILTER
         ans = f"### Travel Expenses Filtered Report\n\n* **Filters**: Category = {query_params.get('category') or 'All'}, Amount Min = {query_params.get('amount_min') or 'None'}\n\n"
         for idx, exp in enumerate(data):
-            ans += f"{idx+1}. **{exp.get('merchant')}** on {exp.get('date')}: {exp.get('currency')} {exp.get('amount'):,.2f} (Status: {exp.get('status')})\n"
+            ans += f"{idx + 1}. **{exp.get('merchant')}** on {exp.get('date')}: {exp.get('currency')} {exp.get('amount'):,.2f} (Status: {exp.get('status')})\n"
         ans += f"\n**Total Filtered Amount**: {query_result.get('summary', {}).get('total_claimed'):,.2f}"
 
     formatted_response = f"""### Expense Summary
@@ -977,25 +1233,29 @@ None
 async def policy_handler(ctx: Context, node_input: str) -> Event:
     """Answers a policy question using details from the policy config."""
     text = node_input
-    
+
     # Load limits from policy config
     policy = load_company_policy()
     limits = policy.get("category_limits", {})
     inr_limits = policy.get("inr_limits", {})
-    
+
     meals_usd = limits.get("Meals", {}).get("limit", 50.0)
     hotel_usd = limits.get("Hotel", {}).get("limit", 150.0)
     travel_usd = limits.get("Travel", {}).get("limit", 300.0)
     software_usd = limits.get("Software", {}).get("limit", 100.0)
-    
+
     meals_inr = inr_limits.get("Meals", 3000.0)
     hotel_inr = inr_limits.get("Hotel", 12000.0)
     travel_inr = inr_limits.get("Travel", 24000.0)
     software_inr = inr_limits.get("Software", 6000.0)
-    
+
     if "meal" in text.lower() or "food" in text.lower():
         ans = f"The standard company limit for meals is ${meals_usd:.2f} USD (or ₹{meals_inr:,.0f} INR)."
-    elif "hotel" in text.lower() or "accommodation" in text.lower() or "stay" in text.lower():
+    elif (
+        "hotel" in text.lower()
+        or "accommodation" in text.lower()
+        or "stay" in text.lower()
+    ):
         ans = f"The standard limit for Hotel / Accommodation is ${hotel_usd:.2f} USD (or ₹{hotel_inr:,.0f} INR)."
     elif "travel" in text.lower() or "flight" in text.lower():
         ans = f"The standard limit for Travel is ${travel_usd:.2f} USD (or ₹{travel_inr:,.0f} INR)."
@@ -1030,12 +1290,14 @@ Information provided matches general corporate policy guidelines."""
 
 async def extract_handler(ctx: Context, node_input: str) -> Event:
     """Extract details from receipt/image."""
-    extracted = await run_agent_helper(receipt_extractor, node_input, session_id=ctx.session.id)
+    extracted = await run_agent_helper(
+        receipt_extractor, node_input, session_id=ctx.session.id
+    )
     expenses = extracted.get("expenses", [])
-    
+
     if not expenses:
         return Event(output="No expenses extracted.")
-        
+
     exp = expenses[0]
     currency = exp.get("currency", "USD")
     amount = exp.get("amount", 0.0)
@@ -1068,16 +1330,18 @@ None
 
 ### Clear Reasoning
 Receipt extraction completed successfully."""
-    
+
     return Event(output=formatted_response)
 
 
 async def calculator(ctx: Context, node_input: str) -> Event:
     """Perform deterministic calculations on list of items."""
     text = node_input
-    
+
     currency = "USD"
-    currency_match = re.search(r"\b(USD|INR|EUR|CAD|GBP|JPY|₹|\$)\b", text, re.IGNORECASE)
+    currency_match = re.search(
+        r"\b(USD|INR|EUR|CAD|GBP|JPY|₹|\$)\b", text, re.IGNORECASE
+    )
     if currency_match:
         curr = currency_match.group(1).upper()
         if curr == "₹":
@@ -1088,19 +1352,23 @@ async def calculator(ctx: Context, node_input: str) -> Event:
             currency = curr
 
     items = parse_items_from_text(text)
-    
+
     # Format into simulated expense structures for validation
     simulated_expenses = []
     for item in items:
-        simulated_expenses.append({
-            "merchant": "Standard Merchant",
-            "date": "2026-06-25",
-            "amount": item["claimed_amount"],
-            "currency": currency,
-            "category": item["category"]
-        })
-        
-    validation_errs = validate_expenses(simulated_expenses, text, session_id=ctx.session.id)
+        simulated_expenses.append(
+            {
+                "merchant": "Standard Merchant",
+                "date": "2026-06-25",
+                "amount": item["claimed_amount"],
+                "currency": currency,
+                "category": item["category"],
+            }
+        )
+
+    validation_errs = validate_expenses(
+        simulated_expenses, text, session_id=ctx.session.id
+    )
     ctx.state["validation_errors"] = validation_errs
     if validation_errs:
         formatted_response = f"""### Expense Summary
@@ -1122,62 +1390,75 @@ None
 **Rejected**
 
 ### Clear Reasoning
-{'; '.join(validation_errs)}"""
+{"; ".join(validation_errs)}"""
         return Event(output=formatted_response)
-        
+
     justification = detect_business_exceptions(text)
-    
+
     total_claimed = 0.0
     allowed_amount = 0.0
     reimbursable_amount = 0.0
     rejected_amount = 0.0
-    
+
     violations = []
     summary_lines = []
-    
+
     for item in items:
         name = item["name"]
         claimed = item["claimed_amount"]
         cat = item["category"]
-        
+
         expense_item = {
             "merchant": "Merchant",
             "category": cat,
             "amount": claimed,
             "currency": currency,
-            "date": "2026-06-25"
+            "date": "2026-06-25",
         }
-        
+
         allowed, reimb, rej, item_violations, notes = evaluate_policy(
-            expense_item, role="Associate", justification=justification, session_id=ctx.session.id
+            expense_item,
+            role="Associate",
+            justification=justification,
+            session_id=ctx.session.id,
         )
-        
+
         total_claimed += claimed
         reimbursable_amount += reimb
         rejected_amount += rej
         allowed_amount += allowed
-        
+
         violations.extend(item_violations)
-        summary_lines.append(f"* {name}: Claimed {currency} {claimed:,.2f}, Reimbursable: {currency} {reimb:,.2f}")
-        
+        summary_lines.append(
+            f"* {name}: Claimed {currency} {claimed:,.2f}, Reimbursable: {currency} {reimb:,.2f}"
+        )
+
     summary = "\n".join(summary_lines)
     if not summary:
         # Fallback to single match
-        amount_match = re.search(r"(?:total|amount|sum|claimed)[:\-\s]*([\$₹£€]|\bUSD\b|\bINR\b)?\s*(-?[\d,]+(?:\.\d+)?)", text, re.IGNORECASE)
+        amount_match = re.search(
+            r"(?:total|amount|sum|claimed)[:\-\s]*([\$₹£€]|\bUSD\b|\bINR\b)?\s*(-?[\d,]+(?:\.\d+)?)",
+            text,
+            re.IGNORECASE,
+        )
         if amount_match:
             total_claimed = float(amount_match.group(2).replace(",", ""))
         else:
-            nums = [float(n.replace(",", "")) for n in re.findall(r"\b-?\d+(?:,\d+)*(?:\.\d+)?\b", text) if len(n) < 10]
+            nums = [
+                float(n.replace(",", ""))
+                for n in re.findall(r"\b-?\d+(?:,\d+)*(?:\.\d+)?\b", text)
+                if len(n) < 10
+            ]
             filtered_nums = [n for n in nums if n not in [2026.0, 2025.0, 2024.0]]
             if filtered_nums:
                 total_claimed = filtered_nums[0]
             else:
                 total_claimed = 0.0
-                
+
         reimbursable_amount = total_claimed
         allowed_amount = total_claimed
         summary = f"Claimed total: {currency} {total_claimed:,.2f}"
-        
+
     decision = "Approved"
     if rejected_amount > 0:
         decision = "Partially Approved"
@@ -1185,111 +1466,134 @@ None
         decision = "Rejected"
     elif justification is not None:
         decision = "Approved with Exception"
-            
+
     reasoning = f"Calculated reimbursement based on company limits. Justification: {justification or 'Standard Policy'}."
-    
+
     # Arithmetic verification
     if abs((reimbursable_amount + rejected_amount) - total_claimed) > 0.01:
-        raise ValueError(f"Arithmetic validation failed: reimbursable ({reimbursable_amount}) + rejected ({rejected_amount}) != claimed ({total_claimed})")
-        
-    formatted_response = generate_markdown_report({
-        "expenses": [{
-            "merchant": "Calculated Claims",
-            "date": "2026-06-25",
-            "category": "Multiple",
-            "amount": total_claimed,
-            "reimbursable": reimbursable_amount,
-            "allowed": allowed_amount,
-            "rejected": rejected_amount,
-            "fraud_score": 0,
-            "fraud_reason": "N/A",
-            "status": decision,
-            "violations": violations
-        }],
-        "total_claimed": total_claimed,
-        "total_reimbursable": reimbursable_amount,
-        "total_rejected": rejected_amount,
-        "compliance_score": 100.0 if not violations else 50.0,
-        "currency": currency
-    })
-    
+        raise ValueError(
+            f"Arithmetic validation failed: reimbursable ({reimbursable_amount}) + rejected ({rejected_amount}) != claimed ({total_claimed})"
+        )
+
+    formatted_response = generate_markdown_report(
+        {
+            "expenses": [
+                {
+                    "merchant": "Calculated Claims",
+                    "date": "2026-06-25",
+                    "category": "Multiple",
+                    "amount": total_claimed,
+                    "reimbursable": reimbursable_amount,
+                    "allowed": allowed_amount,
+                    "rejected": rejected_amount,
+                    "fraud_score": 0,
+                    "fraud_reason": "N/A",
+                    "status": decision,
+                    "violations": violations,
+                }
+            ],
+            "total_claimed": total_claimed,
+            "total_reimbursable": reimbursable_amount,
+            "total_rejected": rejected_amount,
+            "compliance_score": 100.0 if not violations else 50.0,
+            "currency": currency,
+        }
+    )
+
     return Event(output=formatted_response)
 
 
 async def audit_orchestrator_node(ctx: Context, node_input: str) -> Event:
     """Coordinate the audit of user-submitted expenses."""
-    
+
     # -------------------------------------------------------------------------
     # Step 1: Authentication
     # -------------------------------------------------------------------------
     # The security_checkpoint node validated the raw payload, scrubbed PII,
     # and ensured the input contains no prompt injection or malicious text.
-    
+
     # -------------------------------------------------------------------------
     # Step 2: Workflow Orchestrator
     # -------------------------------------------------------------------------
     # The intent_router workflow node successfully classified the incoming
     # request intent as AUDIT and routed execution to the orchestrator.
-    
+
     # -------------------------------------------------------------------------
     # Step 3: Shared State
     # -------------------------------------------------------------------------
     history = ctx.state.get("history", [])
     db_history = load_database()
     full_history = history + db_history
-    
+
     # -------------------------------------------------------------------------
     # Step 4: Receipt Understanding
     # -------------------------------------------------------------------------
     # Analyze raw text to identify dates, merchants, and itemized lines.
     raw_text = node_input if isinstance(node_input, str) else str(node_input)
-    
+
     # -------------------------------------------------------------------------
     # Step 5: Extraction
     # -------------------------------------------------------------------------
     try:
-        extracted = await run_agent_helper(receipt_extractor, raw_text, session_id=ctx.session.id)
+        extracted = await run_agent_helper(
+            receipt_extractor, raw_text, session_id=ctx.session.id
+        )
     except Exception as e:
         import traceback
+
         print("EXCEPTION IN run_agent_helper(receipt_extractor):", e)
         traceback.print_exc()
         extracted = {"expenses": []}
     expenses_raw = extracted.get("expenses", [])
-    
+
     # Extract subtotal and tax from raw_text using regex if not present
     for exp in expenses_raw:
         if "subtotal" not in exp or exp["subtotal"] is None:
-            subtotal_match = re.search(r"subtotal\s*[:\-₹\$£€]?\s*(?:[\$₹£€]|\bUSD\b|\bINR\b)?\s*(\d+(?:\.\d+)?)", raw_text, re.IGNORECASE)
+            subtotal_match = re.search(
+                r"subtotal\s*[:\-₹\$£€]?\s*(?:[\$₹£€]|\bUSD\b|\bINR\b)?\s*(\d+(?:\.\d+)?)",
+                raw_text,
+                re.IGNORECASE,
+            )
             if subtotal_match:
                 exp["subtotal"] = float(subtotal_match.group(1))
             else:
                 if exp.get("items_list"):
-                    exp["subtotal"] = sum(item.get("amount", 0.0) for item in exp["items_list"])
+                    exp["subtotal"] = sum(
+                        item.get("amount", 0.0) for item in exp["items_list"]
+                    )
                 else:
                     exp["subtotal"] = float(exp.get("amount", 0.0))
-                    
+
         if "tax" not in exp or exp["tax"] is None:
-            tax_match = re.search(r"tax\s*[:\-₹\$£€]?\s*(?:[\$₹£€]|\bUSD\b|\bINR\b)?\s*(\d+(?:\.\d+)?)", raw_text, re.IGNORECASE)
+            tax_match = re.search(
+                r"tax\s*[:\-₹\$£€]?\s*(?:[\$₹£€]|\bUSD\b|\bINR\b)?\s*(\d+(?:\.\d+)?)",
+                raw_text,
+                re.IGNORECASE,
+            )
             if tax_match:
                 exp["tax"] = float(tax_match.group(1))
             else:
                 exp["tax"] = 0.0
-    
+
     # -------------------------------------------------------------------------
     # Step 6: Validation
     # -------------------------------------------------------------------------
-    validation_errs = validate_expenses(expenses_raw, raw_text, full_history, session_id=ctx.session.id)
+    validation_errs = validate_expenses(
+        expenses_raw, raw_text, full_history, session_id=ctx.session.id
+    )
     ctx.state["validation_errors"] = validation_errs
     if validation_errs:
         currency = "USD"
         if expenses_raw:
             currency = expenses_raw[0].get("currency", "USD")
         else:
-            currency_match = re.search(r"\b(USD|INR|EUR|CAD|GBP|JPY|₹|\$)\b", raw_text, re.IGNORECASE)
+            currency_match = re.search(
+                r"\b(USD|INR|EUR|CAD|GBP|JPY|₹|\$)\b", raw_text, re.IGNORECASE
+            )
             if currency_match:
                 curr = currency_match.group(1).upper()
                 currency = "INR" if curr == "₹" else "USD" if curr == "$" else curr
-                
+
         formatted_response = f"""### Expense Summary
 Validation Failure
 
@@ -1309,7 +1613,7 @@ None
 **Rejected**
 
 ### Clear Reasoning
-{'; '.join(validation_errs)}"""
+{"; ".join(validation_errs)}"""
         ctx.state["orchestrator_decision"] = "Rejected"
         ctx.state["formatted_response"] = formatted_response
         return Event(output=formatted_response)
@@ -1335,7 +1639,9 @@ None
     # -------------------------------------------------------------------------
     fraud_results = []
     for exp in expenses_raw:
-        fraud_score, fraud_reason = calculate_fraud_score(exp, full_history, expenses_raw)
+        fraud_score, fraud_reason = calculate_fraud_score(
+            exp, full_history, expenses_raw
+        )
         fraud_results.append((fraud_score, fraud_reason))
 
     # -------------------------------------------------------------------------
@@ -1351,7 +1657,10 @@ None
     justification = detect_business_exceptions(raw_text)
     for exp in expenses_raw:
         allowed, reimb, rej, violations, notes = evaluate_policy(
-            exp, role=exp.get("employee_id", "Associate"), justification=justification, session_id=ctx.session.id
+            exp,
+            role=exp.get("employee_id", "Associate"),
+            justification=justification,
+            session_id=ctx.session.id,
         )
         policy_results.append((allowed, reimb, rej, violations, notes))
 
@@ -1369,11 +1678,11 @@ None
     total_reimbursable = 0.0
     total_rejected = 0.0
     currency = expenses_raw[0].get("currency", "USD").upper()
-    
+
     for idx, exp in enumerate(expenses_raw):
         allowed, reimb, rej, violations, notes = policy_results[idx]
         fraud_score, fraud_reason = fraud_results[idx]
-        
+
         status = "Approved"
         if rej > 0:
             status = "Partially Approved"
@@ -1381,7 +1690,7 @@ None
             status = "Rejected"
         if justification and reimb > 0 and status == "Approved":
             status = "Approved with Exception"
-            
+
         audited_exp = {
             "merchant": exp.get("merchant"),
             "date": exp.get("date"),
@@ -1400,7 +1709,7 @@ None
             "ocr_confidence_score": exp.get("ocr_confidence_score", 1.0),
             "manipulated_receipt": exp.get("manipulated_receipt", False),
             "employee_id": exp.get("employee_id", "EMP102"),
-            "department": exp.get("department", "Engineering")
+            "department": exp.get("department", "Engineering"),
         }
         audited_expenses.append(audited_exp)
         total_claimed += audited_exp["amount"]
@@ -1414,7 +1723,9 @@ None
     review_reasons = []
     for idx, exp in enumerate(expenses_raw):
         audited_exp = audited_expenses[idx]
-        review_trigger = check_human_review_trigger(exp, audited_exp["amount"], currency)
+        review_trigger = check_human_review_trigger(
+            exp, audited_exp["amount"], currency
+        )
         if review_trigger:
             needs_review = True
             review_reasons.append(review_trigger)
@@ -1436,18 +1747,36 @@ None
             reasoning = f"Approved with Exception: Rigorous limits bypassed under {justification}."
         else:
             cats = set(e.get("category", "Other") for e in audited_expenses)
-            cat_policies = ", ".join(f"{cat.capitalize()} policy" for cat in cats) if cats else "Standard policy"
-            reasoning = f"The expense is fully compliant and approved under the {cat_policies}."
+            cat_policies = (
+                ", ".join(f"{cat.capitalize()} policy" for cat in cats)
+                if cats
+                else "Standard policy"
+            )
+            reasoning = (
+                f"The expense is fully compliant and approved under the {cat_policies}."
+            )
 
     # Human Review escalation override
     if needs_review:
         decision = "Needs Human Review"
         reasoning = f"Escalated for Human Review: {', '.join(review_reasons)}. Audit details: {reasoning}"
 
-    max_fraud_score = max(e["fraud_score"] for e in audited_expenses) if audited_expenses else 0
-    fraud_reasons = "; ".join(e["fraud_reason"] for e in audited_expenses if e["fraud_reason"] != "No suspicious anomalies detected.")
+    max_fraud_score = (
+        max(e["fraud_score"] for e in audited_expenses) if audited_expenses else 0
+    )
+    fraud_reasons = "; ".join(
+        e["fraud_reason"]
+        for e in audited_expenses
+        if e["fraud_reason"] != "No suspicious anomalies detected."
+    )
     if max_fraud_score > 0:
-        risk_level = "High" if max_fraud_score >= 60 else "Medium" if max_fraud_score >= 30 else "Low"
+        risk_level = (
+            "High"
+            if max_fraud_score >= 60
+            else "Medium"
+            if max_fraud_score >= 30
+            else "Low"
+        )
         reasoning += f"\n* **Fraud Analysis**: Risk Score = {max_fraud_score} (Risk Level: {risk_level}). Findings: {fraud_reasons}"
 
     # -------------------------------------------------------------------------
@@ -1460,7 +1789,15 @@ None
     # -------------------------------------------------------------------------
     overall_score = 100.0
     if len(audited_expenses) > 0:
-        overall_score = (sum(1 for e in audited_expenses if e["status"] in ["Approved", "Approved with Exception", "Approved by Auditor"]) / len(audited_expenses)) * 100.0
+        overall_score = (
+            sum(
+                1
+                for e in audited_expenses
+                if e["status"]
+                in ["Approved", "Approved with Exception", "Approved by Auditor"]
+            )
+            / len(audited_expenses)
+        ) * 100.0
 
     report_data = {
         "expenses": audited_expenses,
@@ -1470,9 +1807,9 @@ None
         "compliance_score": overall_score,
         "currency": currency,
         "decision": decision,
-        "reasoning": reasoning
+        "reasoning": reasoning,
     }
-    
+
     formatted_report = generate_markdown_report(report_data)
     ctx.state["formatted_response"] = formatted_report
 
@@ -1500,13 +1837,19 @@ def route_decision(ctx: Context, node_input: str) -> Event:
     decision = ctx.state.get("orchestrator_decision", "").lower()
     if ("needs" in decision and "review" in decision) or "needs_review" in decision:
         return Event(
-            output=node_input, route="needs_review", state={"orchestrator_decision": decision}
+            output=node_input,
+            route="needs_review",
+            state={"orchestrator_decision": decision},
         )
     elif "denied" in decision or "reject" in decision:
-        return Event(output=node_input, route="denied", state={"orchestrator_decision": decision})
+        return Event(
+            output=node_input, route="denied", state={"orchestrator_decision": decision}
+        )
     else:
         return Event(
-            output=node_input, route="approved", state={"orchestrator_decision": decision}
+            output=node_input,
+            route="approved",
+            state={"orchestrator_decision": decision},
         )
 
 
@@ -1529,7 +1872,7 @@ async def human_review(ctx: Context, node_input: str):
 def finalize_expense(ctx: Context, node_input: str):
     """Generates the final report and output for the user, and persists to db."""
     audited_expenses = ctx.state.get("audited_expenses", [])
-    
+
     # Save approved items to database.json
     final_status = "Approved"
     if "approver_decision" in ctx.state:
@@ -1538,13 +1881,13 @@ def finalize_expense(ctx: Context, node_input: str):
             final_status = "Rejected"
         else:
             final_status = "Approved by Auditor"
-            
+
     for idx, exp in enumerate(audited_expenses):
         status_val = final_status if "approver_decision" in ctx.state else exp["status"]
-        
+
         # Format for database
         db_item = {
-            "id": f"exp-{datetime.date.today().isoformat()}-{idx+1}",
+            "id": f"exp-{datetime.date.today().isoformat()}-{idx + 1}",
             "employee_id": exp.get("employee_id", "EMP102"),
             "department": exp.get("department", "Engineering"),
             "merchant": exp.get("merchant"),
@@ -1557,39 +1900,53 @@ def finalize_expense(ctx: Context, node_input: str):
             "fraud_score": exp.get("fraud_score", 0),
             "reimbursable": exp.get("reimbursable", exp.get("amount")),
             "rejected": exp.get("rejected", 0.0),
-            "claimed_at": datetime.datetime.utcnow().isoformat() + "Z"
+            "claimed_at": datetime.datetime.now(datetime.timezone.utc)
+            .isoformat()
+            .replace("+00:00", "Z"),
         }
-        
+
         # Only persist to database.json if approved/finalized
-        if status_val in ["Approved", "Approved with Exception", "Approved by Auditor", "Partially Approved"]:
+        if status_val in [
+            "Approved",
+            "Approved with Exception",
+            "Approved by Auditor",
+            "Partially Approved",
+        ]:
             add_expense_to_db(db_item)
-            
+
         # Add to local session history to support duplicate checking on subsequent turns
         history = ctx.state.get("history", [])
-        if not any(h.get("merchant") == exp.get("merchant") and abs(h.get("amount", 0.0) - exp.get("amount", 0.0)) < 0.01 and h.get("date") == exp.get("date") for h in history):
-            history.append({
-                "merchant": exp.get("merchant"),
-                "amount": exp.get("amount"),
-                "date": exp.get("date"),
-                "currency": exp.get("currency")
-            })
+        if not any(
+            h.get("merchant") == exp.get("merchant")
+            and abs(h.get("amount", 0.0) - exp.get("amount", 0.0)) < 0.01
+            and h.get("date") == exp.get("date")
+            for h in history
+        ):
+            history.append(
+                {
+                    "merchant": exp.get("merchant"),
+                    "amount": exp.get("amount"),
+                    "date": exp.get("date"),
+                    "currency": exp.get("currency"),
+                }
+            )
             ctx.state["history"] = history
 
     if "approver_decision" in ctx.state:
         orig_response = ctx.state.get("formatted_response", node_input)
         reasoning = f"Human reviewer choice: {ctx.state['approver_decision']}."
-        
+
         updated_response = orig_response
         updated_response = re.sub(
             r"### Final Decision\n\*\*[^\*]+\*\*",
             f"### Final Decision\n**{final_status}**",
-            updated_response
+            updated_response,
         )
         updated_response = re.sub(
             r"### Clear Reasoning\n(.*?)(?=\s*```json|\Z)",
             f"### Clear Reasoning\n{reasoning}\n\n",
             updated_response,
-            flags=re.DOTALL
+            flags=re.DOTALL,
         )
         yield Event(
             content=types.Content(
@@ -1599,15 +1956,21 @@ def finalize_expense(ctx: Context, node_input: str):
         yield Event(output=updated_response)
     else:
         # Run DPL (Deterministic Decision Policy Layer) validator & Schema Healing
-        max_fraud = max(e.get("fraud_score", 0.0) for e in audited_expenses) if audited_expenses else 0.0
-        
+        max_fraud = (
+            max(e.get("fraud_score", 0.0) for e in audited_expenses)
+            if audited_expenses
+            else 0.0
+        )
+
         dpl_escalated = False
         dpl_rejected = False
         dpl_reasons = []
-        
+
         if max_fraud > 80.0:
             dpl_escalated = True
-            dpl_reasons.append(f"Fraud score ({max_fraud:.0f}) exceeds threshold (> 80.0)")
+            dpl_reasons.append(
+                f"Fraud score ({max_fraud:.0f}) exceeds threshold (> 80.0)"
+            )
 
         # 2. Check missing receipt for AUDIT intent
         flow_intent = ctx.state.get("flow_intent", "AUDIT")
@@ -1619,14 +1982,21 @@ def finalize_expense(ctx: Context, node_input: str):
         for exp in audited_expenses:
             if exp.get("status") == "Rejected":
                 dpl_rejected = True
-                dpl_reasons.append(f"Policy violated: {', '.join(exp.get('violations', []))}")
+                dpl_reasons.append(
+                    f"Policy violated: {', '.join(exp.get('violations', []))}"
+                )
 
         # 4. Check Calibrated Confidence < 0.65 -> HITL
         ocr_conf = ctx.state.get("ocr_confidence_score", 1.0)
         intent_conf = ctx.state.get("intent_confidence", 0.9)
         field_confs = []
         for e in audited_expenses:
-            for f in ["merchant_provenance", "date_provenance", "amount_provenance", "currency_provenance"]:
+            for f in [
+                "merchant_provenance",
+                "date_provenance",
+                "amount_provenance",
+                "currency_provenance",
+            ]:
                 prov = e.get(f)
                 if prov:
                     if hasattr(prov, "confidence"):
@@ -1634,37 +2004,54 @@ def finalize_expense(ctx: Context, node_input: str):
                     elif isinstance(prov, dict):
                         field_confs.append(prov.get("confidence", 1.0))
         from app.utils.finance import calculate_calibrated_confidence
-        calibrated_conf = calculate_calibrated_confidence(intent_conf, ocr_conf, field_confs)
+
+        calibrated_conf = calculate_calibrated_confidence(
+            intent_conf, ocr_conf, field_confs
+        )
         if calibrated_conf < 0.65:
             dpl_escalated = True
-            dpl_reasons.append(f"Calibrated confidence {calibrated_conf:.2f} is below 0.65")
-            
+            dpl_reasons.append(
+                f"Calibrated confidence {calibrated_conf:.2f} is below 0.65"
+            )
+
         decision = ctx.state.get("orchestrator_decision", "Approved")
         reasoning = "The expense is fully compliant."
-        
+
         if dpl_rejected:
             decision = "Denied"
             reasoning = f"Deterministic Policy Override: Rejected due to: {'; '.join(dpl_reasons)}."
         elif dpl_escalated:
             decision = "Needs Human Review"
             reasoning = f"Deterministic Policy Override: Escalated to Human Review due to: {'; '.join(dpl_reasons)}."
-            
+
         # Format-healing schema check
         output_str = node_input
         if "### Final Decision" not in output_str or "```json" not in output_str:
             currency = "USD"
             if audited_expenses:
                 currency = audited_expenses[0].get("currency", "USD")
-            
+
             report_data = {
                 "expenses": audited_expenses,
                 "total_claimed": sum(e.get("amount", 0.0) for e in audited_expenses),
-                "total_reimbursable": sum(e.get("reimbursable", 0.0) for e in audited_expenses),
+                "total_reimbursable": sum(
+                    e.get("reimbursable", 0.0) for e in audited_expenses
+                ),
                 "total_rejected": sum(e.get("rejected", 0.0) for e in audited_expenses),
-                "compliance_score": (sum(1 for e in audited_expenses if e["status"] in ["Approved", "Approved with Exception"]) / len(audited_expenses) * 100.0) if audited_expenses else 100.0,
+                "compliance_score": (
+                    sum(
+                        1
+                        for e in audited_expenses
+                        if e["status"] in ["Approved", "Approved with Exception"]
+                    )
+                    / len(audited_expenses)
+                    * 100.0
+                )
+                if audited_expenses
+                else 100.0,
                 "currency": currency,
                 "decision": decision,
-                "reasoning": reasoning
+                "reasoning": reasoning,
             }
             output_str = generate_markdown_report(report_data)
         else:
@@ -1672,15 +2059,15 @@ def finalize_expense(ctx: Context, node_input: str):
             output_str = re.sub(
                 r"### Final Decision\n\*\*[^\*]+\*\*",
                 f"### Final Decision\n**{decision}**",
-                output_str
+                output_str,
             )
             output_str = re.sub(
                 r"### Clear Reasoning\n(.*?)(?=\s*```json|\Z)",
                 f"### Clear Reasoning\n{reasoning}\n\n",
                 output_str,
-                flags=re.DOTALL
+                flags=re.DOTALL,
             )
-            
+
         ctx.state["orchestrator_decision"] = decision
         ctx.state["formatted_response"] = output_str
 

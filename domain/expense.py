@@ -1,8 +1,7 @@
-from typing import List, Optional
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 
-from .policy import PolicyResult
 from .fraud import FraudResult
+from .policy import PolicyResult
 
 
 class Expense(BaseModel):
@@ -11,6 +10,8 @@ class Expense(BaseModel):
     This class is frozen to enforce immutability.
     """
 
+    model_config = ConfigDict(frozen=True, arbitrary_types_allowed=True)
+
     id: str
     employee_id: str
     merchant: str
@@ -18,11 +19,7 @@ class Expense(BaseModel):
     amount: float
     currency: str = "USD"
     category: str = "Other"
-    items: List[str] = Field(default_factory=list)
-    justification: Optional[str] = None
-    policy_result: Optional[PolicyResult] = None
-    fraud_result: Optional[FraudResult] = None
-
-    class Config:
-        frozen = True
-        arbitrary_types_allowed = True
+    items: list[str] = Field(default_factory=list)
+    justification: str | None = None
+    policy_result: PolicyResult | None = None
+    fraud_result: FraudResult | None = None

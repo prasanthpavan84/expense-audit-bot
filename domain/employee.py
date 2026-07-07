@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 
 class Employee(BaseModel):
@@ -7,10 +7,9 @@ class Employee(BaseModel):
     This class is frozen to enforce immutability.
     """
 
+    model_config = ConfigDict(frozen=True)
+
     id: str
     name: str
     role: str = "Associate"
     department: str = "Engineering"
-
-    class Config:
-        frozen = True

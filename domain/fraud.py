@@ -1,5 +1,4 @@
-from typing import List
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 
 
 class FraudResult(BaseModel):
@@ -8,9 +7,8 @@ class FraudResult(BaseModel):
     This class is frozen to enforce immutability.
     """
 
-    score: float = 0.0
-    indicators: List[str] = Field(default_factory=list)
-    explanation: str = ""
+    model_config = ConfigDict(frozen=True)
 
-    class Config:
-        frozen = True
+    score: float = 0.0
+    indicators: list[str] = Field(default_factory=list)
+    explanation: str = ""

@@ -1,5 +1,4 @@
-from typing import List
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 
 
 class Audit(BaseModel):
@@ -8,10 +7,9 @@ class Audit(BaseModel):
     This class is frozen to enforce immutability.
     """
 
+    model_config = ConfigDict(frozen=True)
+
     expense_id: str
     is_approved: bool = False
     reason: str = ""
-    decision_trace: List[str] = Field(default_factory=list)
-
-    class Config:
-        frozen = True
+    decision_trace: list[str] = Field(default_factory=list)

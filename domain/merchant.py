@@ -1,5 +1,4 @@
-from typing import List, Optional
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 
 
 class Merchant(BaseModel):
@@ -8,10 +7,9 @@ class Merchant(BaseModel):
     This class is frozen to enforce immutability.
     """
 
-    name: str
-    category: Optional[str] = None
-    is_restricted: bool = False
-    aliases: List[str] = Field(default_factory=list)
+    model_config = ConfigDict(frozen=True)
 
-    class Config:
-        frozen = True
+    name: str
+    category: str | None = None
+    is_restricted: bool = False
+    aliases: list[str] = Field(default_factory=list)
