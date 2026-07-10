@@ -1,4 +1,3 @@
-import os
 import json
 from pathlib import Path
 
@@ -7,16 +6,17 @@ EVAL_DIR = PROJECT_ROOT / "evaluation"
 SCORECARD_JSON = EVAL_DIR / "scorecard.json"
 METRICS_JSON = EVAL_DIR / "metrics.json"
 
+
 def display_scorecard():
     if not SCORECARD_JSON.exists() or not METRICS_JSON.exists():
         print("[Scorecard] Error: Scorecard or metrics JSON files do not exist.")
         return
-        
-    with open(SCORECARD_JSON, "r", encoding="utf-8") as f:
+
+    with open(SCORECARD_JSON, encoding="utf-8") as f:
         scorecard = json.load(f)
-    with open(METRICS_JSON, "r", encoding="utf-8") as f:
+    with open(METRICS_JSON, encoding="utf-8") as f:
         metrics = json.load(f)
-        
+
     print("=" * 60)
     print("                 EXPENSE AUDIT BOT SCORECARD")
     print("=" * 60)
@@ -42,6 +42,7 @@ def display_scorecard():
     print(f"    95% Confidence Interval: {metrics['latency_stats']['confidence_interval_95']} seconds")
     print(f"    Peak Memory Usage:       {metrics['memory_stats']['peak_mb']} MB")
     print("=" * 60)
+
 
 if __name__ == "__main__":
     display_scorecard()

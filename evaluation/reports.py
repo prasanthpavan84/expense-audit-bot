@@ -2,6 +2,7 @@ import json
 import os
 import time
 
+
 class ReportGenerator:
     @staticmethod
     def generate_json_results(results: dict, output_path: str):
@@ -15,7 +16,7 @@ class ReportGenerator:
     def generate_markdown_report(metrics: dict, output_path: str):
         """Saves a detailed evaluation report to a Markdown file."""
         os.makedirs(os.path.dirname(output_path) or ".", exist_ok=True)
-        
+
         report = f"""# AI Agent Evaluation Report
 Generated on: {time.strftime('%Y-%m-%d %H:%M:%S')}
 
@@ -55,7 +56,7 @@ This report summarizes the performance and accuracy of the **ExpenseAuditBot** a
     def generate_benchmark_comparison(legacy_metrics: dict, agent_metrics: dict, output_path: str):
         """Generates a comparison markdown report between the Baseline Rule Engine and Multi-Agent Workflow."""
         os.makedirs(os.path.dirname(output_path) or ".", exist_ok=True)
-        
+
         report = f"""# Benchmark Comparison: Baseline vs Multi-Agent Workflow
 Generated on: {time.strftime('%Y-%m-%d %H:%M:%S')}
 

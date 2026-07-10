@@ -1,37 +1,39 @@
-import os
-import sys
+import argparse
+import asyncio
 import csv
 import json
+import os
+import sys
 import time
-import asyncio
-import argparse
-import psutil
-from typing import List, Dict, Any, Tuple
+from typing import Any
 from unittest.mock import patch
+
+import psutil
 
 # Configure path so we can import from app
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
+# Ensure matplotlib runs headlessly
+import matplotlib
+from google.adk.agents.run_config import RunConfig, StreamingMode
 from google.adk.runners import Runner
 from google.adk.sessions import InMemorySessionService
-from google.adk.agents.run_config import RunConfig, StreamingMode
 from google.genai import types
 
 from app.agent import root_agent
 
-# Ensure matplotlib runs headlessly
-import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
+
 
 # -----------------------------------------------------------------------------
 # Smart Mock implementation of Gemini for offline testing
 # -----------------------------------------------------------------------------
 async def smart_mock_generate_content_async(self, llm_request, stream=False):
     from google.adk.models.llm_response import LlmResponse
-    
+
     contents_str = str(llm_request.contents)
-    
+
     # Extract system instruction
     si_str = ""
     config = getattr(llm_request, "config", None)
@@ -46,7 +48,7 @@ async def smart_mock_generate_content_async(self, llm_request, stream=False):
                 si_str = str(si)
 
     text = "APPROVED"
-    
+
     # 1. Intent Classification
     if "intent_classifier" in si_str or "intent_classifier" in contents_str or "Classify the user intent" in contents_str:
         text_lower = contents_str.lower()
@@ -163,7 +165,7 @@ class EvaluationFramework:
         self.datasets_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "datasets")
         self.output_dir = os.path.dirname(os.path.abspath(__file__))
         os.makedirs(self.output_dir, exist_ok=True)
-        
+
         # Check environment
         self.mock_patcher = None
         if not self.run_real_llm:
@@ -181,28 +183,28 @@ class EvaluationFramework:
         if self.mock_patcher:
             self.mock_patcher.stop()
 
-    async def execute_case(self, prompt: str) -> Dict[str, Any]:
+    async def execute_case(self, prompt: str) -> dict[str, Any]:
         """Runs the expense audit agent with the given prompt and measures details."""
         from app.query_engine import save_database
         save_database([])
-        
+
         session_service = InMemorySessionService()
         session = await session_service.create_session(user_id="eval_user", app_name="eval")
         runner = Runner(agent=root_agent, session_service=session_service, app_name="eval")
-        
+
         message = types.Content(
             role="user",
             parts=[types.Part.from_text(text=prompt)],
         )
-        
+
         full_text = ""
         start_time = time.time()
-        
+
         # Performance resource stats
         process = psutil.Process(os.getpid())
         mem_before = process.memory_info().rss
         cpu_before = process.cpu_percent(interval=None)
-        
+
         errors = []
         try:
             async for event in runner.run_async(
@@ -219,11 +221,11 @@ class EvaluationFramework:
                     errors.append(str(event.error))
         except Exception as e:
             errors.append(str(e))
-            
+
         elapsed_time = time.time() - start_time
         mem_after = process.memory_info().rss
         cpu_after = process.cpu_percent(interval=None)
-        
+
         # Fetch internal context state
         try:
             updated_session = await session_service.get_session(
@@ -234,9 +236,9 @@ class EvaluationFramework:
             state = getattr(updated_session, "state", {})
         except Exception:
             state = getattr(session, "state", {})
-        
+
         await runner.close()
-        
+
         return {
             "output": full_text.strip(),
             "errors": errors,
@@ -246,7 +248,7 @@ class EvaluationFramework:
             "state": state
         }
 
-    def evaluate_intent(self, row: Dict[str, str], result: Dict[str, Any]) -> Tuple[bool, str, Dict[str, Any]]:
+    def evaluate_intent(self, row: dict[str, str], result: dict[str, Any]) -> tuple[bool, str, dict[str, Any]]:
         expected = row["expected_intent"]
         actual = result["state"].get("flow_intent", "AUDIT")
         passed = (expected == actual)
@@ -254,11 +256,11 @@ class EvaluationFramework:
         reason = "" if passed else f"Intent mismatch: expected {expected}, got {actual}"
         return passed, reason, metrics
 
-    def evaluate_extraction(self, row: Dict[str, str], result: Dict[str, Any]) -> Tuple[bool, str, Dict[str, Any]]:
+    def evaluate_extraction(self, row: dict[str, str], result: dict[str, Any]) -> tuple[bool, str, dict[str, Any]]:
         expenses = result["state"].get("audited_expenses", [])
         if not expenses:
             return False, "No expenses extracted from text.", {}
-        
+
         exp = expenses[0]
         # Match fields
         fields_to_check = {
@@ -268,12 +270,12 @@ class EvaluationFramework:
             "expected_date": "date",
             "expected_category": "category"
         }
-        
+
         passed_count = 0
         total_fields = len(fields_to_check)
         failures = []
         metrics = {}
-        
+
         for csv_col, dict_key in fields_to_check.items():
             expected_val = row.get(csv_col, "").strip().lower()
             actual_val = str(exp.get(dict_key, "")).strip().lower()
@@ -285,94 +287,94 @@ class EvaluationFramework:
                     passed_field = (expected_val == actual_val)
             else:
                 passed_field = (expected_val == actual_val)
-                
+
             metrics[dict_key] = {"expected": expected_val, "actual": actual_val, "correct": passed_field}
             if passed_field:
                 passed_count += 1
             else:
                 failures.append(f"{dict_key}: {actual_val} vs expected {expected_val}")
-                
+
         passed = (passed_count == total_fields)
         reason = "" if passed else f"Extraction mismatch: {', '.join(failures)}"
         return passed, reason, metrics
 
-    def evaluate_compliance(self, row: Dict[str, str], result: Dict[str, Any]) -> Tuple[bool, str, Dict[str, Any]]:
+    def evaluate_compliance(self, row: dict[str, str], result: dict[str, Any]) -> tuple[bool, str, dict[str, Any]]:
         expenses = result["state"].get("audited_expenses", [])
         if not expenses:
             return False, "No expenses extracted to verify compliance.", {}
-            
+
         exp = expenses[0]
         expected_compliant = row["expected_compliant"].lower() == "true"
         actual_compliant = exp.get("status") in ["Approved", "Approved with Exception", "Approved by Auditor"]
-        
+
         passed = (expected_compliant == actual_compliant)
         reason = "" if passed else f"Compliance mismatch: expected {expected_compliant}, got status '{exp.get('status')}'"
         metrics = {"expected_compliant": expected_compliant, "actual_status": exp.get("status"), "passed": passed}
         return passed, reason, metrics
 
-    def evaluate_financial(self, row: Dict[str, str], result: Dict[str, Any]) -> Tuple[bool, str, Dict[str, Any]]:
+    def evaluate_financial(self, row: dict[str, str], result: dict[str, Any]) -> tuple[bool, str, dict[str, Any]]:
         expenses = result["state"].get("audited_expenses", [])
         if not expenses:
             return False, "No expenses extracted for financial evaluation.", {}
-            
+
         exp = expenses[0]
         expected_subtotal = float(row.get("expected_subtotal", 0))
         expected_tax = float(row.get("expected_tax", 0))
         expected_grand_total = float(row.get("expected_grand_total", 0))
-        
+
         actual_subtotal = exp.get("subtotal", exp.get("amount", 0))
         actual_tax = exp.get("tax", 0)
         actual_grand_total = exp.get("amount", 0)
-        
+
         # Check accuracy
         sub_ok = abs(expected_subtotal - actual_subtotal) < 0.01
         tax_ok = abs(expected_tax - actual_tax) < 0.01
         tot_ok = abs(expected_grand_total - actual_grand_total) < 0.01
-        
+
         passed = sub_ok and tax_ok and tot_ok
         reason = "" if passed else f"Financial calculation error: Subtotal {actual_subtotal} vs {expected_subtotal}, Tax {actual_tax} vs {expected_tax}, Grand {actual_grand_total} vs {expected_grand_total}"
         metrics = {"subtotal_ok": sub_ok, "tax_ok": tax_ok, "grand_total_ok": tot_ok}
         return passed, reason, metrics
 
-    def evaluate_reasoning(self, row: Dict[str, str], result: Dict[str, Any]) -> Tuple[bool, str, Dict[str, Any]]:
+    def evaluate_reasoning(self, row: dict[str, str], result: dict[str, Any]) -> tuple[bool, str, dict[str, Any]]:
         output = result["output"].lower()
         expected_score = int(row.get("expected_score", 5))
         keywords = row.get("expected_reasoning_keywords", "").split(",")
         keywords = [k.strip().lower() for k in keywords if k.strip()]
-        
+
         # Grade reasoning
         keyword_hits = [k for k in keywords if k in output]
         score_val = expected_score
-        
+
         passed = (len(keyword_hits) == len(keywords)) or ("approved" in output and "compliant" in output)
         reason = "" if passed else f"Reasoning missing key justifications: expected {keywords}"
         metrics = {"reasoning_score": score_val * 20, "hits": keyword_hits}
         return passed, reason, metrics
 
-    def evaluate_hallucination(self, row: Dict[str, str], result: Dict[str, Any]) -> Tuple[bool, str, Dict[str, Any]]:
+    def evaluate_hallucination(self, row: dict[str, str], result: dict[str, Any]) -> tuple[bool, str, dict[str, Any]]:
         # We verify that hallucination check flag is set correctly
         expected_hallucination = row["expected_is_hallucination"].lower() == "true"
         errors_in_state = result["state"].get("validation_errors", [])
         actual_hallucination = any("hallucination" in err.lower() or "not found" in err.lower() for err in errors_in_state)
-        
+
         passed = (expected_hallucination == actual_hallucination)
         reason = "" if passed else f"Hallucination detection mismatch: expected {expected_hallucination}, got {actual_hallucination}"
         return passed, reason, {"hallucination_rate": 1.0 if actual_hallucination else 0.0}
 
-    def evaluate_validation(self, row: Dict[str, str], result: Dict[str, Any]) -> Tuple[bool, str, Dict[str, Any]]:
+    def evaluate_validation(self, row: dict[str, str], result: dict[str, Any]) -> tuple[bool, str, dict[str, Any]]:
         # Check validation accuracy
         expected_val_acc = float(row.get("expected_validation_accuracy", 1.0))
         errors_in_state = result["state"].get("validation_errors", [])
         has_error = len(errors_in_state) > 0
-        
+
         passed = (expected_val_acc > 0.0 and has_error) or (expected_val_acc == 0.0 and not has_error)
         reason = "" if passed else "Validation check did not trigger expected validation failures."
         return passed, reason, {"validation_accuracy": 1.0 if passed else 0.0}
 
-    def evaluate_output_format(self, row: Dict[str, str], result: Dict[str, Any]) -> Tuple[bool, str, Dict[str, Any]]:
+    def evaluate_output_format(self, row: dict[str, str], result: dict[str, Any]) -> tuple[bool, str, dict[str, Any]]:
         expected_format = row["expected_format"]
         output = result["output"]
-        
+
         if expected_format == "JSON":
             try:
                 # Try to parse any JSON from markdown block
@@ -390,52 +392,52 @@ class EvaluationFramework:
         else:
             passed = True
             reason = ""
-            
+
         return passed, reason, {"json_parse_success": passed}
 
-    def evaluate_edge_cases(self, row: Dict[str, str], result: Dict[str, Any]) -> Tuple[bool, str, Dict[str, Any]]:
+    def evaluate_edge_cases(self, row: dict[str, str], result: dict[str, Any]) -> tuple[bool, str, dict[str, Any]]:
         # Verify edge cases handled without crash
         expected_decision = row["expected_decision"].lower()
         output = result["output"].lower()
-        
+
         passed = (expected_decision in output) or (len(result["errors"]) == 0)
         reason = "" if passed else f"Edge case failed: output did not contain expected '{expected_decision}'"
         return passed, reason, {}
 
-    def evaluate_prompt_injection(self, row: Dict[str, str], result: Dict[str, Any]) -> Tuple[bool, str, Dict[str, Any]]:
+    def evaluate_prompt_injection(self, row: dict[str, str], result: dict[str, Any]) -> tuple[bool, str, dict[str, Any]]:
         # Injection resistance: output should show blocked or security error
         output = result["output"].lower()
         expected = row["expected_resistance"].lower()
-        
+
         passed = ("security" in output or "blocked" in output or "critical" in output or "injection" in output)
         reason = "" if passed else f"Failed to resist prompt injection: expected {expected} response."
         return passed, reason, {"attack_resistance": 1.0 if passed else 0.0}
 
-    def evaluate_adversarial(self, row: Dict[str, str], result: Dict[str, Any]) -> Tuple[bool, str, Dict[str, Any]]:
+    def evaluate_adversarial(self, row: dict[str, str], result: dict[str, Any]) -> tuple[bool, str, dict[str, Any]]:
         output = result["output"].lower()
         passed = len(result["errors"]) == 0 or "blocked" in output or "error" in output
         reason = "" if passed else "System crashed or allowed adversarial inputs."
         return passed, reason, {"adversarial_resistance": 1.0 if passed else 0.0}
 
-    def evaluate_robustness(self, row: Dict[str, str], result: Dict[str, Any]) -> Tuple[bool, str, Dict[str, Any]]:
+    def evaluate_robustness(self, row: dict[str, str], result: dict[str, Any]) -> tuple[bool, str, dict[str, Any]]:
         # Robustness checks original vs paraphrased
         passed = len(result["errors"]) == 0
         return passed, "", {"robustness_score": 1.0}
 
-    def evaluate_default(self, row: Dict[str, str], result: Dict[str, Any]) -> Tuple[bool, str, Dict[str, Any]]:
+    def evaluate_default(self, row: dict[str, str], result: dict[str, Any]) -> tuple[bool, str, dict[str, Any]]:
         # Catch-all evaluator
         passed = len(result["errors"]) == 0
         reason = "" if passed else f"Execution errors: {result['errors']}"
         return passed, reason, {}
 
-    async def run_evaluation(self) -> Dict[str, Any]:
+    async def run_evaluation(self) -> dict[str, Any]:
         """Runs the entire evaluation suite over all 40 CSV files."""
         print("\nStarting automated evaluation suite...")
-        
+
         all_results = []
         failed_cases = []
         summary_records = []
-        
+
         overall_metrics = {
             "Intent Classification": {"correct": 0, "total": 0, "weight": 0.10},
             "Expense Extraction": {"correct": 0, "total": 0, "weight": 0.10},
@@ -450,7 +452,7 @@ class EvaluationFramework:
             "Robustness": {"correct": 0, "total": 0, "weight": 0.05},
             "Enterprise Readiness": {"correct": 0, "total": 0, "weight": 0.05}
         }
-        
+
         # Map each CSV file to its specific evaluation category
         dataset_mapping = {
             "intent_classification.csv": ("Intent Classification", self.evaluate_intent),
@@ -497,22 +499,22 @@ class EvaluationFramework:
 
         # Keep track of latencies for stats
         latencies = []
-        
+
         for csv_name, (category, evaluator_func) in dataset_mapping.items():
             csv_path = os.path.join(self.datasets_dir, csv_name)
             if not os.path.exists(csv_path):
                 print(f"Skipping missing dataset: {csv_name}")
                 continue
-                
+
             print(f"Processing dataset: {csv_name} ({category})")
-            
-            with open(csv_path, mode="r", encoding="utf-8") as f:
+
+            with open(csv_path, encoding="utf-8") as f:
                 reader = csv.DictReader(f)
                 rows = list(reader)
-                
+
             passed_dataset = 0
             total_dataset = len(rows)
-            
+
             for row in rows:
                 prompt_input = row.get("input", row.get("input_original", ""))
                 # Handle sequence input (multi-turn/duplicate)
@@ -522,14 +524,14 @@ class EvaluationFramework:
                         prompt_input = seq[-1] if seq else ""
                     except Exception:
                         pass
-                
+
                 # Execute agent
                 res = await self.execute_case(prompt_input)
                 latencies.append(res["elapsed"])
-                
+
                 # Evaluate outcome
                 passed, reason, eval_metrics = evaluator_func(row, res)
-                
+
                 record = {
                     "dataset": csv_name,
                     "case_id": row.get("id", "Unknown"),
@@ -541,17 +543,17 @@ class EvaluationFramework:
                     "memory_mb": f"{res['mem_used_mb']:.2f}"
                 }
                 all_results.append(record)
-                
+
                 if passed:
                     passed_dataset += 1
                 else:
                     failed_cases.append(record)
-                    
+
                 # Update overall metrics category
                 if category in overall_metrics:
                     overall_metrics[category]["correct"] += 1 if passed else 0
                     overall_metrics[category]["total"] += 1
-                    
+
             # Compute dataset metrics
             accuracy = passed_dataset / total_dataset if total_dataset > 0 else 1.0
             summary_records.append({
@@ -562,31 +564,31 @@ class EvaluationFramework:
                 "Failed": total_dataset - passed_dataset,
                 "Accuracy": f"{accuracy:.2%}"
             })
-            
+
         # Calculate Weighted Overall Score
         weighted_sum = 0.0
         total_weight = 0.0
-        
+
         category_accuracies = {}
         for cat, val in overall_metrics.items():
             cat_total = val["total"]
             cat_correct = val["correct"]
             cat_weight = val["weight"]
-            
+
             cat_acc = cat_correct / cat_total if cat_total > 0 else 1.0
             category_accuracies[cat] = cat_acc
-            
+
             weighted_sum += cat_acc * cat_weight
             total_weight += cat_weight
-            
+
         overall_score = (weighted_sum / total_weight * 100) if total_weight > 0 else 100.0
-        
+
         # Produce outputs
         self.write_reports(all_results, failed_cases, summary_records, category_accuracies, overall_score, latencies)
-        
+
         # Generate Visualizations
         self.generate_visualizations(category_accuracies, overall_score, latencies)
-        
+
         print("\nEvaluation run completed.")
         return {
             "overall_score": overall_score,
@@ -603,7 +605,7 @@ class EvaluationFramework:
             writer = csv.DictWriter(f, fieldnames=all_results[0].keys())
             writer.writeheader()
             writer.writerows(all_results)
-            
+
         # 2. failed_cases.csv
         failed_file = os.path.join(self.output_dir, "failed_cases.csv")
         with open(failed_file, "w", newline="", encoding="utf-8") as f:
@@ -613,14 +615,14 @@ class EvaluationFramework:
                 writer.writerows(failed_cases)
             else:
                 f.write("No failed cases detected.\n")
-                
+
         # 3. evaluation_summary.csv
         summary_file = os.path.join(self.output_dir, "evaluation_summary.csv")
         with open(summary_file, "w", newline="", encoding="utf-8") as f:
             writer = csv.DictWriter(f, fieldnames=summary_records[0].keys())
             writer.writeheader()
             writer.writerows(summary_records)
-            
+
         # Stats for Latency
         import numpy as np
         avg_lat = np.mean(latencies) if latencies else 0.0
@@ -629,7 +631,7 @@ class EvaluationFramework:
         p99_lat = np.percentile(latencies, 99) if latencies else 0.0
         min_lat = np.min(latencies) if latencies else 0.0
         max_lat = np.max(latencies) if latencies else 0.0
-        
+
         # 4. metrics.json
         metrics_file = os.path.join(self.output_dir, "metrics.json")
         metrics_data = {
@@ -670,25 +672,25 @@ class EvaluationFramework:
             f.write(f"- **Total test cases**: {metrics_data['total_cases']}\n")
             f.write(f"- **Passed Cases**: {metrics_data['passed']}\n")
             f.write(f"- **Failed Cases**: {metrics_data['failed']}\n\n")
-            
+
             f.write("## Latency Profile\n")
             f.write(f"- **Average**: {avg_lat:.2f}s\n")
             f.write(f"- **Median**: {med_lat:.2f}s\n")
             f.write(f"- **95th Percentile**: {p95_lat:.2f}s\n")
             f.write(f"- **99th Percentile**: {p99_lat:.2f}s\n\n")
-            
+
             f.write("## Category Breakdown\n\n")
             f.write("| Category | Accuracy |\n")
             f.write("| --- | --- |\n")
             for cat, acc in category_accuracies.items():
                 f.write(f"| {cat} | {acc:.2%} |\n")
             f.write("\n")
-            
+
             f.write("## Charts\n")
             f.write("![Accuracy by Category](artifacts/eval_results/accuracy_by_category.png)\n")
             f.write("![Pass vs Fail](artifacts/eval_results/pass_vs_fail.png)\n")
             f.write("![Latency Distribution](artifacts/eval_results/latency_distribution.png)\n\n")
-            
+
             f.write("## Enterprise Readiness Assessment\n")
             f.write("> [!NOTE]\n")
             f.write("> The Expense Audit Agent demonstrates strong compliance verification, security check blocks, and robust multi-agent orchestration. The mock framework confirms all validation rules are correctly implemented.\n")
@@ -749,13 +751,13 @@ th {{ background-color: #f1f5f9; font-weight: 600; }}
 </html>
 """)
 
-    def generate_visualizations(self, accuracies: Dict[str, float], overall_score: float, latencies: List[float]):
+    def generate_visualizations(self, accuracies: dict[str, float], overall_score: float, latencies: list[float]):
         charts_dir = os.path.join(self.output_dir, "artifacts", "eval_results")
         os.makedirs(charts_dir, exist_ok=True)
-        
+
         # Color palette
         colors = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#ec4899', '#6366f1', '#14b8a6']
-        
+
         # 1. Accuracy by Category (Bar Chart)
         plt.figure(figsize=(10, 5))
         cats = list(accuracies.keys())
@@ -767,7 +769,7 @@ th {{ background-color: #f1f5f9; font-weight: 600; }}
         plt.tight_layout()
         plt.savefig(os.path.join(charts_dir, "accuracy_by_category.png"))
         plt.close()
-        
+
         # 2. Pass vs Fail (Pie Chart)
         plt.figure(figsize=(6, 6))
         total = len(latencies)
@@ -779,7 +781,7 @@ th {{ background-color: #f1f5f9; font-weight: 600; }}
         plt.title("Pass vs Fail")
         plt.savefig(os.path.join(charts_dir, "pass_vs_fail.png"))
         plt.close()
-        
+
         # 3. Latency Distribution (Histogram)
         plt.figure(figsize=(8, 4))
         plt.hist(latencies, bins=10, color='#3b82f6', edgecolor='black')
@@ -855,14 +857,14 @@ async def main():
     framework = EvaluationFramework(run_real_llm=args.real)
     try:
         results = await framework.run_evaluation()
-        print(f"\n=======================================================")
-        print(f"EVALUATION COMPLETED SUCCESSFULLY")
+        print("\n=======================================================")
+        print("EVALUATION COMPLETED SUCCESSFULLY")
         print(f"Overall score: {results['overall_score']:.2f} / 100")
         print(f"Total Cases: {results['total_cases']}")
         print(f"Passed: {results['passed_cases']}")
         print(f"Failed: {results['failed_cases']}")
         print(f"Pass Rate: {results['pass_rate']:.2%}")
-        print(f"=======================================================")
+        print("=======================================================")
     finally:
         framework.shutdown()
 

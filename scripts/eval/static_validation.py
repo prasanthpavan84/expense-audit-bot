@@ -1,6 +1,5 @@
-import os
-import sys
 import subprocess
+import sys
 from pathlib import Path
 
 # Force UTF-8 encoding on Windows to prevent output stream encoding errors
@@ -51,32 +50,32 @@ def check_git_status():
     if res.returncode != 0:
         print("  [FAIL] Git command failed.")
         return False
-        
+
     lines = res.stdout.strip().split("\n")
     modified_core = []
-    
+
     for line in lines:
         if not line:
             continue
         status, filepath = line[:2], line[3:].replace("\\", "/")
-        
+
         # Exclude dynamic runtime data files
         if filepath == "app/database.json" or "app/evaluation/" in filepath:
             continue
-            
+
         path_parts = Path(filepath).parts
-        
+
         # Check if any modified file is within a frozen directory
         for fd in FROZEN_DIRS:
             if fd in path_parts:
                 modified_core.append(filepath)
-                
+
     if modified_core:
         print("  [FAIL] VIOLATION: The following frozen core files have changes:")
         for mc in modified_core:
             print(f"    - {mc}")
         return False
-        
+
     print("  [OK] Verification success: All core directories remain untouched.")
     return True
 
@@ -84,11 +83,11 @@ def main():
     print("=" * 80)
     print("  STATIC CODE VALIDATION & DEPLOYMENT HEALTH CHECK")
     print("=" * 80)
-    
+
     ok = True
     ok = ok and check_imports()
     ok = ok and check_git_status()
-    
+
     print("\n" + "=" * 80)
     if ok:
         print("  STATIC VALIDATION: COMPLIANT (PASS)")

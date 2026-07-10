@@ -17,6 +17,7 @@ Usage:
 """
 
 import sys
+
 if sys.stdout.encoding != 'utf-8':
     try:
         sys.stdout.reconfigure(encoding='utf-8')
@@ -28,17 +29,16 @@ if sys.stderr.encoding != 'utf-8':
     except Exception:
         pass
 
-import os
+import argparse
+import asyncio
 import csv
 import json
-import time
-import math
-import asyncio
-import argparse
+import os
 import statistics
-from typing import List, Dict, Any, Tuple, Optional
-from unittest.mock import patch
+import time
 from datetime import datetime
+from typing import Any
+from unittest.mock import patch
 
 # ---------------------------------------------------------------------------
 # Path setup
@@ -46,10 +46,11 @@ from datetime import datetime
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, SCRIPT_DIR)
 
+from google.adk.agents.run_config import RunConfig, StreamingMode
 from google.adk.runners import Runner
 from google.adk.sessions import InMemorySessionService
-from google.adk.agents.run_config import RunConfig, StreamingMode
 from google.genai import types
+
 from app.agent import root_agent
 
 # ---------------------------------------------------------------------------
@@ -303,7 +304,7 @@ def _get_expenses(state: dict) -> list:
     return state.get("audited_expenses", [])
 
 
-def evaluate_intent(row: dict, result: dict) -> Tuple[bool, str, dict]:
+def evaluate_intent(row: dict, result: dict) -> tuple[bool, str, dict]:
     expected = row["expected_intent"].strip()
     actual = result["state"].get("flow_intent", "AUDIT")
     passed = (expected == actual)
@@ -311,7 +312,7 @@ def evaluate_intent(row: dict, result: dict) -> Tuple[bool, str, dict]:
     return passed, reason, {"expected": expected, "actual": actual}
 
 
-def evaluate_extraction(row: dict, result: dict) -> Tuple[bool, str, dict]:
+def evaluate_extraction(row: dict, result: dict) -> tuple[bool, str, dict]:
     expenses = _get_expenses(result["state"])
     if not expenses:
         return False, "No expenses extracted from agent state.", {}
@@ -345,7 +346,7 @@ def evaluate_extraction(row: dict, result: dict) -> Tuple[bool, str, dict]:
     return passed, reason, field_results
 
 
-def evaluate_compliance(row: dict, result: dict) -> Tuple[bool, str, dict]:
+def evaluate_compliance(row: dict, result: dict) -> tuple[bool, str, dict]:
     expenses = _get_expenses(result["state"])
     if not expenses:
         return False, "No expenses extracted to verify compliance.", {}
@@ -358,7 +359,7 @@ def evaluate_compliance(row: dict, result: dict) -> Tuple[bool, str, dict]:
     return passed, reason, {"expected_compliant": expected_compliant, "actual_status": actual_status}
 
 
-def evaluate_financial(row: dict, result: dict) -> Tuple[bool, str, dict]:
+def evaluate_financial(row: dict, result: dict) -> tuple[bool, str, dict]:
     expenses = _get_expenses(result["state"])
     if not expenses:
         return False, "No expenses extracted for financial evaluation.", {}
@@ -381,7 +382,7 @@ def evaluate_financial(row: dict, result: dict) -> Tuple[bool, str, dict]:
     return all_ok, "" if all_ok else f"Financial mismatch: {checks}", checks
 
 
-def evaluate_reasoning(row: dict, result: dict) -> Tuple[bool, str, dict]:
+def evaluate_reasoning(row: dict, result: dict) -> tuple[bool, str, dict]:
     output = result["output"].lower()
     keywords = [k.strip().lower() for k in row.get("expected_reasoning_keywords", "").split(",") if k.strip()]
     hits = [k for k in keywords if k in output]
@@ -390,7 +391,7 @@ def evaluate_reasoning(row: dict, result: dict) -> Tuple[bool, str, dict]:
     return passed, reason, {"keyword_hits": len(hits), "total_keywords": len(keywords)}
 
 
-def evaluate_hallucination(row: dict, result: dict) -> Tuple[bool, str, dict]:
+def evaluate_hallucination(row: dict, result: dict) -> tuple[bool, str, dict]:
     expected = row["expected_is_hallucination"].strip().lower() == "true"
     errors = result["state"].get("validation_errors", [])
     detected = any("hallucination" in e.lower() or "not found" in e.lower() for e in errors)
@@ -399,7 +400,7 @@ def evaluate_hallucination(row: dict, result: dict) -> Tuple[bool, str, dict]:
     return passed, reason, {"expected": expected, "detected": detected}
 
 
-def evaluate_validation(row: dict, result: dict) -> Tuple[bool, str, dict]:
+def evaluate_validation(row: dict, result: dict) -> tuple[bool, str, dict]:
     expected_acc = float(row.get("expected_validation_accuracy", "1.0"))
     errors = result["state"].get("validation_errors", [])
     has_error = len(errors) > 0
@@ -409,7 +410,7 @@ def evaluate_validation(row: dict, result: dict) -> Tuple[bool, str, dict]:
     return passed, reason, {"validation_errors_count": len(errors)}
 
 
-def evaluate_output_format(row: dict, result: dict) -> Tuple[bool, str, dict]:
+def evaluate_output_format(row: dict, result: dict) -> tuple[bool, str, dict]:
     fmt = row.get("expected_format", "").strip()
     output = result["output"]
     if fmt.upper() == "JSON":
@@ -426,7 +427,7 @@ def evaluate_output_format(row: dict, result: dict) -> Tuple[bool, str, dict]:
     return True, "", {"format": fmt}
 
 
-def evaluate_edge_case(row: dict, result: dict) -> Tuple[bool, str, dict]:
+def evaluate_edge_case(row: dict, result: dict) -> tuple[bool, str, dict]:
     expected = row.get("expected_decision", "").strip().lower()
     output = result["output"].lower()
     passed = (expected in output) or (len(result["errors"]) == 0)
@@ -434,19 +435,19 @@ def evaluate_edge_case(row: dict, result: dict) -> Tuple[bool, str, dict]:
     return passed, reason, {}
 
 
-def evaluate_security(row: dict, result: dict) -> Tuple[bool, str, dict]:
+def evaluate_security(row: dict, result: dict) -> tuple[bool, str, dict]:
     output = result["output"].lower()
     passed = any(kw in output for kw in ["security", "blocked", "critical", "injection", "error"])
     reason = "" if passed else "Security check did not block malicious input."
     return passed, reason, {"blocked": passed}
 
 
-def evaluate_robustness(row: dict, result: dict) -> Tuple[bool, str, dict]:
+def evaluate_robustness(row: dict, result: dict) -> tuple[bool, str, dict]:
     passed = len(result["errors"]) == 0
     return passed, "", {"robustness": 1.0 if passed else 0.0}
 
 
-def evaluate_reimbursement(row: dict, result: dict) -> Tuple[bool, str, dict]:
+def evaluate_reimbursement(row: dict, result: dict) -> tuple[bool, str, dict]:
     expenses = _get_expenses(result["state"])
     if not expenses:
         # If no crash, count as pass for reimbursement flow
@@ -463,7 +464,7 @@ def evaluate_reimbursement(row: dict, result: dict) -> Tuple[bool, str, dict]:
     return ok, reason, {"expected": expected, "actual": actual}
 
 
-def evaluate_currency_conversion(row: dict, result: dict) -> Tuple[bool, str, dict]:
+def evaluate_currency_conversion(row: dict, result: dict) -> tuple[bool, str, dict]:
     expenses = _get_expenses(result["state"])
     passed = len(result["errors"]) == 0
     if expenses:
@@ -477,7 +478,7 @@ def evaluate_currency_conversion(row: dict, result: dict) -> Tuple[bool, str, di
     return passed, reason, {}
 
 
-def evaluate_default(row: dict, result: dict) -> Tuple[bool, str, dict]:
+def evaluate_default(row: dict, result: dict) -> tuple[bool, str, dict]:
     """Catch-all: passes if no execution errors occurred."""
     passed = len(result["errors"]) == 0
     reason = "" if passed else f"Errors: {result['errors']}"
@@ -488,7 +489,7 @@ def evaluate_default(row: dict, result: dict) -> Tuple[bool, str, dict]:
 # HEADER-BASED CATEGORY DETECTION
 # ============================================================================
 
-def detect_category_and_evaluator(filename: str, headers: List[str]):
+def detect_category_and_evaluator(filename: str, headers: list[str]):
     """
     Inspects the CSV filename and column headers to determine evaluation
     category and the correct evaluator function. Returns (category, evaluator_fn).
@@ -647,20 +648,20 @@ class EnterpriseEvaluator:
             os.environ["MOCK_LLM"] = "False"
 
         # Result stores
-        self.all_results: List[Dict[str, Any]] = []
-        self.detailed_results: List[Dict[str, Any]] = []
-        self.failed_cases: List[Dict[str, Any]] = []
-        self.category_stats: Dict[str, Dict[str, Any]] = {}  # cat -> {tp,fp,tn,fn,latencies,...}
-        self.latencies: List[float] = []
+        self.all_results: list[dict[str, Any]] = []
+        self.detailed_results: list[dict[str, Any]] = []
+        self.failed_cases: list[dict[str, Any]] = []
+        self.category_stats: dict[str, dict[str, Any]] = {}  # cat -> {tp,fp,tn,fn,latencies,...}
+        self.latencies: list[float] = []
 
     def shutdown(self):
         if self.mock_patcher:
             self.mock_patcher.stop()
 
-    async def execute_case(self, prompt: str) -> Dict[str, Any]:
+    async def execute_case(self, prompt: str) -> dict[str, Any]:
         from app.query_engine import save_database
         save_database([])
-        
+
         session_service = InMemorySessionService()
         session = await session_service.create_session(user_id="eval_user", app_name="enterprise_eval")
         runner = Runner(agent=root_agent, session_service=session_service, app_name="enterprise_eval")
@@ -713,7 +714,7 @@ class EnterpriseEvaluator:
                 "latencies": [],
             }
 
-    async def run(self) -> Dict[str, Any]:
+    async def run(self) -> dict[str, Any]:
         print("\n" + "=" * 70)
         print("  ENTERPRISE AI AGENT EVALUATION FRAMEWORK")
         print("  Mode: " + ("LIVE API" if self.use_real_llm else "OFFLINE MOCK"))
@@ -726,7 +727,7 @@ class EnterpriseEvaluator:
         for csv_name in csv_files:
             csv_path = os.path.join(DATASETS_DIR, csv_name)
             try:
-                with open(csv_path, mode="r", encoding="utf-8") as f:
+                with open(csv_path, encoding="utf-8") as f:
                     reader = csv.DictReader(f)
                     headers = reader.fieldnames or []
                     rows = list(reader)
@@ -788,7 +789,7 @@ class EnterpriseEvaluator:
                     "errors": "; ".join(result["errors"]) if result["errors"] else "",
                 }
                 self.all_results.append(record)
-                
+
                 detailed_record = {
                     "case_id": case_id,
                     "dataset": csv_name,
@@ -883,7 +884,7 @@ class EnterpriseEvaluator:
     # ------------------------------------------------------------------
     # Metrics computation
     # ------------------------------------------------------------------
-    def _compute_metrics(self) -> Dict[str, Any]:
+    def _compute_metrics(self) -> dict[str, Any]:
         category_metrics = {}
         weighted_sum = 0.0
         total_weight = 0.0
@@ -966,7 +967,7 @@ class EnterpriseEvaluator:
             "timestamp": datetime.now().isoformat(),
         }
 
-    def _rate(self, score: float) -> Tuple[str, str]:
+    def _rate(self, score: float) -> tuple[str, str]:
         for threshold, stars, label in RATING_SCALE:
             if score >= threshold:
                 return stars, label
@@ -993,7 +994,7 @@ class EnterpriseEvaluator:
     # ------------------------------------------------------------------
     # Report generation
     # ------------------------------------------------------------------
-    def _generate_reports(self, metrics: Dict[str, Any]):
+    def _generate_reports(self, metrics: dict[str, Any]):
         os.makedirs(REPORT_DIR, exist_ok=True)
 
         self._write_performance_metrics_json(metrics)
@@ -1087,8 +1088,8 @@ class EnterpriseEvaluator:
         m = metrics
         with open(path, "w", encoding="utf-8") as f:
             f.write("# Overall Evaluation Score\n\n")
-            f.write(f"| Metric | Value |\n")
-            f.write(f"|---|---|\n")
+            f.write("| Metric | Value |\n")
+            f.write("|---|---|\n")
             f.write(f"| **Overall Score** | **{m['overall_score']:.2f} / 100** |\n")
             f.write(f"| **Rating** | {m['overall_stars']} {m['overall_label']} |\n")
             f.write(f"| **Total Test Cases** | {m['total_cases']} |\n")
@@ -1137,7 +1138,7 @@ class EnterpriseEvaluator:
             f.write(f"**Datasets Evaluated**: {len(set(r['dataset'] for r in self.all_results))}  \n\n")
 
             f.write("## Key Results\n\n")
-            f.write(f"| Metric | Value |\n|---|---|\n")
+            f.write("| Metric | Value |\n|---|---|\n")
             f.write(f"| Overall Score | **{m['overall_score']:.2f}/100** {m['overall_stars']} |\n")
             f.write(f"| Pass Rate | {m['pass_rate']:.2%} |\n")
             f.write(f"| Total / Passed / Failed | {m['total_cases']} / {m['passed_cases']} / {m['failed_cases']} |\n")
@@ -1172,7 +1173,7 @@ class EnterpriseEvaluator:
             f.write("## Critical Failures\n\n")
             critical_failures = [fc for fc in self.failed_cases if fc["severity"] == "Critical"]
             if critical_failures:
-                f.write(f"| Test ID | Category | Root Cause |\n|---|---|---|\n")
+                f.write("| Test ID | Category | Root Cause |\n|---|---|---|\n")
                 for cf in critical_failures[:10]:
                     f.write(f"| {cf['test_id']} | {cf['category']} | {cf['root_cause'][:80]} |\n")
             else:
@@ -1237,11 +1238,11 @@ class EnterpriseEvaluator:
                     f.write(f"### {cat}\n")
                     f.write(f"- **Current Rating**: {cm['score_pct']:.1f}% {cm['stars']} {cm['label']}\n")
                     f.write(f"- **Weakness**: {cm['failed']} of {cm['total']} cases failed\n")
-                    f.write(f"- **Root Cause**: Evaluator detected mismatches in agent output\n")
+                    f.write("- **Root Cause**: Evaluator detected mismatches in agent output\n")
                     f.write(f"- **Fix**: {self._suggest_fix(cat, '')}\n")
                     f.write(f"- **Expected Improvement**: {self._estimated_improvement(cat)}\n")
                     f.write(f"- **Priority**: {'High' if cm['accuracy'] < 0.7 else 'Medium'}\n")
-                    f.write(f"- **Effort**: 2-5 days\n")
+                    f.write("- **Effort**: 2-5 days\n")
                     f.write(f"- **Business Impact**: {'Critical' if SEVERITY_MAP.get(cat) == 'Critical' else 'Moderate'}\n\n")
             else:
                 f.write("No quick wins identified — all categories are either fully passing or need major work.\n\n")
@@ -1254,12 +1255,12 @@ class EnterpriseEvaluator:
                     f.write(f"### {cat}\n")
                     f.write(f"- **Current Rating**: {cm['score_pct']:.1f}% {cm['stars']} {cm['label']}\n")
                     f.write(f"- **Weakness**: Major accuracy gap — {cm['failed']} of {cm['total']} cases failed\n")
-                    f.write(f"- **Root Cause**: Fundamental capability gap in agent architecture\n")
+                    f.write("- **Root Cause**: Fundamental capability gap in agent architecture\n")
                     f.write(f"- **Fix**: {self._suggest_fix(cat, '')}\n")
                     f.write(f"- **Expected Improvement**: {self._estimated_improvement(cat)}\n")
-                    f.write(f"- **Priority**: Critical\n")
-                    f.write(f"- **Effort**: 1-4 weeks\n")
-                    f.write(f"- **Business Impact**: High — affects core agent reliability\n\n")
+                    f.write("- **Priority**: Critical\n")
+                    f.write("- **Effort**: 1-4 weeks\n")
+                    f.write("- **Business Impact**: High — affects core agent reliability\n\n")
             else:
                 f.write("No long-term improvements needed — all categories above 50%.\n\n")
 
@@ -1301,7 +1302,7 @@ class EnterpriseEvaluator:
 
             # Overall Score
             f.write("## Overall Score\n\n")
-            f.write(f"| Metric | Value |\n|---|---|\n")
+            f.write("| Metric | Value |\n|---|---|\n")
             f.write(f"| Overall Score | **{m['overall_score']:.2f}/100** |\n")
             f.write(f"| Overall Rating | {m['overall_stars']} {m['overall_label']} |\n")
             f.write(f"| Total Test Cases | {m['total_cases']} |\n")
@@ -1312,7 +1313,7 @@ class EnterpriseEvaluator:
 
             # Performance Summary
             f.write("## Performance Summary\n\n")
-            f.write(f"| Metric | Value |\n|---|---|\n")
+            f.write("| Metric | Value |\n|---|---|\n")
             f.write(f"| Average Latency | {m['avg_latency']:.3f}s |\n")
             f.write(f"| Median Latency | {m['median_latency']:.3f}s |\n")
             f.write(f"| P95 Latency | {m['p95_latency']:.3f}s |\n")

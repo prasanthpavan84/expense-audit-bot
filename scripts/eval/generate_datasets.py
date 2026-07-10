@@ -1,5 +1,6 @@
-import os
 import csv
+import os
+
 
 def main():
     datasets_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "datasets")

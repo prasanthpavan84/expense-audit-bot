@@ -1,11 +1,11 @@
-import time
 import os
-import sys
+import time
 
 try:
     import psutil
 except ImportError:
     psutil = None
+
 
 class PerformanceTracker:
     def __init__(self):
@@ -46,7 +46,7 @@ class PerformanceTracker:
     def generate_report(metrics: dict, output_path: str):
         """Generates performance_report.md detailing resource metrics."""
         os.makedirs(os.path.dirname(output_path) or ".", exist_ok=True)
-        
+
         report = f"""# Performance Profiling Report
 Generated on: {time.strftime('%Y-%m-%d %H:%M:%S')}
 

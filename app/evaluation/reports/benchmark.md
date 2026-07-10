@@ -1,6 +1,6 @@
 # Benchmark Evaluation Report
 
-Generated at: 2026-07-07 10:12:58 UTC
+Generated at: 2026-07-10 03:04:02 UTC
 
 ## Overall Metrics
 
@@ -8,10 +8,10 @@ Generated at: 2026-07-07 10:12:58 UTC
 |---|---|
 | **Model Used** | `gemini-2.5-flash-lite` |
 | **Total Cases** | 500 |
-| **Accuracy** | 53.00% |
-| **Precision** | 60.76% |
+| **Accuracy** | 80.00% |
+| **Precision** | 100.00% |
 | **Recall** | 73.59% |
-| **F1 Score** | 66.56% |
-| **Total Duration** | 28.9 seconds |
-| **Avg Latency** | 0.058 seconds |
+| **F1 Score** | 84.79% |
+| **Total Duration** | 23.57 seconds |
+| **Avg Latency** | 0.047 seconds |
 | **Total Cost** | $0.0750 USD |

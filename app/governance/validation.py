@@ -1,5 +1,3 @@
-import typing
-
 def validate_model_registry(data: dict):
     if not isinstance(data, dict):
         raise ValueError("Model registry must be a dictionary")
@@ -20,15 +18,22 @@ def validate_model_registry(data: dict):
         if not isinstance(caps, dict):
             raise ValueError(f"Capabilities for {model_name} must be a dictionary")
         required_caps = [
-            "structured_output", "json_mode", "tool_calling", 
-            "streaming", "vision", "long_context", 
-            "thinking", "reasoning", "function_calling"
+            "structured_output",
+            "json_mode",
+            "tool_calling",
+            "streaming",
+            "vision",
+            "long_context",
+            "thinking",
+            "reasoning",
+            "function_calling",
         ]
         for cap in required_caps:
             if cap not in caps:
                 raise ValueError(f"Model {model_name} capabilities missing key: '{cap}'")
             if not isinstance(caps[cap], bool):
                 raise ValueError(f"Capability '{cap}' for {model_name} must be a boolean")
+
 
 def validate_prompt_registry(data: dict):
     if not isinstance(data, dict):
@@ -63,6 +68,7 @@ def validate_prompt_registry(data: dict):
             if not isinstance(details["required_tools"], list):
                 raise ValueError(f"required_tools for {prompt_name} {ver} must be a list")
 
+
 def validate_workflow_registry(data: dict):
     if not isinstance(data, dict):
         raise ValueError("Workflow registry must be a dictionary")
@@ -94,6 +100,7 @@ def validate_workflow_registry(data: dict):
             if not isinstance(order, list):
                 raise ValueError(f"execution_order in {wf_name} {ver} must be a list")
 
+
 def validate_deployment_registry(data: dict):
     if not isinstance(data, dict):
         raise ValueError("Deployment registry must be a dictionary")
@@ -103,13 +110,21 @@ def validate_deployment_registry(data: dict):
         raise ValueError("Missing 'environments' key in deployment registry")
     envs = data["environments"]
     for env_name, config in envs.items():
-        for key in ["project_id", "region", "model_version", "prompt_version", "secrets_required", "environment_variables"]:
+        for key in [
+            "project_id",
+            "region",
+            "model_version",
+            "prompt_version",
+            "secrets_required",
+            "environment_variables",
+        ]:
             if key not in config:
                 raise ValueError(f"Deployment environment {env_name} missing: '{key}'")
         if not isinstance(config["secrets_required"], list):
             raise ValueError(f"secrets_required for {env_name} must be a list")
         if not isinstance(config["environment_variables"], dict):
             raise ValueError(f"environment_variables for {env_name} must be a dict")
+
 
 def validate_evaluation_registry(data: dict):
     if not isinstance(data, dict):

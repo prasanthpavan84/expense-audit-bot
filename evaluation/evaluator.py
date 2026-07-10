@@ -5,11 +5,13 @@ Simple evaluator that runs configured metrics against artifact data.
 
 from .metrics import Metric
 
+
 class Evaluator:
     """Runs a collection of Metric instances on provided data.
 
     The `evaluate` method returns a dict mapping metric class names to their computed values.
     """
+
     def __init__(self, metrics: list[Metric] | None = None):
         self.metrics = metrics or []
 
