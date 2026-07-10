@@ -12,11 +12,9 @@ Validates the final response by checking:
   - Lifecycle consistent
 """
 
-from typing import List
-
-from app.models.state import WorkflowState
 from app.engine.confidence_engine import calibrate_confidence
 from app.intents.clarification_manager import ClarificationManager
+from app.models.state import WorkflowState
 
 CONFIDENCE_THRESHOLD = 0.6
 
@@ -60,9 +58,7 @@ def validate_response(state: WorkflowState) -> bool:
     required_steps = plan_dict.get("steps", [])
     for step in required_steps:
         if step not in perf:
-            state.metadata["clarification_question"] = (
-                f"Workflow incomplete: agent '{step}' did not execute."
-            )
+            state.metadata["clarification_question"] = f"Workflow incomplete: agent '{step}' did not execute."
             state.status = "CLARIFY"
             return False
 
@@ -81,9 +77,14 @@ def validate_response(state: WorkflowState) -> bool:
     cognitive = state.metadata.get("cognitive_decision")
     if cognitive and not cognitive.firewall_passed:
         # Firewall blocked — ensure no expense agents ran
-        for agent_name in ["receipt_extractor", "validation_agent",
-                           "policy_agent", "fraud_agent",
-                           "reflection_agent", "report_agent"]:
+        for agent_name in [
+            "receipt_extractor",
+            "validation_agent",
+            "policy_agent",
+            "fraud_agent",
+            "reflection_agent",
+            "report_agent",
+        ]:
             if agent_name in perf:
                 state.metadata["clarification_question"] = (
                     f"Safety error: agent '{agent_name}' ran despite firewall block."

@@ -35,26 +35,20 @@ def generate_markdown_report(audit_result: dict[str, Any]) -> str:
     fraud_alerts = [e for e in expenses if e.get("fraud_score", 0) >= 30]
     md.append("## Fraud Findings")
     if fraud_alerts:
-        md.append(
-            f"⚠️ **Warning**: {len(fraud_alerts)} expense(s) flagged with Medium or High fraud risk."
-        )
+        md.append(f"⚠️ **Warning**: {len(fraud_alerts)} expense(s) flagged with Medium or High fraud risk.")
         for idx, fa in enumerate(fraud_alerts):
             md.append(
                 f"{idx + 1}. **{fa.get('merchant')}** ({currency} {fa.get('amount'):,.2f}) on {fa.get('date')}: Risk Score = {fa.get('fraud_score')}/100. Reasons: {fa.get('fraud_reason')}"
             )
     else:
-        md.append(
-            "✅ No significant fraud or anomalies detected across the submitted expenses."
-        )
+        md.append("✅ No significant fraud or anomalies detected across the submitted expenses.")
     md.append("")
 
     # Policy Violations list
     violations = []
     for exp in expenses:
         for v in exp.get("violations", []):
-            violations.append(
-                f"Expense at **{exp.get('merchant')}** on {exp.get('date')}: {v}"
-            )
+            violations.append(f"Expense at **{exp.get('merchant')}** on {exp.get('date')}: {v}")
 
     md.append("## Policy Violations")
     if violations:
@@ -66,9 +60,7 @@ def generate_markdown_report(audit_result: dict[str, Any]) -> str:
 
     # Expense Breakdown table
     md.append("## Expense Breakdown")
-    md.append(
-        "| # | Merchant | Date | Category | Claimed | Reimbursable | Rejected | Risk Score | Status |"
-    )
+    md.append("| # | Merchant | Date | Category | Claimed | Reimbursable | Rejected | Risk Score | Status |")
     md.append("|---|---|---|---|---|---|---|---|---|")
     for idx, exp in enumerate(expenses):
         md.append(
@@ -93,9 +85,7 @@ def generate_markdown_report(audit_result: dict[str, Any]) -> str:
             f"* **Adjust Reimbursable claims**: Reimbursement should exclude the rejected amount of {currency} {total_rejected:,.2f} due to policy limit caps."
         )
     if overall_score == 100.0 and not fraud_alerts:
-        md.append(
-            "* ✅ **Immediate Auto-Reimbursement**: Batch is clean. Recommend immediate release of funds."
-        )
+        md.append("* ✅ **Immediate Auto-Reimbursement**: Batch is clean. Recommend immediate release of funds.")
     md.append("")
 
     # Audit Trail
@@ -107,9 +97,7 @@ def generate_markdown_report(audit_result: dict[str, Any]) -> str:
 
     # Add compatible legacy sections for old test frameworks
     decision = audit_result.get("decision", "Approved")
-    reasoning = audit_result.get(
-        "reasoning", "Calculated reimbursement based on company limits."
-    )
+    reasoning = audit_result.get("reasoning", "Calculated reimbursement based on company limits.")
 
     md.append("### Final Decision")
     md.append(f"**{decision}**")
@@ -378,9 +366,7 @@ def generate_pdf_report(audit_result: dict[str, Any]) -> bytes:
                 body_style,
             )
         )
-        story.append(
-            Paragraph(f"Compliance Score: {compliance_score:.1f}%", body_style)
-        )
+        story.append(Paragraph(f"Compliance Score: {compliance_score:.1f}%", body_style))
         story.append(Spacer(1, 15))
 
         # Table of items

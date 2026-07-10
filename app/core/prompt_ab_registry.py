@@ -25,7 +25,7 @@ class PromptABRegistry:
             return "v1"
 
         # Deterministic hashing of session_id to get split
-        hasher = hashlib.md5(f"{agent_id}:{session_id}".encode("utf-8"))
+        hasher = hashlib.md5(f"{agent_id}:{session_id}".encode("utf-8"), usedforsecurity=False)
         hash_val = int(hasher.hexdigest()[:8], 16)
         percentile = hash_val % 100
         

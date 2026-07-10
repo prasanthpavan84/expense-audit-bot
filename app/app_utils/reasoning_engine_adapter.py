@@ -51,12 +51,8 @@ def attach_reasoning_engine_routes(app: FastAPI) -> None:
             )
             runtime.set_up()
             operations = runtime.register_operations()
-            streaming_methods = set(operations.get("stream", [])) | set(
-                operations.get("async_stream", [])
-            )
-            sync_methods = set(operations.get("", [])) | set(
-                operations.get("async", [])
-            )
+            streaming_methods = set(operations.get("stream", [])) | set(operations.get("async_stream", []))
+            sync_methods = set(operations.get("", [])) | set(operations.get("async", []))
         return runtime
 
     def resolve_method(class_method: str, *, streaming: bool):
@@ -78,20 +74,12 @@ def attach_reasoning_engine_routes(app: FastAPI) -> None:
             async for event in method(**(body.get("input") or {})):
                 yield json.dumps(event) + "\n"
 
-        return responses.StreamingResponse(
-            content=generator(), media_type="application/json"
-        )
+        return responses.StreamingResponse(content=generator(), media_type="application/json")
 
     @app.post("/api/reasoning_engine")
     async def query(request: Request) -> responses.JSONResponse:
         body = await request.json()
         method = resolve_method(body["class_method"], streaming=False)
         kwargs = body.get("input") or {}
-        output = (
-            await method(**kwargs)
-            if inspect.iscoroutinefunction(method)
-            else method(**kwargs)
-        )
-        return responses.JSONResponse(
-            content=encoders.jsonable_encoder({"output": output})
-        )
+        output = await method(**kwargs) if inspect.iscoroutinefunction(method) else method(**kwargs)
+        return responses.JSONResponse(content=encoders.jsonable_encoder({"output": output}))
