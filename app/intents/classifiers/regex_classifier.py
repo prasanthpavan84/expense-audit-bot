@@ -5,6 +5,7 @@ policy questions, and financial queries.
 """
 
 import re
+
 from app.intents.classifiers.base import BaseIntentClassifier, ClassifierVote
 
 # Stage 2 intent → list of compiled regex patterns
@@ -123,7 +124,9 @@ _PATTERNS = {
     "CONTINUE": {
         "stage1": "Command",
         "patterns": [
-            re.compile(r"^\s*(yes|yep|yeah|yup|correct|right|continue|go\s+ahead|proceed|carry\s+on)\s*[!.?]*\s*$", re.I),
+            re.compile(
+                r"^\s*(yes|yep|yeah|yup|correct|right|continue|go\s+ahead|proceed|carry\s+on)\s*[!.?]*\s*$", re.I
+            ),
         ],
     },
     "FOLLOW_UP": {
@@ -186,6 +189,11 @@ class RegexClassifier(BaseIntentClassifier):
 
         reason = f"Regex matches: {len(best_matched)} patterns" if best_matched else "No regex matches"
         return ClassifierVote(
-            self.name, best_stage1, best_intent, round(best_score, 3),
-            reason, tuple(best_matched), tuple(all_rejected),
+            self.name,
+            best_stage1,
+            best_intent,
+            round(best_score, 3),
+            reason,
+            tuple(best_matched),
+            tuple(all_rejected),
         )

@@ -1,12 +1,12 @@
 import sqlite3
-import json
-import os
 from pathlib import Path
-from typing import Optional
+
 from app.core.config_manager import config
+
 
 class SQLiteDatabase:
     """Manages the SQLite database connection and schema initialization."""
+
     _instance = None
     _connection = None
 
@@ -19,12 +19,12 @@ class SQLiteDatabase:
     def connection(self) -> sqlite3.Connection:
         if self._connection is None:
             db_path = config.database_path
-            
+
             # Handle directory creation for file-based databases
             if db_path != ":memory:":
                 db_file = Path(db_path)
                 db_file.parent.mkdir(parents=True, exist_ok=True)
-                
+
             self._connection = sqlite3.connect(db_path, check_same_thread=False)
             self._connection.row_factory = sqlite3.Row
             self.initialize_schema()
@@ -38,7 +38,7 @@ class SQLiteDatabase:
     def initialize_schema(self):
         """Creates tables if they do not exist."""
         cursor = self._connection.cursor()
-        
+
         # 1. Audits table
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS audits (
@@ -56,7 +56,7 @@ class SQLiteDatabase:
                 created_at TEXT
             )
         """)
-        
+
         # 2. Events table
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS events (
@@ -69,7 +69,7 @@ class SQLiteDatabase:
                 timestamp TEXT
             )
         """)
-        
+
         # 3. Checkpoints table
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS checkpoints (
@@ -80,8 +80,9 @@ class SQLiteDatabase:
                 updated_at TEXT
             )
         """)
-        
+
         self._connection.commit()
+
 
 # Expose a global database instance
 db = SQLiteDatabase()

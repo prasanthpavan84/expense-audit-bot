@@ -11,6 +11,7 @@ from dataclasses import dataclass
 @dataclass(frozen=True)
 class NoiseResult:
     """Immutable noise detection result."""
+
     is_noise: bool
     noise_type: str  # e.g. "keyboard_smash", "base64", "hex", "repeated_char"
     confidence: float

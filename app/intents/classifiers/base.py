@@ -5,20 +5,20 @@ Every concrete classifier implements ``classify()`` and returns a
 """
 
 from abc import ABC, abstractmethod
-from dataclasses import dataclass, field
-from typing import Dict, List, Optional
+from dataclasses import dataclass
 
 
 @dataclass(frozen=True)
 class ClassifierVote:
     """A single classifier's vote — immutable."""
+
     classifier_name: str
-    stage1_category: str          # Conversation, Expense, Question, Command, Unknown
-    stage2_intent: str            # Greeting, Audit, Policy, etc.
+    stage1_category: str  # Conversation, Expense, Question, Command, Unknown
+    stage2_intent: str  # Greeting, Audit, Policy, etc.
     confidence: float
     reason: str
     matched_evidence: tuple = ()  # what matched
-    negative_evidence: tuple = () # what was explicitly rejected
+    negative_evidence: tuple = ()  # what was explicitly rejected
 
 
 class BaseIntentClassifier(ABC):

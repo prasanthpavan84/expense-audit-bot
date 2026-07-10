@@ -17,25 +17,26 @@ Core principle: THE AI MUST NEVER GUESS.
 import time
 import uuid
 from dataclasses import dataclass, field
-from typing import Any, Dict, FrozenSet, List, Optional, Tuple
+from typing import Any
 
-from app.intents.preprocessors.input_normalizer import InputNormalizer
-from app.intents.preprocessors.input_classifier import InputClassifier, InputType
-from app.intents.preprocessors.noise_detector import NoiseDetector
-from app.intents.preprocessors.receipt_detector import ReceiptDetector
+from app.intents.classifiers.base import ClassifierVote
+from app.intents.classifiers.conversation_classifier import ConversationClassifier
 from app.intents.classifiers.keyword_classifier import KeywordClassifier
 from app.intents.classifiers.regex_classifier import RegexClassifier
-from app.intents.classifiers.conversation_classifier import ConversationClassifier
-from app.intents.classifiers.base import ClassifierVote
-
+from app.intents.preprocessors.input_classifier import InputClassifier, InputType
+from app.intents.preprocessors.input_normalizer import InputNormalizer
+from app.intents.preprocessors.noise_detector import NoiseDetector
+from app.intents.preprocessors.receipt_detector import ReceiptDetector
 
 # ---------------------------------------------------------------------------
 # Immutable Decision Objects
 # ---------------------------------------------------------------------------
 
+
 @dataclass(frozen=True)
 class IntentDecision:
     """Immutable, single source of truth for intent classification."""
+
     decision_id: str
     raw_input: str
     normalized_input: str
@@ -43,9 +44,9 @@ class IntentDecision:
     stage1_category: str
     stage2_intent: str
     confidence: float
-    confidence_breakdown: Dict[str, float]
-    classifier_votes: Tuple[ClassifierVote, ...]
-    negative_matches: Tuple[str, ...]
+    confidence_breakdown: dict[str, float]
+    classifier_votes: tuple[ClassifierVote, ...]
+    negative_matches: tuple[str, ...]
     reason: str
     requires_clarification: bool
     planner_permission: bool
@@ -56,10 +57,11 @@ class IntentDecision:
 @dataclass
 class IntentResult:
     """Result of intent classification — backward compatible."""
+
     intent: str
     confidence: float
     reason: str
-    secondary_intents: List[Dict[str, float]] = field(default_factory=list)
+    secondary_intents: list[dict[str, float]] = field(default_factory=list)
     is_ambiguous: bool = False
 
 
@@ -68,95 +70,108 @@ class IntentResult:
 # ---------------------------------------------------------------------------
 
 # The canonical Stage 1 → Stage 2 taxonomy.
-INTENT_TAXONOMY: Dict[str, List[str]] = {
+INTENT_TAXONOMY: dict[str, list[str]] = {
     "Conversation": ["GREETING", "FAREWELL", "THANKS", "HELP", "SMALL_TALK"],
-    "Expense":      ["RECEIPT_UPLOAD", "AUDIT", "VALIDATION", "FRAUD", "REPORT"],
-    "Question":     ["POLICY", "FINANCIAL", "GENERAL_KNOWLEDGE"],
-    "Command":      ["CONTINUE", "FOLLOW_UP", "RESTART", "CANCEL"],
-    "Unknown":      ["UNKNOWN"],
+    "Expense": ["RECEIPT_UPLOAD", "AUDIT", "VALIDATION", "FRAUD", "REPORT"],
+    "Question": ["POLICY", "FINANCIAL", "GENERAL_KNOWLEDGE"],
+    "Command": ["CONTINUE", "FOLLOW_UP", "RESTART", "CANCEL"],
+    "Unknown": ["UNKNOWN"],
 }
 
 # Intents that belong to conversation (never trigger expense workflows)
-CONVERSATION_INTENTS: FrozenSet[str] = frozenset({
-    "GREETING", "FAREWELL", "THANKS", "HELP", "SMALL_TALK",
-    "GENERAL_KNOWLEDGE", "UNKNOWN",
-})
+CONVERSATION_INTENTS: frozenset[str] = frozenset(
+    {
+        "GREETING",
+        "FAREWELL",
+        "THANKS",
+        "HELP",
+        "SMALL_TALK",
+        "GENERAL_KNOWLEDGE",
+        "UNKNOWN",
+    }
+)
 
 # Non-expense intents (conversation + commands that don't directly trigger workflows)
-NON_EXPENSE_INTENTS: FrozenSet[str] = CONVERSATION_INTENTS | frozenset({
-    "CONTINUE", "FOLLOW_UP", "RESTART", "CANCEL",
-})
+NON_EXPENSE_INTENTS: frozenset[str] = CONVERSATION_INTENTS | frozenset(
+    {
+        "CONTINUE",
+        "FOLLOW_UP",
+        "RESTART",
+        "CANCEL",
+    }
+)
 
 # Per-intent confidence thresholds — high-risk intents need higher confidence
-INTENT_CONFIDENCE_THRESHOLDS: Dict[str, float] = {
-    "FRAUD":          0.95,
-    "AUDIT":          0.90,
+INTENT_CONFIDENCE_THRESHOLDS: dict[str, float] = {
+    "FRAUD": 0.95,
+    "AUDIT": 0.90,
     "RECEIPT_UPLOAD": 0.80,
-    "VALIDATION":     0.85,
-    "REPORT":         0.80,
-    "POLICY":         0.85,
-    "FINANCIAL":      0.80,
-    "GREETING":       0.60,
-    "FAREWELL":       0.60,
-    "THANKS":         0.60,
-    "HELP":           0.60,
-    "SMALL_TALK":     0.55,
-    "CONTINUE":       0.75,
-    "FOLLOW_UP":      0.70,
+    "VALIDATION": 0.85,
+    "REPORT": 0.80,
+    "POLICY": 0.85,
+    "FINANCIAL": 0.80,
+    "GREETING": 0.60,
+    "FAREWELL": 0.60,
+    "THANKS": 0.60,
+    "HELP": 0.60,
+    "SMALL_TALK": 0.55,
+    "CONTINUE": 0.75,
+    "FOLLOW_UP": 0.70,
     "GENERAL_KNOWLEDGE": 0.65,
-    "RESTART":        0.70,
-    "CANCEL":         0.70,
+    "RESTART": 0.70,
+    "CANCEL": 0.70,
 }
 
 # Hard priority rules — when multiple intents compete, higher priority wins.
 # Receipt/Expense > Question > Command > Conversation > Unknown
-INTENT_PRIORITY: Dict[str, int] = {
+INTENT_PRIORITY: dict[str, int] = {
     "RECEIPT_UPLOAD": 100,
-    "FRAUD":          95,
-    "AUDIT":          90,
-    "VALIDATION":     85,
-    "REPORT":         80,
-    "POLICY":         75,
-    "FINANCIAL":      70,
-    "FOLLOW_UP":      60,
-    "CONTINUE":       55,
-    "RESTART":        50,
-    "CANCEL":         45,
-    "HELP":           30,
-    "GREETING":       20,
-    "THANKS":         15,
-    "SMALL_TALK":     10,
-    "FAREWELL":       5,
+    "FRAUD": 95,
+    "AUDIT": 90,
+    "VALIDATION": 85,
+    "REPORT": 80,
+    "POLICY": 75,
+    "FINANCIAL": 70,
+    "FOLLOW_UP": 60,
+    "CONTINUE": 55,
+    "RESTART": 50,
+    "CANCEL": 45,
+    "HELP": 30,
+    "GREETING": 20,
+    "THANKS": 15,
+    "SMALL_TALK": 10,
+    "FAREWELL": 5,
     "GENERAL_KNOWLEDGE": 3,
-    "UNKNOWN":        0,
+    "UNKNOWN": 0,
 }
 
 # Mapping from granular intents to legacy workflow intents for backward compat
-_WORKFLOW_INTENT_MAP: Dict[str, str] = {
-    "GREETING":          "CONVERSATION",
-    "FAREWELL":          "CONVERSATION",
-    "THANKS":            "CONVERSATION",
-    "HELP":              "CONVERSATION",
-    "SMALL_TALK":        "CONVERSATION",
+_WORKFLOW_INTENT_MAP: dict[str, str] = {
+    "GREETING": "CONVERSATION",
+    "FAREWELL": "CONVERSATION",
+    "THANKS": "CONVERSATION",
+    "HELP": "CONVERSATION",
+    "SMALL_TALK": "CONVERSATION",
     "GENERAL_KNOWLEDGE": "CONVERSATION",
-    "UNKNOWN":           "CONVERSATION",  # UNKNOWN → CONVERSATION, never AUDIT
-    "RECEIPT_UPLOAD":    "EXTRACT",
-    "AUDIT":             "AUDIT",
-    "VALIDATION":        "AUDIT",
-    "FRAUD":             "AUDIT",
-    "REPORT":            "QUERY",
-    "POLICY":            "POLICY",
-    "FINANCIAL":         "CALCULATE",
-    "FOLLOW_UP":         "QUERY",
-    "CONTINUE":          "QUERY",
-    "RESTART":           "CONVERSATION",
-    "CANCEL":            "CONVERSATION",
+    "UNKNOWN": "CONVERSATION",  # UNKNOWN → CONVERSATION, never AUDIT
+    "RECEIPT_UPLOAD": "EXTRACT",
+    "AUDIT": "AUDIT",
+    "VALIDATION": "AUDIT",
+    "FRAUD": "AUDIT",
+    "REPORT": "QUERY",
+    "POLICY": "POLICY",
+    "FINANCIAL": "CALCULATE",
+    "FOLLOW_UP": "QUERY",
+    "CONTINUE": "QUERY",
+    "RESTART": "CONVERSATION",
+    "CANCEL": "CONVERSATION",
 }
 
 
 # ---------------------------------------------------------------------------
 # Ensemble Intent Engine
 # ---------------------------------------------------------------------------
+
 
 class IntentEngine:
     """Hardened, ensemble-based, hierarchical intent classifier.
@@ -199,33 +214,74 @@ class IntentEngine:
         # --- 4. Short-circuit: NOISE, EMPTY, PUNCTUATION, NUMBER ---
         if input_type in (InputType.EMPTY, InputType.WHITESPACE):
             return cls._make_decision(
-                decision_id, text, normalized, input_type.value,
-                "Unknown", "UNKNOWN", 0.0, {}, (), (), "Empty/whitespace input",
-                requires_clarification=True, planner_permission=False, timestamp=timestamp,
+                decision_id,
+                text,
+                normalized,
+                input_type.value,
+                "Unknown",
+                "UNKNOWN",
+                0.0,
+                {},
+                (),
+                (),
+                "Empty/whitespace input",
+                requires_clarification=True,
+                planner_permission=False,
+                timestamp=timestamp,
             )
 
         if noise.is_noise or input_type in (InputType.NOISE, InputType.PUNCTUATION):
             return cls._make_decision(
-                decision_id, text, normalized, input_type.value,
-                "Unknown", "UNKNOWN", 0.0, {}, (), (),
+                decision_id,
+                text,
+                normalized,
+                input_type.value,
+                "Unknown",
+                "UNKNOWN",
+                0.0,
+                {},
+                (),
+                (),
                 f"Noise detected: {noise.noise_type} — {noise.reason}",
-                requires_clarification=True, planner_permission=False, timestamp=timestamp,
+                requires_clarification=True,
+                planner_permission=False,
+                timestamp=timestamp,
             )
 
         if input_type == InputType.NUMBER:
             return cls._make_decision(
-                decision_id, text, normalized, input_type.value,
-                "Unknown", "UNKNOWN", 0.0, {}, (), (),
+                decision_id,
+                text,
+                normalized,
+                input_type.value,
+                "Unknown",
+                "UNKNOWN",
+                0.0,
+                {},
+                (),
+                (),
                 "Pure numeric input — not an expense request",
-                requires_clarification=True, planner_permission=False, timestamp=timestamp,
+                requires_clarification=True,
+                planner_permission=False,
+                timestamp=timestamp,
             )
 
         if input_type in (InputType.CODE, InputType.JSON, InputType.MARKDOWN, InputType.TABLE, InputType.CSV):
             return cls._make_decision(
-                decision_id, text, normalized, input_type.value,
-                "Unknown", "UNKNOWN", 0.0, {}, (), (),
+                decision_id,
+                text,
+                normalized,
+                input_type.value,
+                "Unknown",
+                "UNKNOWN",
+                0.0,
+                {},
+                (),
+                (),
                 f"Input type is {input_type.value} — not a natural language request",
-                requires_clarification=True, planner_permission=False, timestamp=timestamp,
+                requires_clarification=True,
+                planner_permission=False,
+                timestamp=timestamp,
             )
 
         # --- 5. Receipt detection ---
@@ -239,8 +295,8 @@ class IntentEngine:
         ]
 
         # --- 7. Weighted voting ---
-        intent_scores: Dict[str, float] = {}
-        intent_stage1: Dict[str, str] = {}
+        intent_scores: dict[str, float] = {}
+        intent_stage1: dict[str, str] = {}
         total_weight = 0.0
 
         for vote in votes:
@@ -289,9 +345,7 @@ class IntentEngine:
         all_negative.discard(best_intent)
 
         # --- 11. Confidence breakdown ---
-        confidence_breakdown = {
-            vote.classifier_name: vote.confidence for vote in votes
-        }
+        confidence_breakdown = {vote.classifier_name: vote.confidence for vote in votes}
         confidence_breakdown["receipt"] = receipt.probability
 
         # --- 12. Intent Lock: conversational intents cannot be overridden ---
@@ -321,9 +375,7 @@ class IntentEngine:
 
         # --- 14. Planner permission ---
         planner_permission = (
-            not requires_clarification
-            and best_intent not in CONVERSATION_INTENTS
-            and best_confidence >= threshold
+            not requires_clarification and best_intent not in CONVERSATION_INTENTS and best_confidence >= threshold
         )
 
         # --- 15. Build reason ---
@@ -336,10 +388,20 @@ class IntentEngine:
         reason = "; ".join(reason_parts)
 
         return cls._make_decision(
-            decision_id, text, normalized, input_type.value,
-            best_stage1, best_intent, best_confidence,
-            confidence_breakdown, tuple(votes), tuple(sorted(all_negative)),
-            reason, requires_clarification, planner_permission, timestamp,
+            decision_id,
+            text,
+            normalized,
+            input_type.value,
+            best_stage1,
+            best_intent,
+            best_confidence,
+            confidence_breakdown,
+            tuple(votes),
+            tuple(sorted(all_negative)),
+            reason,
+            requires_clarification,
+            planner_permission,
+            timestamp,
         )
 
     @classmethod
@@ -398,11 +460,19 @@ class IntentEngine:
 
     @staticmethod
     def _make_decision(
-        decision_id: str, raw_input: str, normalized_input: str,
-        input_type: str, stage1: str, stage2: str,
-        confidence: float, breakdown: Dict[str, float],
-        votes: Tuple, negative: Tuple, reason: str,
-        requires_clarification: bool, planner_permission: bool,
+        decision_id: str,
+        raw_input: str,
+        normalized_input: str,
+        input_type: str,
+        stage1: str,
+        stage2: str,
+        confidence: float,
+        breakdown: dict[str, float],
+        votes: tuple,
+        negative: tuple,
+        reason: str,
+        requires_clarification: bool,
+        planner_permission: bool,
         timestamp: str,
     ) -> IntentDecision:
         return IntentDecision(

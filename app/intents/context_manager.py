@@ -9,7 +9,7 @@ Maintains in-memory conversation state with:
 
 import time
 from dataclasses import dataclass, field
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from app.models.state import WorkflowState
 
@@ -32,15 +32,16 @@ CONTEXT_TIMEOUT_SECONDS = 20 * 60  # 20 minutes
 @dataclass
 class ConversationContext:
     """Dataclass holding context state."""
-    previous_intent: Optional[str] = None
-    current_workflow: Optional[str] = None
-    active_receipt: Optional[Dict[str, Any]] = None
-    active_report: Optional[Dict[str, Any]] = None
-    clarification_history: List[str] = field(default_factory=list)
-    conversation_turns: List[Dict[str, Any]] = field(default_factory=list)
-    follow_up_refs: Dict[str, Any] = field(default_factory=dict)
+
+    previous_intent: str | None = None
+    current_workflow: str | None = None
+    active_receipt: dict[str, Any] | None = None
+    active_report: dict[str, Any] | None = None
+    clarification_history: list[str] = field(default_factory=list)
+    conversation_turns: list[dict[str, Any]] = field(default_factory=list)
+    follow_up_refs: dict[str, Any] = field(default_factory=dict)
     lifecycle_state: str = "STARTED"
-    pending_clarification_intent: Optional[str] = None
+    pending_clarification_intent: str | None = None
     last_activity_timestamp: float = field(default_factory=time.time)
 
 
@@ -164,13 +165,13 @@ class ContextManager:
         return state
 
     @classmethod
-    def get_pending_intent(cls, state: WorkflowState) -> Optional[str]:
+    def get_pending_intent(cls, state: WorkflowState) -> str | None:
         """Gets the intent that was pending when clarification started."""
         context = cls.get_or_create_context(state)
         return context.pending_clarification_intent
 
     @classmethod
-    def set_pending_intent(cls, state: WorkflowState, intent: Optional[str]) -> None:
+    def set_pending_intent(cls, state: WorkflowState, intent: str | None) -> None:
         """Sets the pending clarification intent in context."""
         context = cls.get_or_create_context(state)
         context.pending_clarification_intent = intent

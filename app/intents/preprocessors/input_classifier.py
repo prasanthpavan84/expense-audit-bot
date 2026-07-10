@@ -12,11 +12,11 @@ intent engine.  Zero LLM calls.
 import re
 from dataclasses import dataclass
 from enum import Enum
-from typing import Optional
 
 
 class InputType(str, Enum):
     """Exhaustive input type taxonomy."""
+
     EMPTY = "EMPTY"
     WHITESPACE = "WHITESPACE"
     NOISE = "NOISE"
@@ -44,6 +44,7 @@ class InputType(str, Enum):
 @dataclass(frozen=True)
 class InputTypeResult:
     """Immutable result of input type classification."""
+
     input_type: InputType
     confidence: float
     reason: str
@@ -189,21 +190,27 @@ class InputClassifier:
         # --- Receipt indicators ---
         receipt_score = sum(1 for pat in _RECEIPT_INDICATORS if pat.search(stripped))
         if receipt_score >= 3:
-            return InputTypeResult(InputType.RECEIPT, min(0.50 + receipt_score * 0.10, 0.98),
-                                   f"Receipt indicators: {receipt_score} matches")
+            return InputTypeResult(
+                InputType.RECEIPT,
+                min(0.50 + receipt_score * 0.10, 0.98),
+                f"Receipt indicators: {receipt_score} matches",
+            )
 
         # --- OCR-like text ---
         ocr_score = sum(1 for pat in _OCR_INDICATORS if pat.search(stripped))
         if ocr_score >= 2:
-            return InputTypeResult(InputType.OCR, min(0.50 + ocr_score * 0.15, 0.95),
-                                   f"OCR indicators: {ocr_score} matches")
+            return InputTypeResult(
+                InputType.OCR, min(0.50 + ocr_score * 0.15, 0.95), f"OCR indicators: {ocr_score} matches"
+            )
 
         # --- Image reference ---
         if _IMAGE_REF_RE.search(stripped):
             return InputTypeResult(InputType.IMAGE_REFERENCE, 0.70, "Image reference detected")
 
         # --- Question ---
-        if stripped.endswith("?") or stripped.lower().startswith(("what ", "who ", "how ", "why ", "when ", "where ", "is ", "can ", "do ", "does ")):
+        if stripped.endswith("?") or stripped.lower().startswith(
+            ("what ", "who ", "how ", "why ", "when ", "where ", "is ", "can ", "do ", "does ")
+        ):
             return InputTypeResult(InputType.QUESTION, 0.75, "Input is a question")
 
         # --- Command ---

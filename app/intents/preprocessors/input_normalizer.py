@@ -8,12 +8,12 @@ invisible characters, and zero-width spaces.  Zero LLM calls.
 import re
 import unicodedata
 from dataclasses import dataclass
-from typing import Optional
 
 
 @dataclass(frozen=True)
 class NormalizedInput:
     """Immutable result of the normalization stage."""
+
     original: str
     normalized: str
     was_modified: bool
@@ -37,12 +37,18 @@ _REPEATED_PUNCT_RE = re.compile(r"([!?.,;:@#%^&*~`|\\/<>\-_=+])\1{2,}")
 _MULTI_SPACE_RE = re.compile(r"[ \t]{2,}")
 
 # Smart / curly quotes → ASCII
-_SMART_QUOTES = str.maketrans({
-    "\u2018": "'", "\u2019": "'",
-    "\u201c": '"', "\u201d": '"',
-    "\u2033": '"', "\u2032": "'",
-    "\u00ab": '"', "\u00bb": '"',
-})
+_SMART_QUOTES = str.maketrans(
+    {
+        "\u2018": "'",
+        "\u2019": "'",
+        "\u201c": '"',
+        "\u201d": '"',
+        "\u2033": '"',
+        "\u2032": "'",
+        "\u00ab": '"',
+        "\u00bb": '"',
+    }
+)
 
 # Common OCR ligature / artifact corrections
 _OCR_FIXES = [
@@ -59,7 +65,7 @@ class InputNormalizer:
     """Deterministic text normalizer — no LLM calls."""
 
     @staticmethod
-    def normalize(text: Optional[str]) -> NormalizedInput:
+    def normalize(text: str | None) -> NormalizedInput:
         """Return an immutable ``NormalizedInput`` with the cleaned text."""
         if text is None:
             return NormalizedInput(original="", normalized="", was_modified=True)
