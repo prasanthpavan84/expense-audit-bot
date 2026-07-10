@@ -1,13 +1,17 @@
 import unittest
+
 from core.container.service_container import ServiceContainer
 from core.event_bus import EventBus
-from core.memory.shared_memory import SharedMemory
 from core.llm.model_manager import ModelManager
-from core.runtime.state_manager import StateManager, RuntimeState, InvalidStateTransitionError
-from core.validation.schemas import WorkflowContext
-from use_cases.validate_receipt import ValidateReceiptUseCase
-from use_cases.audit_expense import AuditExpenseUseCase
+from core.memory.shared_memory import SharedMemory
+from core.runtime.state_manager import (
+    InvalidStateTransitionError,
+    RuntimeState,
+    StateManager,
+)
 from domain.receipt import Receipt
+from use_cases.audit_expense import AuditExpenseUseCase
+from use_cases.validate_receipt import ValidateReceiptUseCase
 
 
 class TestPhase2Refactor(unittest.TestCase):
@@ -75,4 +79,6 @@ class TestPhase2Refactor(unittest.TestCase):
         self.assertEqual(result.status, "FAILED")
         self.assertIsNotNone(result.output)
         self.assertEqual(result.output.status, "REJECTED")
-        self.assertTrue(any("violation" in t.decision.lower() or "evaluated" in t.decision.lower() for t in result.trace))
+        self.assertTrue(
+            any("violation" in t.decision.lower() or "evaluated" in t.decision.lower() for t in result.trace)
+        )

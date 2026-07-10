@@ -85,9 +85,7 @@ async def test_process_json_list_stream():
             return {"processed": True, "id_val": record["id"]}
 
         results = []
-        async for res in bp.process_json_list_stream(
-            temp_path, dummy_audit, chunk_size=1
-        ):
+        async for res in bp.process_json_list_stream(temp_path, dummy_audit, chunk_size=1):
             results.append(res)
 
         assert len(results) == 2

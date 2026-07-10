@@ -1,14 +1,16 @@
-import unittest
-import os
 import json
-from app.query_engine import execute_query, load_database, save_database
+import os
+import unittest
+
+from app.query_engine import execute_query
+
 
 class TestQueryEngine(unittest.TestCase):
     def setUp(self):
         # Set database path to a separate temporary test file
         self.test_db_path = os.path.join(os.path.dirname(__file__), "test_database.json")
         os.environ["DATABASE_PATH"] = self.test_db_path
-                
+
         # Setup temporary test database content
         self.test_data = [
             {
@@ -21,7 +23,7 @@ class TestQueryEngine(unittest.TestCase):
                 "currency": "USD",
                 "category": "Taxi",
                 "status": "Approved",
-                "fraud_score": 10
+                "fraud_score": 10,
             },
             {
                 "id": "t-002",
@@ -33,7 +35,7 @@ class TestQueryEngine(unittest.TestCase):
                 "currency": "USD",
                 "category": "Hotel",
                 "status": "Approved with Exception",
-                "fraud_score": 20
+                "fraud_score": 20,
             },
             {
                 "id": "t-003",
@@ -45,7 +47,7 @@ class TestQueryEngine(unittest.TestCase):
                 "currency": "USD",
                 "category": "Meals",
                 "status": "Approved",
-                "fraud_score": 5
+                "fraud_score": 5,
             },
             {
                 "id": "t-004",
@@ -57,8 +59,8 @@ class TestQueryEngine(unittest.TestCase):
                 "currency": "USD",
                 "category": "Restricted",
                 "status": "Rejected",
-                "fraud_score": 50
-            }
+                "fraud_score": 50,
+            },
         ]
         with open(self.test_db_path, "w") as f:
             json.dump(self.test_data, f, indent=2)
@@ -74,27 +76,19 @@ class TestQueryEngine(unittest.TestCase):
             del os.environ["DATABASE_PATH"]
 
     def test_filter_by_category(self):
-        query = {
-            "action": "FILTER",
-            "category": "Taxi"
-        }
+        query = {"action": "FILTER", "category": "Taxi"}
         res = execute_query(query)
         self.assertEqual(res["summary"]["total_count"], 1)
         self.assertEqual(res["data"][0]["merchant"], "Uber")
 
     def test_filter_by_amount_min(self):
-        query = {
-            "action": "FILTER",
-            "amount_min": 100.0
-        }
+        query = {"action": "FILTER", "amount_min": 100.0}
         res = execute_query(query)
         self.assertEqual(res["summary"]["total_count"], 1)
         self.assertEqual(res["data"][0]["id"], "t-002")
 
     def test_compare_departments(self):
-        query = {
-            "action": "COMPARE_DEPTS"
-        }
+        query = {"action": "COMPARE_DEPTS"}
         res = execute_query(query)
         # We expect Engineering and Sales comparisons
         depts = [item["department"] for item in res["data"]]
@@ -102,19 +96,13 @@ class TestQueryEngine(unittest.TestCase):
         self.assertIn("Sales", depts)
 
     def test_summarize_employee(self):
-        query = {
-            "action": "SUMMARIZE_EMPLOYEE",
-            "employee_id": "EMP201"
-        }
+        query = {"action": "SUMMARIZE_EMPLOYEE", "employee_id": "EMP201"}
         res = execute_query(query)
         self.assertEqual(res["data"]["total_claims"], 2)
         self.assertEqual(res["data"]["total_claimed"], 245.0)
 
     def test_explain_rejected_expense(self):
-        query = {
-            "action": "EXPLAIN",
-            "target_expense_id": "t-004"
-        }
+        query = {"action": "EXPLAIN", "target_expense_id": "t-004"}
         res = execute_query(query)
         self.assertEqual(res["data"]["merchant"], "Gold Club Bar")
         self.assertEqual(res["data"]["status"], "Rejected")

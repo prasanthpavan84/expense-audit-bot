@@ -8,9 +8,7 @@ import threading
 import pytest
 
 # Use temporary database path for tests
-PROJECT_DIR = os.path.dirname(
-    os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-)
+PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 TEMP_DB_PATH = os.path.join(PROJECT_DIR, "tests", "unit", "temp_remediation_db.json")
 os.environ["DATABASE_PATH"] = TEMP_DB_PATH
 
