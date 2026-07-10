@@ -1,5 +1,6 @@
 import uvicorn
 from fastapi import FastAPI
+
 from .api.routes import router as api_router
 from .middleware.conversation_middleware import ConversationMiddleware
 
@@ -12,4 +13,4 @@ app.add_middleware(ConversationMiddleware)
 app.include_router(api_router, prefix="/api/v2")
 
 if __name__ == "__main__":
-    uvicorn.run("app.main:app", host="0.0.0.0", port=8000, reload=True)
+    uvicorn.run("app.main:app", host="0.0.0.0", port=8000, reload=True)  # nosec

@@ -40,33 +40,35 @@ setup_telemetry()
 # Must run before get_fast_api_app to set the tracer provider resource.
 setup_agent_engine_telemetry()
 import logging
+
 logger = logging.getLogger(__name__)
 
 try:
     _, project_id = google.auth.default()
     logging_client = google_cloud_logging.Client()
     cloud_logger = logging_client.logger(__name__)
-    
+
     class CloudLoggerAdapter:
         def __init__(self, c_logger):
             self.c_logger = c_logger
+
         def log_struct(self, data: dict, severity: str = "INFO"):
             try:
                 self.c_logger.log_struct(data, severity=severity)
             except Exception:
                 logger.info(f"CLOUD_LOG ({severity}): {data}")
-                
+
     logger = CloudLoggerAdapter(cloud_logger)
 except Exception:
     project_id = None
+
     class FallbackLogger:
         def log_struct(self, data: dict, severity: str = "INFO"):
             logger.info(f"LOCAL_LOG ({severity}): {data}")
+
     logger = FallbackLogger()
 
-allow_origins = (
-    os.getenv("ALLOW_ORIGINS", "").split(",") if os.getenv("ALLOW_ORIGINS") else None
-)
+allow_origins = os.getenv("ALLOW_ORIGINS", "").split(",") if os.getenv("ALLOW_ORIGINS") else None
 
 AGENT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -112,15 +114,20 @@ app.description = "API for interacting with the Agent expense-audit-bot"
 
 # Integrate Correlation ID tracking middleware
 from app.middleware.trace_middleware import CorrelationIdMiddleware
+
 app.add_middleware(CorrelationIdMiddleware)
 
 # Integrate versioned API routes
 from app.api.v1.v1_routes import router as api_v1_router
+
 app.include_router(api_v1_router, prefix="/api/v1")
 
 # WebSocket Endpoint for streaming real-time console logs
-from app.api.v1.websocket_manager import manager as ws_manager, subscribe_event_bus_to_websockets
 from fastapi import WebSocket, WebSocketDisconnect
+
+from app.api.v1.websocket_manager import manager as ws_manager
+from app.api.v1.websocket_manager import subscribe_event_bus_to_websockets
+
 
 @app.websocket("/api/v1/ws/console")
 async def websocket_endpoint(websocket: WebSocket):
@@ -131,15 +138,19 @@ async def websocket_endpoint(websocket: WebSocket):
     except WebSocketDisconnect:
         ws_manager.disconnect(websocket)
 
+
 # Hook up event bus subscriptions to broadcast via websockets
 subscribe_event_bus_to_websockets()
 
 # Structured Exception Handlers
-from fastapi import HTTPException, Request
-from fastapi.responses import JSONResponse
-from fastapi.exceptions import RequestValidationError
-from app.utils.logger import trace_id_var
 import datetime
+
+from fastapi import HTTPException, Request
+from fastapi.exceptions import RequestValidationError
+from fastapi.responses import JSONResponse
+
+from app.utils.logger import trace_id_var
+
 
 @app.exception_handler(Exception)
 async def generic_exception_handler(request: Request, exc: Exception):
@@ -150,9 +161,10 @@ async def generic_exception_handler(request: Request, exc: Exception):
             "error_code": "INTERNAL_SERVER_ERROR",
             "message": str(exc),
             "trace_id": trace_id_var.get(),
-            "timestamp": datetime.datetime.utcnow().isoformat() + "Z"
-        }
+            "timestamp": datetime.datetime.utcnow().isoformat() + "Z",
+        },
     )
+
 
 @app.exception_handler(HTTPException)
 async def http_exception_handler(request: Request, exc: HTTPException):
@@ -163,9 +175,10 @@ async def http_exception_handler(request: Request, exc: HTTPException):
             "error_code": "HTTP_ERROR",
             "message": exc.detail,
             "trace_id": trace_id_var.get(),
-            "timestamp": datetime.datetime.utcnow().isoformat() + "Z"
-        }
+            "timestamp": datetime.datetime.utcnow().isoformat() + "Z",
+        },
     )
+
 
 @app.exception_handler(RequestValidationError)
 async def validation_exception_handler(request: Request, exc: RequestValidationError):
@@ -176,18 +189,20 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
             "error_code": "VALIDATION_ERROR",
             "message": str(exc.errors()),
             "trace_id": trace_id_var.get(),
-            "timestamp": datetime.datetime.utcnow().isoformat() + "Z"
-        }
+            "timestamp": datetime.datetime.utcnow().isoformat() + "Z",
+        },
     )
+
 
 # Serve the static Single Page Application (SPA) dashboard
 from fastapi.staticfiles import StaticFiles
+
 os.makedirs("app/dashboard", exist_ok=True)
 app.mount("/dashboard", StaticFiles(directory="app/dashboard", html=True), name="dashboard")
 
 # reasoning engine adapter routes and collect feedback endpoint
-from app.app_utils.typing import Feedback
 attach_reasoning_engine_routes(app)
+
 
 @app.post("/feedback")
 def collect_feedback(feedback: Feedback) -> dict[str, str]:
@@ -197,13 +212,13 @@ def collect_feedback(feedback: Feedback) -> dict[str, str]:
     except Exception:
         # Fallback if logger is a standard logging.Logger
         import logging
+
         logging.getLogger(__name__).info(f"Feedback: {feedback.model_dump()}")
     return {"status": "success"}
-
 
 
 # Main execution
 if __name__ == "__main__":
     import uvicorn
 
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run(app, host="0.0.0.0", port=8000)  # nosec

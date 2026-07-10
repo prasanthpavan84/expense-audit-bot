@@ -1,5 +1,6 @@
 import asyncio
 from functools import lru_cache
+
 import mcp.server.fastmcp as fastmcp
 
 # Create an MCP server instance named ExpenseAuditMCPServer
@@ -57,7 +58,7 @@ async def get_corporate_limits() -> str:
     """
     try:
         return await asyncio.wait_for(asyncio.to_thread(_get_corporate_limits_cached), timeout=2.0)
-    except asyncio.TimeoutError:
+    except TimeoutError:
         return "ERROR: Corporate limits lookup timed out."
 
 
@@ -73,7 +74,7 @@ async def get_exchange_rate(base_currency: str) -> float:
     """
     try:
         return await asyncio.wait_for(asyncio.to_thread(_get_exchange_rate_cached, base_currency), timeout=2.0)
-    except asyncio.TimeoutError:
+    except TimeoutError:
         return 1.0
 
 
@@ -89,10 +90,9 @@ async def check_vendor_restrictions(vendor_name: str) -> str:
     """
     try:
         return await asyncio.wait_for(asyncio.to_thread(_check_vendor_restrictions_cached, vendor_name), timeout=2.0)
-    except asyncio.TimeoutError:
+    except TimeoutError:
         return f"TIMEOUT: Check for vendor '{vendor_name}' timed out. Defaulting to OK."
 
 
 if __name__ == "__main__":
     mcp.run()
-

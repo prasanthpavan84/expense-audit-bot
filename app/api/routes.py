@@ -3,14 +3,14 @@
 Includes the primary `/audit` endpoint.
 """
 
-from fastapi import APIRouter, Request, HTTPException, status
+from fastapi import APIRouter, HTTPException, Request, status
 from fastapi.responses import JSONResponse, PlainTextResponse
-from prometheus_client import generate_latest, CONTENT_TYPE_LATEST
+from prometheus_client import CONTENT_TYPE_LATEST, generate_latest
 
-from ..pipeline.parser import parse_expense
-from ..pipeline.validator import validate_expense
 from ..pipeline.decision import DecisionEngine
 from ..pipeline.explain import ExplainabilityEngine
+from ..pipeline.parser import parse_expense
+from ..pipeline.validator import validate_expense
 
 router = APIRouter()
 
@@ -23,31 +23,25 @@ async def audit_expense(request: Request):
     try:
         payload = await request.json()
     except Exception as exc:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail=f"Invalid JSON payload: {str(exc)}"
-        )
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Invalid JSON payload: {exc!s}")
 
     try:
         # 1. Parse payload to Expense object
         expense = parse_expense(payload)
-        
+
         # 2. Validate expense object
         validate_expense(expense)
-        
+
         # 3. Run decision pipeline (fraud detection and policy evaluation are orchestrated here)
         decision = DecisionEngine().run(expense)
-        
+
         # 4. Generate human-readable explanation
         session = getattr(request.state, "session", None)
         explanation = ExplainabilityEngine().explain(decision, expense, session)
-        
+
         return JSONResponse(status_code=status.HTTP_200_OK, content=explanation)
     except Exception as exc:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail=str(exc)
-        )
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(exc))
 
 
 @router.get("/metrics")
