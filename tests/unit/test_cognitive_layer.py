@@ -18,26 +18,25 @@ Tests cover:
 """
 
 import pytest
-import asyncio
 
-from app.intents.preprocessors.input_normalizer import InputNormalizer
-from app.intents.preprocessors.input_classifier import InputClassifier, InputType
-from app.intents.preprocessors.noise_detector import NoiseDetector
-from app.intents.preprocessors.receipt_detector import ReceiptDetector
-from app.intents.intent_engine import (
-    IntentEngine, IntentResult, IntentDecision,
-    CONVERSATION_INTENTS, _WORKFLOW_INTENT_MAP,
-)
-from app.engine.cognitive_engine import CognitiveEngine, CognitiveDecision
+from app.engine.cognitive_engine import CognitiveEngine
 from app.engine.exceptions import (
     ConversationFirewallViolation,
-    WorkflowAuthorizationError,
 )
-
+from app.intents.intent_engine import (
+    CONVERSATION_INTENTS,
+    IntentEngine,
+    IntentResult,
+)
+from app.intents.preprocessors.input_classifier import InputClassifier, InputType
+from app.intents.preprocessors.input_normalizer import InputNormalizer
+from app.intents.preprocessors.noise_detector import NoiseDetector
+from app.intents.preprocessors.receipt_detector import ReceiptDetector
 
 # ========================================================================
 # 1. INPUT NORMALIZATION
 # ========================================================================
+
 
 class TestInputNormalization:
     def test_none_input(self):
@@ -74,6 +73,7 @@ class TestInputNormalization:
 # ========================================================================
 # 2. INPUT TYPE CLASSIFICATION
 # ========================================================================
+
 
 class TestInputTypeClassification:
     def test_empty(self):
@@ -144,6 +144,7 @@ class TestInputTypeClassification:
 # 3. NOISE DETECTION
 # ========================================================================
 
+
 class TestNoiseDetection:
     def test_empty(self):
         assert NoiseDetector.detect("").is_noise
@@ -165,6 +166,7 @@ class TestNoiseDetection:
 # 4. RECEIPT DETECTION
 # ========================================================================
 
+
 class TestReceiptDetection:
     def test_no_receipt(self):
         result = ReceiptDetector.detect("hello")
@@ -181,15 +183,39 @@ class TestReceiptDetection:
 # 5. INTENT CLASSIFICATION — CORE SAFETY TESTS
 # ========================================================================
 
+
 class TestIntentClassificationSafety:
     """These inputs must NEVER be classified as AUDIT."""
 
-    @pytest.mark.parametrize("text", [
-        "hello", "hi", "hey", "thanks", "ok", "yes", "no",
-        "I", "A", "F", ".", "...", "?", "123", "abc", "test",
-        "😀", "$$$$", "!!!!!", "qwerty", "asdf",
-        "", "   ", None,
-    ])
+    @pytest.mark.parametrize(
+        "text",
+        [
+            "hello",
+            "hi",
+            "hey",
+            "thanks",
+            "ok",
+            "yes",
+            "no",
+            "I",
+            "A",
+            "F",
+            ".",
+            "...",
+            "?",
+            "123",
+            "abc",
+            "test",
+            "😀",
+            "$$$$",
+            "!!!!!",
+            "qwerty",
+            "asdf",
+            "",
+            "   ",
+            None,
+        ],
+    )
     def test_never_audit(self, text):
         if text is None:
             text = ""
@@ -199,9 +225,15 @@ class TestIntentClassificationSafety:
             f"Got: {decision.stage2_intent} (conf={decision.confidence})"
         )
 
-    @pytest.mark.parametrize("text", [
-        "hello", "hi", "hey", "good morning",
-    ])
+    @pytest.mark.parametrize(
+        "text",
+        [
+            "hello",
+            "hi",
+            "hey",
+            "good morning",
+        ],
+    )
     def test_greetings_are_conversation(self, text):
         decision = IntentEngine.classify_full(text)
         assert decision.stage1_category == "Conversation"
@@ -225,6 +257,7 @@ class TestIntentClassificationSafety:
 # ========================================================================
 # 6. INTENT CLASSIFICATION — POSITIVE INTENT TESTS
 # ========================================================================
+
 
 class TestIntentClassificationPositive:
     def test_audit_intent(self):
@@ -255,6 +288,7 @@ class TestIntentClassificationPositive:
 # 7. BACKWARD COMPATIBILITY
 # ========================================================================
 
+
 class TestBackwardCompatibility:
     def test_classify_returns_intent_result(self):
         result = IntentEngine.classify("hello")
@@ -280,13 +314,20 @@ class TestBackwardCompatibility:
 # 8. CONVERSATION FIREWALL
 # ========================================================================
 
+
 class TestConversationFirewall:
     """The firewall must block every conversational intent from expense agents."""
 
     @pytest.mark.parametrize("intent", list(CONVERSATION_INTENTS))
     def test_firewall_blocks_conversation_intents(self, intent):
-        for agent in ["receipt_extractor", "validation_agent", "policy_agent",
-                       "fraud_agent", "reflection_agent", "report_agent"]:
+        for agent in [
+            "receipt_extractor",
+            "validation_agent",
+            "policy_agent",
+            "fraud_agent",
+            "reflection_agent",
+            "report_agent",
+        ]:
             with pytest.raises(ConversationFirewallViolation):
                 CognitiveEngine.validate_firewall(intent, agent)
 
@@ -301,6 +342,7 @@ class TestConversationFirewall:
 # ========================================================================
 # 9. COGNITIVE DECISION ENGINE
 # ========================================================================
+
 
 class TestCognitiveDecisionEngine:
     def test_greeting_blocks_execution(self):
@@ -330,6 +372,7 @@ class TestCognitiveDecisionEngine:
 # 10. NEGATIVE MATCHING (Intent must not be AUDIT)
 # ========================================================================
 
+
 class TestNegativeMatching:
     def test_workflow_map_no_audit_default(self):
         """Every unknown intent must map to CONVERSATION, never AUDIT."""
@@ -342,30 +385,34 @@ class TestNegativeMatching:
 # 11. ADVERSARIAL INPUTS
 # ========================================================================
 
+
 class TestAdversarialInputs:
-    @pytest.mark.parametrize("text", [
-        ".",
-        "...",
-        "???",
-        "!!!!!",
-        "12345",
-        "$$$$",
-        "😀😀😀",
-        "I",
-        "F",
-        "A",
-        "null",
-        "None",
-        "[]",
-        "{}",
-        "hello audit",
-        "policy audit fraud",
-        "receipt?",
-        "#######",
-        "SELECT * FROM users",
-        "def exploit(): pass",
-        "a" * 1000,
-    ])
+    @pytest.mark.parametrize(
+        "text",
+        [
+            ".",
+            "...",
+            "???",
+            "!!!!!",
+            "12345",
+            "$$$$",
+            "😀😀😀",
+            "I",
+            "F",
+            "A",
+            "null",
+            "None",
+            "[]",
+            "{}",
+            "hello audit",
+            "policy audit fraud",
+            "receipt?",
+            "#######",
+            "SELECT * FROM users",
+            "def exploit(): pass",
+            "a" * 1000,
+        ],
+    )
     def test_adversarial_never_silently_audit(self, text):
         """Adversarial inputs must never silently trigger an audit workflow."""
         decision = IntentEngine.classify_full(text)
@@ -373,14 +420,15 @@ class TestAdversarialInputs:
             # If AUDIT, it must have reasonable confidence or be ambiguous
             # Multi-intent adversarial inputs like 'policy audit fraud' may trigger AUDIT
             # at moderate confidence which is acceptable as long as clarification is requested
-            assert decision.confidence >= 0.55 or decision.requires_clarification, (
-                f"Low-confidence AUDIT on adversarial input '{text[:30]}' without clarification"
-            )
+            assert (
+                decision.confidence >= 0.55 or decision.requires_clarification
+            ), f"Low-confidence AUDIT on adversarial input '{text[:30]}' without clarification"
 
 
 # ========================================================================
 # 12. PLANNER CONTRACT
 # ========================================================================
+
 
 class TestPlannerContract:
     def test_conversation_returns_no_steps(self):
@@ -390,6 +438,7 @@ class TestPlannerContract:
         decision = IntentEngine.classify_full("hello")
         cognitive = CognitiveEngine.decide(decision, {})
         from app.models.state import WorkflowState
+
         state = WorkflowState(raw_input="hello")
         plan = WorkflowPlanner.plan_from_decision(cognitive, state)
         assert plan.steps == []
@@ -401,6 +450,7 @@ class TestPlannerContract:
         decision = IntentEngine.classify_full("...")
         cognitive = CognitiveEngine.decide(decision, {})
         from app.models.state import WorkflowState
+
         state = WorkflowState(raw_input="...")
         plan = WorkflowPlanner.plan_from_decision(cognitive, state)
         assert plan.steps == []
