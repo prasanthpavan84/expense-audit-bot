@@ -1,5 +1,5 @@
-from typing import Dict, Any, List, Tuple
 from app.services.base_service import BaseService
+
 
 class ReasoningService(BaseService):
     """Business service performing currency conversion and arithmetic validations."""
@@ -33,12 +33,8 @@ class ReasoningService(BaseService):
         return abs(claimed - (reimbursable + rejected)) < 0.01
 
     def calculate_reimbursement(
-        self,
-        claimed: float,
-        limit: float,
-        multiplier: float = 1.0,
-        doubled_limit: bool = False
-    ) -> Tuple[float, float]:
+        self, claimed: float, limit: float, multiplier: float = 1.0, doubled_limit: bool = False
+    ) -> tuple[float, float]:
         """Calculates allowed reimbursable and rejected portions.
 
         Args:
@@ -53,7 +49,7 @@ class ReasoningService(BaseService):
         effective_limit = limit * multiplier
         if doubled_limit:
             effective_limit *= 2.0
-            
+
         if claimed <= effective_limit:
             return claimed, 0.0
         return effective_limit, claimed - effective_limit

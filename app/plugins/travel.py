@@ -1,6 +1,8 @@
 import datetime
-from typing import Dict, Any, List, Tuple, Optional
+from typing import Any
+
 from app.plugins.base_plugin import BasePlugin
+
 
 class ImpossibleTravelPlugin(BasePlugin):
     @property
@@ -23,7 +25,7 @@ class ImpossibleTravelPlugin(BasePlugin):
     def description(self) -> str:
         return "Detects expenses claimed in physically distinct geographic locations within an impossible timeframe."
 
-    def _extract_city(self, text: str) -> Optional[str]:
+    def _extract_city(self, text: str) -> str | None:
         text_lower = text.lower()
         cities = ["boston", "paris", "new york", "london", "tokyo", "san francisco", "chicago"]
         for city in cities:
@@ -32,11 +34,8 @@ class ImpossibleTravelPlugin(BasePlugin):
         return None
 
     def check(
-        self,
-        expense: Dict[str, Any],
-        history: List[Dict[str, Any]] = None,
-        session_items: List[Dict[str, Any]] = None
-    ) -> Tuple[int, str]:
+        self, expense: dict[str, Any], history: list[dict[str, Any]] = None, session_items: list[dict[str, Any]] = None
+    ) -> tuple[int, str]:
         score = 0
         reasons = []
 
@@ -55,11 +54,13 @@ class ImpossibleTravelPlugin(BasePlugin):
                     if past_city and past_city != current_city and past_date_str and past_date_str.lower() != "unknown":
                         past_date = datetime.date.fromisoformat(past_date_str)
                         days_diff = abs((curr_date - past_date).days)
-                        
+
                         # Trigger anomaly if different cities are claimed within 24 hours (1 day)
                         if days_diff <= 1:
                             score += 35
-                            reasons.append(f"Impossible Travel: Claimed in {current_city.capitalize()} and {past_city.capitalize()} within {days_diff} day(s) (+35)")
+                            reasons.append(
+                                f"Impossible Travel: Claimed in {current_city.capitalize()} and {past_city.capitalize()} within {days_diff} day(s) (+35)"
+                            )
                             break
             except Exception:
                 pass

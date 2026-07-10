@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
-from typing import Dict, Any, List, Tuple
+from typing import Any
+
 
 class BasePlugin(ABC):
     """Abstract base class for all fraud plugins."""
@@ -30,7 +31,9 @@ class BasePlugin(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def check(self, expense: Dict[str, Any], history: List[Dict[str, Any]] = None, session_items: List[Dict[str, Any]] = None) -> Tuple[int, str]:
+    def check(
+        self, expense: dict[str, Any], history: list[dict[str, Any]] = None, session_items: list[dict[str, Any]] = None
+    ) -> tuple[int, str]:
         """Runs the plugin fraud check logic.
 
         Returns:

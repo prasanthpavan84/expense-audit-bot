@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
-from typing import Any, List, Optional
+from typing import Any
+
 
 class BaseRepository(ABC):
     """Abstract base repository contract."""
@@ -9,7 +10,7 @@ class BaseRepository(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def find_by_id(self, entity_id: str) -> Optional[Any]:
+    def find_by_id(self, entity_id: str) -> Any | None:
         raise NotImplementedError
 
     @abstractmethod

@@ -1,6 +1,8 @@
 import datetime
-from typing import Dict, Any, List, Tuple
+from typing import Any
+
 from app.plugins.base_plugin import BasePlugin
+
 
 class CurrencyAnomalyPlugin(BasePlugin):
     @property
@@ -24,26 +26,25 @@ class CurrencyAnomalyPlugin(BasePlugin):
         return "Analyzes transaction thresholds and identifies receipt metadata manipulation."
 
     def check(
-        self,
-        expense: Dict[str, Any],
-        history: List[Dict[str, Any]] = None,
-        session_items: List[Dict[str, Any]] = None
-    ) -> Tuple[int, str]:
+        self, expense: dict[str, Any], history: list[dict[str, Any]] = None, session_items: list[dict[str, Any]] = None
+    ) -> tuple[int, str]:
         score = 0
         reasons = []
-        
+
         amount = float(expense.get("amount", 0.0))
         currency = str(expense.get("currency", "USD")).upper()
-        
+
         # 1. Just Under Review Threshold Check
         limit_usd = 200.0
         limit_inr = 16600.0
         threshold_val = limit_inr if currency == "INR" else limit_usd
-        
+
         if threshold_val * 0.90 <= amount < threshold_val:
             score += 25
-            reasons.append(f"Claim amount ({currency} {amount:.2f}) is close to review threshold ({currency} {threshold_val}) (+25)")
-            
+            reasons.append(
+                f"Claim amount ({currency} {amount:.2f}) is close to review threshold ({currency} {threshold_val}) (+25)"
+            )
+
         # 2. Weekend claim check
         date_str = str(expense.get("date", ""))
         if date_str and date_str.lower() != "unknown":
@@ -74,7 +75,7 @@ class CurrencyAnomalyPlugin(BasePlugin):
         if manipulated:
             score += 60
             reasons.append("Edited or manipulated receipt detected (+60)")
-            
+
         ocr_confidence = expense.get("ocr_confidence_score", 1.0)
         if ocr_confidence < 0.7:
             score += 20
