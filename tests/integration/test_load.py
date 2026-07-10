@@ -14,18 +14,14 @@ from google.adk.sessions import InMemorySessionService
 from google.genai import types
 
 # Ensure app is in path
-sys.path.insert(
-    0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-)
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
 # Use mock LLM to avoid quota exhaustion during load test
 os.environ["MOCK_LLM"] = "True"
 os.environ["GOOGLE_CLOUD_AGENT_ENGINE_ENABLE_TELEMETRY"] = "false"
 
 # Use temporary database path
-PROJECT_DIR = os.path.dirname(
-    os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-)
+PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 TEMP_DB_PATH = os.path.join(PROJECT_DIR, "tests", "integration", "temp_load_db.json")
 os.environ["DATABASE_PATH"] = TEMP_DB_PATH
 
@@ -34,12 +30,8 @@ from app.agent import root_agent
 
 async def send_single_load_request(request_id: int) -> float:
     session_service = InMemorySessionService()
-    session = await session_service.create_session(
-        user_id=f"load_user_{request_id}", app_name="load_test"
-    )
-    runner = Runner(
-        agent=root_agent, session_service=session_service, app_name="load_test"
-    )
+    session = await session_service.create_session(user_id=f"load_user_{request_id}", app_name="load_test")
+    runner = Runner(agent=root_agent, session_service=session_service, app_name="load_test")
 
     prompt = f"Please audit this expense: Taxi ride. Merchant: Taxi ride. Date: 2026-06-25. Total amount: ${15.00 + (request_id % 10):.2f} USD."
     message = types.Content(role="user", parts=[types.Part.from_text(text=prompt)])
@@ -65,9 +57,7 @@ async def send_single_load_request(request_id: int) -> float:
 
 
 async def run_load_test(duration_seconds: int = 20, rate_per_second: int = 3):
-    print(
-        f"Starting Load Test: sustaining {rate_per_second} req/sec for {duration_seconds} seconds..."
-    )
+    print(f"Starting Load Test: sustaining {rate_per_second} req/sec for {duration_seconds} seconds...")
 
     # Initialize clean database
     with open(TEMP_DB_PATH, "w") as f:

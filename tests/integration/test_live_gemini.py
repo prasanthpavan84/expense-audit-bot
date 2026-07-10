@@ -13,14 +13,10 @@ from google.genai import types
 from pydantic import BaseModel, Field
 
 # Ensure app is in path
-sys.path.insert(
-    0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-)
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
 # Load env variables
-env_path = os.path.join(
-    os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), ".env"
-)
+env_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), ".env")
 load_dotenv(env_path)
 
 api_key = os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY")
@@ -31,13 +27,9 @@ class ExtractedExpense(BaseModel):
     date: str = Field(description="Date of the expense (YYYY-MM-DD).")
     amount: float = Field(description="Total expense amount.")
     currency: str = Field(description="3-letter currency code (e.g. USD, INR, EUR).")
-    category: str = Field(
-        description="Category of the expense (Meals, Hotel, Travel, Software, Taxi, Flight, Other)."
-    )
+    category: str = Field(description="Category of the expense (Meals, Hotel, Travel, Software, Taxi, Flight, Other).")
     items: list[str] = Field(description="List of individual items.")
-    fraud_risk_score: int = Field(
-        description="Estimated risk of fraud/anomaly from 0 to 100."
-    )
+    fraud_risk_score: int = Field(description="Estimated risk of fraud/anomaly from 0 to 100.")
     fraud_reason: str = Field(description="Explanation for the fraud risk score.")
 
 
@@ -210,19 +202,13 @@ async def validate_case(client: genai.Client, case: dict) -> dict:
             val = data.get(key)
             if key == "amount":
                 if abs(float(val) - exp["amount"]) > 0.01:
-                    result["discrepancies"].append(
-                        f"Amount mismatch: got {val}, expected {exp['amount']}"
-                    )
+                    result["discrepancies"].append(f"Amount mismatch: got {val}, expected {exp['amount']}")
             elif key == "merchant":
                 if exp["merchant"].lower() not in str(val).lower():
-                    result["discrepancies"].append(
-                        f"Merchant mismatch: got '{val}', expected '{exp['merchant']}'"
-                    )
+                    result["discrepancies"].append(f"Merchant mismatch: got '{val}', expected '{exp['merchant']}'")
             elif key == "currency":
                 if str(val).upper() != exp["currency"]:
-                    result["discrepancies"].append(
-                        f"Currency mismatch: got '{val}', expected '{exp['currency']}'"
-                    )
+                    result["discrepancies"].append(f"Currency mismatch: got '{val}', expected '{exp['currency']}'")
 
         # Policy logic checking
         cat = data.get("category")
@@ -270,17 +256,13 @@ async def run_live_validation():
     print("Initializing Gemini Client...")
     client = genai.Client(api_key=api_key)
 
-    print(
-        f"Running {len(TEST_CASES)} Live Gemini API Validation Cases (sequentially with 5s delays)..."
-    )
+    print(f"Running {len(TEST_CASES)} Live Gemini API Validation Cases (sequentially with 5s delays)...")
     results = []
     for case in TEST_CASES:
         res = await validate_case(client, case)
         results.append(res)
         if not res["success"]:
-            print(
-                f"  Case {case['id']} ({case['name']}) failed: {res.get('discrepancies') or res.get('error')}"
-            )
+            print(f"  Case {case['id']} ({case['name']}) failed: {res.get('discrepancies') or res.get('error')}")
         else:
             print(f"  Case {case['id']} ({case['name']}) completed successfully.")
         await asyncio.sleep(5.0)
@@ -320,9 +302,7 @@ async def run_live_validation():
         f.write(f"- **Successful Invocations**: {successful_cases}\n")
         f.write(f"- **Failed Invocations**: {len(TEST_CASES) - successful_cases}\n")
         f.write(f"- **Average API Latency**: {avg_latency:.3f} seconds\n")
-        f.write(
-            f"- **Extraction Accuracy**: {(len(TEST_CASES) - discrepancies_count) / len(TEST_CASES):.1%}\n\n"
-        )
+        f.write(f"- **Extraction Accuracy**: {(len(TEST_CASES) - discrepancies_count) / len(TEST_CASES):.1%}\n\n")
 
         f.write("## Test Cases Summary\n\n")
         f.write(

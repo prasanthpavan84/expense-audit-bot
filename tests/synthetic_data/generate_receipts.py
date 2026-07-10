@@ -1,5 +1,5 @@
-import os
 import json
+import os
 import random
 from pathlib import Path
 
@@ -18,8 +18,9 @@ MERCHANTS = {
     "Hotel": ["Hilton", "Marriott", "Sheraton"],
     "Taxi": ["Uber", "Lyft", "Yellow Cab"],
     "Entertainment": ["Gold Club Bar", "AMC Theatres", "Topgolf"],
-    "Training": ["Coursera", "Udemy", "O'Reilly Media"]
+    "Training": ["Coursera", "Udemy", "O'Reilly Media"],
 }
+
 
 def generate_receipt_text(idx: int) -> tuple[str, dict]:
     """Generates realistic receipt text and its corresponding metadata description."""
@@ -30,11 +31,11 @@ def generate_receipt_text(idx: int) -> tuple[str, dict]:
     tax = round(amount * 0.1, 2)
     date = f"2026-06-{random.randint(10, 28):02d}"
     emp_id = f"EMP{random.randint(100, 200)}"
-    
+
     # Introduce variations for test types
     test_type = "valid"
     errors = []
-    
+
     if idx % 10 == 0:
         test_type = "incomplete"
         merchant = ""
@@ -72,7 +73,7 @@ def generate_receipt_text(idx: int) -> tuple[str, dict]:
         test_type = "missing_fields"
         amount = 0.0
         errors.append("missing amount")
-        
+
     lines = []
     if merchant:
         lines.append(f"MERCHANT: {merchant}")
@@ -82,7 +83,7 @@ def generate_receipt_text(idx: int) -> tuple[str, dict]:
     lines.append(f"TAX: {currency} {tax}")
     lines.append(f"CATEGORY: {category}")
     lines.append(f"EMPLOYEE ID: {emp_id}")
-    
+
     receipt_body = "\n".join(lines)
     metadata = {
         "id": f"receipt_{idx:03d}",
@@ -93,30 +94,32 @@ def generate_receipt_text(idx: int) -> tuple[str, dict]:
         "currency": currency,
         "date": date,
         "tax": tax,
-        "errors": errors
+        "errors": errors,
     }
-    
+
     return receipt_body, metadata
+
 
 def main():
     metadata_list = []
     print(f"Generating 100 sample receipts in {SAMPLE_DIR}...")
-    
+
     for i in range(1, 101):
         body, meta = generate_receipt_text(i)
         filename = f"receipt_{i:03d}.txt"
         file_path = SAMPLE_DIR / filename
-        
+
         with open(file_path, "w", encoding="utf-8") as f:
             f.write(body)
-            
+
         metadata_list.append(meta)
-        
+
     # Write metadata index catalog
     with open(SAMPLE_DIR / "metadata.json", "w", encoding="utf-8") as f:
         json.dump(metadata_list, f, indent=2)
-        
+
     print(f"Successfully generated 100 receipts and metadata catalog at {SAMPLE_DIR / 'metadata.json'}")
+
 
 if __name__ == "__main__":
     main()

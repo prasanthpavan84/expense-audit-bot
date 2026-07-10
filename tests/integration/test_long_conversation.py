@@ -11,21 +11,15 @@ from google.adk.sessions import InMemorySessionService
 from google.genai import types
 
 # Ensure app is in path
-sys.path.insert(
-    0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-)
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
 # Use mock LLM
 os.environ["MOCK_LLM"] = "True"
 os.environ["GOOGLE_CLOUD_AGENT_ENGINE_ENABLE_TELEMETRY"] = "false"
 
 # Use temporary database path
-PROJECT_DIR = os.path.dirname(
-    os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-)
-TEMP_DB_PATH = os.path.join(
-    PROJECT_DIR, "tests", "integration", "temp_conversation_db.json"
-)
+PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+TEMP_DB_PATH = os.path.join(PROJECT_DIR, "tests", "integration", "temp_conversation_db.json")
 os.environ["DATABASE_PATH"] = TEMP_DB_PATH
 
 from app.agent import root_agent
@@ -42,12 +36,8 @@ async def run_long_conversation():
         json.dump([], f)
 
     session_service = InMemorySessionService()
-    session = await session_service.create_session(
-        user_id="conv_user", app_name="conv_test"
-    )
-    runner = Runner(
-        agent=root_agent, session_service=session_service, app_name="conv_test"
-    )
+    session = await session_service.create_session(user_id="conv_user", app_name="conv_test")
+    runner = Runner(agent=root_agent, session_service=session_service, app_name="conv_test")
 
     safe_print("\nStarting Long Conversation Test...")
 
@@ -56,9 +46,7 @@ async def run_long_conversation():
     p1 = "Please audit this expense: Lunch with client at Pizza Hut on 2026-06-25. Total amount: $35.50 USD. Merchant: Pizza Hut. Items: Pizza."
     msg1 = types.Content(role="user", parts=[types.Part.from_text(text=p1)])
     out1 = ""
-    async for event in runner.run_async(
-        new_message=msg1, user_id="conv_user", session_id=session.id
-    ):
+    async for event in runner.run_async(new_message=msg1, user_id="conv_user", session_id=session.id):
         safe_print(f"Event: {type(event).__name__}")
         if event.content and event.content.parts:
             for part in event.content.parts:
@@ -74,9 +62,7 @@ async def run_long_conversation():
     p2 = "What is the corporate travel limit policy?"
     msg2 = types.Content(role="user", parts=[types.Part.from_text(text=p2)])
     out2 = ""
-    async for event in runner.run_async(
-        new_message=msg2, user_id="conv_user", session_id=session.id
-    ):
+    async for event in runner.run_async(new_message=msg2, user_id="conv_user", session_id=session.id):
         safe_print(f"Event: {type(event).__name__}")
         if event.content and event.content.parts:
             for part in event.content.parts:
@@ -94,19 +80,13 @@ async def run_long_conversation():
 
     from google.adk.events.request_input import RequestInput
 
-    async for event in runner.run_async(
-        new_message=msg3, user_id="conv_user", session_id=session.id
-    ):
+    async for event in runner.run_async(new_message=msg3, user_id="conv_user", session_id=session.id):
         safe_print(f"Event: {type(event).__name__}")
         if isinstance(event, RequestInput):
             safe_print("\nWorkflow paused for Human Review! Resuming with approval...")
             resumed = True
-            msg_resume = types.Content(
-                role="user", parts=[types.Part.from_text(text="approve")]
-            )
-            async for ev2 in runner.run_async(
-                new_message=msg_resume, user_id="conv_user", session_id=session.id
-            ):
+            msg_resume = types.Content(role="user", parts=[types.Part.from_text(text="approve")])
+            async for ev2 in runner.run_async(new_message=msg_resume, user_id="conv_user", session_id=session.id):
                 safe_print(f"Resume Event: {type(ev2).__name__}")
                 if ev2.content and ev2.content.parts:
                     for part in ev2.content.parts:
@@ -125,9 +105,7 @@ async def run_long_conversation():
     p4 = "summarize my expenses"
     msg4 = types.Content(role="user", parts=[types.Part.from_text(text=p4)])
     out4 = ""
-    async for event in runner.run_async(
-        new_message=msg4, user_id="conv_user", session_id=session.id
-    ):
+    async for event in runner.run_async(new_message=msg4, user_id="conv_user", session_id=session.id):
         safe_print(f"Event: {type(event).__name__}")
         if event.content and event.content.parts:
             for part in event.content.parts:
@@ -147,20 +125,14 @@ async def run_long_conversation():
         )
 
     # Let's save a summary validation report
-    report_path = os.path.join(
-        PROJECT_DIR, "Evaluation_Report", "long_conversation_test_report.md"
-    )
+    report_path = os.path.join(PROJECT_DIR, "Evaluation_Report", "long_conversation_test_report.md")
     os.makedirs(os.path.dirname(report_path), exist_ok=True)
     with open(report_path, "w", encoding="utf-8") as f:
         f.write("# Long Conversation Testing Report\n\n")
         f.write("## Session Interaction Flow\n\n")
-        f.write(
-            "1. **Submit Receipt A** (Pizza Hut, $35.50) -> Approved successfully.\n"
-        )
+        f.write("1. **Submit Receipt A** (Pizza Hut, $35.50) -> Approved successfully.\n")
         f.write("2. **Query policy limits** -> Travel policies retrieved.\n")
-        f.write(
-            f"3. **Submit Receipt B** (Hilton, $280.00) -> Triggers Human Review pause: {resumed}.\n"
-        )
+        f.write(f"3. **Submit Receipt B** (Hilton, $280.00) -> Triggers Human Review pause: {resumed}.\n")
         f.write("4. **Summary report** -> General summary requested.\n\n")
         f.write("## Database Persistence\n\n")
         f.write(f"Total expenses persisted: {len(db_data)}\n\n")

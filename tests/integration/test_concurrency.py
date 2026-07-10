@@ -13,21 +13,15 @@ from google.adk.sessions import InMemorySessionService
 from google.genai import types
 
 # Ensure app is in path
-sys.path.insert(
-    0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-)
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
 # Use mock LLM to avoid quota exhaustion during concurrent pressure test
 os.environ["MOCK_LLM"] = "True"
 os.environ["GOOGLE_CLOUD_AGENT_ENGINE_ENABLE_TELEMETRY"] = "false"
 
 # Use temporary database path for isolation
-PROJECT_DIR = os.path.dirname(
-    os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-)
-TEMP_DB_PATH = os.path.join(
-    PROJECT_DIR, "tests", "integration", "temp_concurrency_db.json"
-)
+PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+TEMP_DB_PATH = os.path.join(PROJECT_DIR, "tests", "integration", "temp_concurrency_db.json")
 os.environ["DATABASE_PATH"] = TEMP_DB_PATH
 
 from app.agent import root_agent
@@ -35,12 +29,8 @@ from app.agent import root_agent
 
 async def execute_single_request(request_id: int) -> dict:
     session_service = InMemorySessionService()
-    session = await session_service.create_session(
-        user_id=f"user_{request_id}", app_name="concurrency_test"
-    )
-    runner = Runner(
-        agent=root_agent, session_service=session_service, app_name="concurrency_test"
-    )
+    session = await session_service.create_session(user_id=f"user_{request_id}", app_name="concurrency_test")
+    runner = Runner(agent=root_agent, session_service=session_service, app_name="concurrency_test")
 
     prompt = f"Please audit this expense: Lunch with client at Pizza Hut on 2026-06-25. Total amount: ${10.00 + request_id:.2f} USD. Merchant: Pizza Hut. Items: Pizza."
     message = types.Content(
@@ -53,9 +43,7 @@ async def execute_single_request(request_id: int) -> dict:
     errors = []
 
     try:
-        async for event in runner.run_async(
-            new_message=message, user_id=f"user_{request_id}", session_id=session.id
-        ):
+        async for event in runner.run_async(new_message=message, user_id=f"user_{request_id}", session_id=session.id):
             if event.content and event.content.parts:
                 for part in event.content.parts:
                     if part.text:
@@ -150,9 +138,7 @@ async def main():
             pass
 
     # Save Report
-    report_path = os.path.join(
-        PROJECT_DIR, "Evaluation_Report", "concurrency_test_report.md"
-    )
+    report_path = os.path.join(PROJECT_DIR, "Evaluation_Report", "concurrency_test_report.md")
     os.makedirs(os.path.dirname(report_path), exist_ok=True)
     with open(report_path, "w", encoding="utf-8") as f:
         f.write("# Concurrent Request Testing Report\n\n")

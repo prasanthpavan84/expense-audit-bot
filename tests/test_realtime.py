@@ -20,10 +20,9 @@ from google.genai import types
 
 from app.agent import root_agent
 
+
 # Mock implementation of Gemini's generate_content_async
 async def mock_generate_content_async(self, llm_request, stream=False):
-    import json
-    import re
     contents_str = str(llm_request.contents)
 
     # Extract system instruction
@@ -40,15 +39,26 @@ async def mock_generate_content_async(self, llm_request, stream=False):
                 si_str = str(si)
 
     # Classify intent
-    if "intent_classifier" in si_str or "intent_classifier" in contents_str or "Classify the user intent" in contents_str:
+    if (
+        "intent_classifier" in si_str
+        or "intent_classifier" in contents_str
+        or "Classify the user intent" in contents_str
+    ):
         text_lower = contents_str.lower()
         if "policy" in text_lower or "limit" in text_lower or "what is" in text_lower or "rules" in text_lower:
             intent = "POLICY"
-        elif "calculate" in text_lower or "reimbursable" in text_lower or "total" in text_lower or ("hotel" in text_lower and "meals" in text_lower and "flight" in text_lower):
+        elif (
+            "calculate" in text_lower
+            or "reimbursable" in text_lower
+            or "total" in text_lower
+            or ("hotel" in text_lower and "meals" in text_lower and "flight" in text_lower)
+        ):
             intent = "CALCULATE"
         elif "extract" in text_lower or "receipt" in text_lower:
             intent = "EXTRACT"
-        elif "compare" in text_lower or "summarize" in text_lower or "query" in text_lower or "departments" in text_lower:
+        elif (
+            "compare" in text_lower or "summarize" in text_lower or "query" in text_lower or "departments" in text_lower
+        ):
             intent = "QUERY"
         else:
             intent = "AUDIT"
@@ -97,9 +107,7 @@ async def mock_generate_content_async(self, llm_request, stream=False):
     else:
         text = "APPROVED"
 
-    response = LlmResponse(
-        content=types.Content(role="model", parts=[types.Part.from_text(text=text)])
-    )
+    response = LlmResponse(content=types.Content(role="model", parts=[types.Part.from_text(text=text)]))
     yield response
 
 
@@ -142,34 +150,25 @@ SCENARIOS = {
         "max_seconds": 30,
     },
     "F_HUMAN_REVIEW_CURRENCY": {
-        "input": (
-            "Please audit this expense: Hotel stay at Hilton on 2026-06-26. "
-            "Total amount: 150.00 EUR."
-        ),
+        "input": ("Please audit this expense: Hotel stay at Hilton on 2026-06-26. " "Total amount: 150.00 EUR."),
         "expect_contains": ["Needs Human Review", "Unsupported currency"],
         "expect_not": [],
         "max_seconds": 30,
     },
     "G_HUMAN_REVIEW_MISSING_INFO": {
-        "input": (
-            "Please audit this expense: Taxi ride. Total amount: $15.00 USD. Date is unknown."
-        ),
+        "input": ("Please audit this expense: Taxi ride. Total amount: $15.00 USD. Date is unknown."),
         "expect_contains": ["Needs Human Review", "Missing required information"],
         "expect_not": [],
         "max_seconds": 30,
     },
     "H_VALIDATION_NEGATIVE": {
-        "input": (
-            "Please audit this expense:\nTaxi ₹-150\n"
-        ),
+        "input": ("Please audit this expense:\nTaxi ₹-150\n"),
         "expect_contains": ["Validation Failure", "Rejected", "Amounts must be positive"],
         "expect_not": ["Approved"],
         "max_seconds": 30,
     },
     "I_NATURAL_QUERY_COMPARISON": {
-        "input": (
-            "Compare departments and spending trends"
-        ),
+        "input": ("Compare departments and spending trends"),
         "expect_contains": ["Department Spending Comparison", "Approved"],
         "expect_not": ["denied"],
         "max_seconds": 30,
@@ -186,6 +185,32 @@ SCENARIOS = {
 
 # No cooldown needed with mocked model
 INTER_SCENARIO_DELAY = 0
+
+
+def extract_event_text(event) -> str:
+    """Helper to extract displayable/readable text from various ADK event types."""
+    lines = []
+
+    if getattr(event, "content", None) and event.content.parts:
+        for part in event.content.parts:
+            if getattr(part, "text", None):
+                lines.append(part.text)
+            elif getattr(part, "function_call", None):
+                if part.function_call.name == "adk_request_input":
+                    msg = part.function_call.args.get("message")
+                    if msg:
+                        lines.append(msg)
+    elif getattr(event, "message", None):
+        if isinstance(event.message, str):
+            lines.append(event.message)
+        elif hasattr(event.message, "parts") and event.message.parts:
+            for part in event.message.parts:
+                if getattr(part, "text", None):
+                    lines.append(part.text)
+
+    if not lines:
+        return ""
+    return "\n".join(lines) + "\n"
 
 
 def run_scenario(name, spec):
@@ -220,10 +245,7 @@ def run_scenario(name, spec):
             elapsed = time.time() - start
             events.append(event)
 
-            if event.content and event.content.parts:
-                for part in event.content.parts:
-                    if part.text:
-                        full_text += part.text + "\n"
+            full_text += extract_event_text(event)
 
             if hasattr(event, "error") and event.error:
                 errors.append(str(event.error))
@@ -262,13 +284,9 @@ def run_scenario(name, spec):
         failed_checks.append(f"[FAIL] {len(errors)} error(s): {errors}")
 
     if elapsed <= spec["max_seconds"]:
-        passed_checks.append(
-            f"[PASS] Completed in {elapsed:.1f}s (limit: {spec['max_seconds']}s)"
-        )
+        passed_checks.append(f"[PASS] Completed in {elapsed:.1f}s (limit: {spec['max_seconds']}s)")
     else:
-        failed_checks.append(
-            f"[FAIL] Exceeded time limit: {elapsed:.1f}s > {spec['max_seconds']}s"
-        )
+        failed_checks.append(f"[FAIL] Exceeded time limit: {elapsed:.1f}s > {spec['max_seconds']}s")
 
     status = "PASS" if not failed_checks else "FAIL"
 
@@ -300,6 +318,7 @@ def main():
     db_path = os.path.join(project_dir, "app", "database.json")
     try:
         import json
+
         with open(db_path, "w") as f:
             json.dump([], f)
     except Exception:
@@ -322,9 +341,7 @@ def main():
             results.append(result)
 
             if i < len(scenario_list) - 1 and INTER_SCENARIO_DELAY > 0:
-                print(
-                    f"\n  >> Waiting {INTER_SCENARIO_DELAY}s for rate-limit cooldown..."
-                )
+                print(f"\n  >> Waiting {INTER_SCENARIO_DELAY}s for rate-limit cooldown...")
                 time.sleep(INTER_SCENARIO_DELAY)
 
     # Summary
@@ -336,9 +353,7 @@ def main():
 
     for r in results:
         icon = "[PASS]" if r["status"] == "PASS" else "[FAIL]"
-        print(
-            f"  {icon} {r['name']}: {r['status']} ({r['elapsed']:.1f}s, {r['events']} events)"
-        )
+        print(f"  {icon} {r['name']}: {r['status']} ({r['elapsed']:.1f}s, {r['events']} events)")
 
     print(f"\n  Total: {total_pass} passed, {total_fail} failed out of {len(results)}")
     print("=" * 70)

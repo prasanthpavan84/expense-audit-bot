@@ -76,10 +76,10 @@ def start_server() -> subprocess.Popen[str]:
     env["INTEGRATION_TEST"] = "TRUE"
     # Phase 2: Disable telemetry in CI/tests to prevent credential dependency
     env["GOOGLE_CLOUD_AGENT_ENGINE_ENABLE_TELEMETRY"] = "false"
-    
+
     stdout_lines.clear()
     stderr_lines.clear()
-    
+
     process = subprocess.Popen(
         command,
         stdout=subprocess.PIPE,
@@ -90,12 +90,8 @@ def start_server() -> subprocess.Popen[str]:
     )
 
     # Start threads to log stdout and stderr in real-time
-    threading.Thread(
-        target=log_output, args=(process.stdout, logger.info, stdout_lines), daemon=True
-    ).start()
-    threading.Thread(
-        target=log_output, args=(process.stderr, logger.error, stderr_lines), daemon=True
-    ).start()
+    threading.Thread(target=log_output, args=(process.stdout, logger.info, stdout_lines), daemon=True).start()
+    threading.Thread(target=log_output, args=(process.stderr, logger.error, stderr_lines), daemon=True).start()
 
     return process
 
@@ -109,7 +105,7 @@ def wait_for_server(process: subprocess.Popen[str], timeout: int = 90, interval:
         if ret_code is not None:
             logger.error(f"Server process terminated early with exit code {ret_code}")
             return False
-            
+
         try:
             response = requests.get(AGENT_CARD_URL, timeout=5)
             if response.status_code == 200:
@@ -124,9 +120,7 @@ def wait_for_server(process: subprocess.Popen[str], timeout: int = 90, interval:
 
 def get_redacted_env() -> dict[str, str]:
     """Return a copy of the environment variables with sensitive keys redacted."""
-    sensitive_substrings = {
-        "key", "secret", "token", "password", "auth", "credential", "private", "api"
-    }
+    sensitive_substrings = {"key", "secret", "token", "password", "auth", "credential", "private", "api"}
     redacted = {}
     for k, v in os.environ.items():
         k_lower = k.lower()
@@ -148,17 +142,19 @@ def server_fixture(request: Any) -> Iterator[subprocess.Popen[str]]:
         stdout_content = "".join(stdout_lines)
         stderr_content = "".join(stderr_lines)
         cwd = os.getcwd()
-        command_str = " ".join([
-            sys.executable,
-            "-m",
-            "uvicorn",
-            "app.fast_api_app:app",
-            "--host",
-            "0.0.0.0",
-            "--port",
-            "8000",
-        ])
-        
+        command_str = " ".join(
+            [
+                sys.executable,
+                "-m",
+                "uvicorn",
+                "app.fast_api_app:app",
+                "--host",
+                "0.0.0.0",
+                "--port",
+                "8000",
+            ]
+        )
+
         # Write logs to disk for CI artifact uploads
         try:
             with open("stdout.log", "w", encoding="utf-8") as f:
@@ -167,13 +163,13 @@ def server_fixture(request: Any) -> Iterator[subprocess.Popen[str]]:
                 f.write(stderr_content)
         except Exception as e:
             logger.error(f"Failed to write log files: {e}")
-            
+
         try:
             server_process.terminate()
             server_process.wait(timeout=5)
         except Exception:
             pass
-            
+
         env_vars_str = json.dumps(get_redacted_env(), indent=2)
         diagnostic_msg = (
             f"\nServer failed to start\n"
@@ -189,7 +185,7 @@ def server_fixture(request: Any) -> Iterator[subprocess.Popen[str]]:
             f"----------------------------------------\n"
         )
         pytest.fail(diagnostic_msg)
-        
+
     logger.info("Server process started")
 
     def stop_server() -> None:
@@ -200,7 +196,6 @@ def server_fixture(request: Any) -> Iterator[subprocess.Popen[str]]:
 
     request.addfinalizer(stop_server)
     yield server_process
-
 
 
 def test_adk_run_sse(server_fixture: subprocess.Popen[str]) -> None:
@@ -225,9 +220,7 @@ def test_adk_run_sse(server_fixture: subprocess.Popen[str]) -> None:
         "new_message": {"role": "user", "parts": [{"text": "Hi!"}]},
         "streaming": True,
     }
-    response = requests.post(
-        RUN_SSE_URL, headers=HEADERS, json=data, stream=True, timeout=60
-    )
+    response = requests.post(RUN_SSE_URL, headers=HEADERS, json=data, stream=True, timeout=60)
     assert response.status_code == 200
 
     events = []
@@ -274,20 +267,14 @@ def test_a2a_chat_stream(server_fixture: subprocess.Popen[str]) -> None:
         if line:
             line_str = line.decode("utf-8")
             if line_str.startswith("data: "):
-                responses.append(
-                    SendStreamingMessageResponse.model_validate(
-                        json.loads(line_str[6:])
-                    )
-                )
+                responses.append(SendStreamingMessageResponse.model_validate(json.loads(line_str[6:])))
 
     assert responses, "No responses received from stream"
 
     final_responses = [
         r.root
         for r in responses
-        if hasattr(r.root, "result")
-        and hasattr(r.root.result, "final")
-        and r.root.result.final is True
+        if hasattr(r.root, "result") and hasattr(r.root.result, "final") and r.root.result.final is True
     ]
     assert final_responses, "No final response received"
     assert final_responses[-1].result.status.state == "completed"
@@ -311,9 +298,7 @@ def test_collect_feedback(server_fixture: subprocess.Popen[str]) -> None:
         "session_id": "test-session-456",
         "text": "Great response!",
     }
-    response = requests.post(
-        FEEDBACK_URL, json=feedback_data, headers=HEADERS, timeout=10
-    )
+    response = requests.post(FEEDBACK_URL, json=feedback_data, headers=HEADERS, timeout=10)
     assert response.status_code == 200
 
 
@@ -337,8 +322,7 @@ def test_reasoning_engine_stream(server_fixture: subprocess.Popen[str]) -> None:
     events = [json.loads(line) for line in response.text.splitlines() if line.strip()]
     assert events, "No events from reasoning_engine adapter"
     has_text = any(
-        (event.get("content") or {}).get("parts")
-        and any(part.get("text") for part in event["content"]["parts"])
+        (event.get("content") or {}).get("parts") and any(part.get("text") for part in event["content"]["parts"])
         for event in events
     )
     assert has_text, "No text content in reasoning_engine events"

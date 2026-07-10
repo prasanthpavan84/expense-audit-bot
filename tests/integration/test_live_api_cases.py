@@ -9,9 +9,7 @@ import time
 from dotenv import load_dotenv
 
 # Ensure app is in path
-sys.path.insert(
-    0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-)
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
 # Force real LLM calls
 os.environ["MOCK_LLM"] = "False"
@@ -19,9 +17,7 @@ os.environ["MOCK_LLM"] = "False"
 os.environ["GOOGLE_CLOUD_AGENT_ENGINE_ENABLE_TELEMETRY"] = "false"
 
 # Load environment
-env_path = os.path.join(
-    os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), ".env"
-)
+env_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), ".env")
 load_dotenv(env_path)
 
 from google.adk.runners import Runner
@@ -118,17 +114,13 @@ async def run_live_validation():
     print("=======================================================\n")
 
     session_service = InMemorySessionService()
-    runner = Runner(
-        agent=root_agent, session_service=session_service, app_name="live_eval"
-    )
+    runner = Runner(agent=root_agent, session_service=session_service, app_name="live_eval")
 
     results = []
 
     for tc in TEST_CASES:
         print(f"Running Case: {tc['name']} ({tc['category']})...")
-        session = await session_service.create_session(
-            user_id="live_user", app_name="live_eval"
-        )
+        session = await session_service.create_session(user_id="live_user", app_name="live_eval")
 
         message = types.Content(
             role="user",
@@ -140,9 +132,7 @@ async def run_live_validation():
         errors = []
 
         try:
-            async for event in runner.run_async(
-                new_message=message, user_id="live_user", session_id=session.id
-            ):
+            async for event in runner.run_async(new_message=message, user_id="live_user", session_id=session.id):
                 if event.content and event.content.parts:
                     for part in event.content.parts:
                         if part.text:
@@ -218,9 +208,7 @@ async def run_live_validation():
         f.write(f"- **Accuracy**: {passed_count / total:.2%}\n")
         f.write(f"- **Average Latency**: {avg_latency:.2f} seconds\n\n")
         f.write("## Detailed Results\n\n")
-        f.write(
-            "| Test Name | Category | Status | Latency (s) | Output Snippet | Errors |\n"
-        )
+        f.write("| Test Name | Category | Status | Latency (s) | Output Snippet | Errors |\n")
         f.write("| --- | --- | --- | --- | --- | --- |\n")
         for r in results:
             f.write(
