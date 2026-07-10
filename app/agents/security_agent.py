@@ -1,19 +1,21 @@
 import re
+
 from app.core.agent_base import BaseExpenseAgent
 from app.models.state import WorkflowState
+
 
 class SecurityAgent(BaseExpenseAgent):
     def __init__(self):
         super().__init__(name="security_agent", system_instruction="Guard against PII leak and prompt injection")
-        
+
     async def process_state(self, state: WorkflowState) -> WorkflowState:
         text = state.raw_input
         scrubbed_text = text
         pii_found = []
-        
+
         # 1. Credit Cards (Luhn Check)
         cc_regex = r"\b(?:\d[ -]*?){13,19}\b"
-        
+
         def is_valid_luhn(card_number: str) -> bool:
             digits = [int(d) for d in re.sub(r"\D", "", card_number)]
             if len(digits) < 13 or len(digits) > 19:
@@ -65,7 +67,7 @@ class SecurityAgent(BaseExpenseAgent):
             "bypass policy",
             "override limit",
             "approve this regardless",
-            "admin override"
+            "admin override",
         ]
         injection_detected = False
         matched_keyword = None
@@ -110,7 +112,9 @@ class SecurityAgent(BaseExpenseAgent):
 
         # Set block flags
         if injection_detected:
-            state.metadata["security_error"] = f"CRITICAL: Prompt injection attempt detected and blocked ({matched_keyword})."
+            state.metadata["security_error"] = (
+                f"CRITICAL: Prompt injection attempt detected and blocked ({matched_keyword})."
+            )
             state.metadata["validation_errors"] = [state.metadata["security_error"]]
         elif prohibited_detected:
             state.metadata["security_error"] = f"DENIED: Prohibited term '{matched_prohibited}' found in submission."

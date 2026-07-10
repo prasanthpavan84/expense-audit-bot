@@ -37,9 +37,7 @@ import app.governance
 
 
 class MockGemini(Gemini):
-    async def generate_content_async(
-        self, llm_request: Any, stream: bool = False
-    ) -> AsyncGenerator[LlmResponse, None]:
+    async def generate_content_async(self, llm_request: Any, stream: bool = False) -> AsyncGenerator[LlmResponse, None]:
         if os.getenv("MOCK_LLM", "True").lower() == "true":
             contents_str = str(llm_request.contents)
             text_lower = contents_str.lower()
@@ -81,10 +79,7 @@ class MockGemini(Gemini):
                     ]
                 ):
                     intent = "CONVERSATION"
-                elif any(
-                    re.search(rf"\b{kw}\b", text_lower)
-                    for kw in ["please audit", "audit this expense", "audit"]
-                ):
+                elif any(re.search(rf"\b{kw}\b", text_lower) for kw in ["please audit", "audit this expense", "audit"]):
                     intent = "AUDIT"
                 elif (
                     any(
@@ -103,10 +98,7 @@ class MockGemini(Gemini):
                 ):
                     intent = "POLICY"
                 elif (
-                    any(
-                        re.search(rf"\b{kw}\b", text_lower)
-                        for kw in ["compare", "summarize", "query", "departments"]
-                    )
+                    any(re.search(rf"\b{kw}\b", text_lower) for kw in ["compare", "summarize", "query", "departments"])
                     or "travel expenses above" in text_lower
                 ):
                     intent = "QUERY"
@@ -121,9 +113,7 @@ class MockGemini(Gemini):
                     ]
                 ):
                     intent = "CALCULATE"
-                elif any(
-                    re.search(rf"\b{kw}\b", text_lower) for kw in ["extract", "receipt"]
-                ):
+                elif any(re.search(rf"\b{kw}\b", text_lower) for kw in ["extract", "receipt"]):
                     intent = "EXTRACT"
                 else:
                     intent = "AUDIT"
@@ -143,11 +133,7 @@ class MockGemini(Gemini):
                 expenses = []
 
                 # Check for multiple lines indicating a list of items to audit
-                raw_lines = (
-                    contents_str.split("\\n")
-                    if "\\n" in contents_str
-                    else contents_str.split("\n")
-                )
+                raw_lines = contents_str.split("\\n") if "\\n" in contents_str else contents_str.split("\n")
 
                 # Helper to extract info from a single text block
                 def parse_block(txt: str) -> Optional[dict]:
@@ -156,9 +142,7 @@ class MockGemini(Gemini):
 
                     # Extract amount (supporting negative signs)
                     amount = 0.0
-                    neg_match = re.search(
-                        r"(?<!\d)-\s*[\$₹£€]?\s*(\d+(?:\.\d+)?)", txt_clean
-                    )
+                    neg_match = re.search(r"(?<!\d)-\s*[\$₹£€]?\s*(\d+(?:\.\d+)?)", txt_clean)
                     amt_match = re.search(
                         r"[-+]?\s*[\$₹£€]?\s*(\d+(?:\.\d+)?)\s*(?:USD|INR|EUR|CAD|GBP|JPY|₹|\$)?",
                         txt_clean,
@@ -172,13 +156,9 @@ class MockGemini(Gemini):
 
                     # Extract currency
                     currency = "USD"
-                    currency_match = re.search(
-                        r"\b(USD|INR|EUR|CAD|GBP|JPY)\b|([\$₹€£])", txt, re.IGNORECASE
-                    )
+                    currency_match = re.search(r"\b(USD|INR|EUR|CAD|GBP|JPY)\b|([\$₹€£])", txt, re.IGNORECASE)
                     if currency_match:
-                        curr = (
-                            currency_match.group(1) or currency_match.group(2)
-                        ).upper()
+                        curr = (currency_match.group(1) or currency_match.group(2)).upper()
                         if curr == "₹":
                             currency = "INR"
                         elif curr == "$" or curr == "USD":
@@ -221,21 +201,13 @@ class MockGemini(Gemini):
 
                     # Extract category
                     category = "Meals"
-                    if (
-                        "hotel" in txt.lower()
-                        or "stay" in txt.lower()
-                        or "accommodation" in txt.lower()
-                    ):
+                    if "hotel" in txt.lower() or "stay" in txt.lower() or "accommodation" in txt.lower():
                         category = "Hotel"
                     elif "flight" in txt.lower() or "travel" in txt.lower():
                         category = "Travel"
                     elif "software" in txt.lower() or "license" in txt.lower():
                         category = "Software"
-                    elif (
-                        "taxi" in txt.lower()
-                        or "ride" in txt.lower()
-                        or "cab" in txt.lower()
-                    ):
+                    elif "taxi" in txt.lower() or "ride" in txt.lower() or "cab" in txt.lower():
                         category = "Taxi"
 
                     # Restrictions check
@@ -248,18 +220,12 @@ class MockGemini(Gemini):
                         "pub",
                         "lounge",
                     ]
-                    is_restricted = any(
-                        w in merchant.lower() for w in restricted_keywords
-                    )
+                    is_restricted = any(w in merchant.lower() for w in restricted_keywords)
                     if is_restricted:
                         category = "Restricted"
 
                     # Fraud / tampering simulations based on words
-                    manipulated = (
-                        "manipulated" in txt.lower()
-                        or "edited" in txt.lower()
-                        or "tampered" in txt.lower()
-                    )
+                    manipulated = "manipulated" in txt.lower() or "edited" in txt.lower() or "tampered" in txt.lower()
                     ocr_score = 0.5 if "blurry" in txt.lower() else 1.0
                     readability = ["blurry"] if "blurry" in txt.lower() else []
 
@@ -339,11 +305,7 @@ class MockGemini(Gemini):
             else:
                 text = "APPROVED"
 
-            response = LlmResponse(
-                content=types.Content(
-                    role="model", parts=[types.Part.from_text(text=text)]
-                )
-            )
+            response = LlmResponse(content=types.Content(role="model", parts=[types.Part.from_text(text=text)]))
             yield response
         else:
             import asyncio
@@ -351,18 +313,12 @@ class MockGemini(Gemini):
             max_attempts = 8
             for attempt in range(max_attempts):
                 try:
-                    async for response in super().generate_content_async(
-                        llm_request, stream=stream
-                    ):
+                    async for response in super().generate_content_async(llm_request, stream=stream):
                         yield response
                     return
                 except Exception as e:
                     err_msg = str(e)
-                    is_rate_limit = (
-                        "429" in err_msg
-                        or "RESOURCE_EXHAUSTED" in err_msg
-                        or "quota" in err_msg.lower()
-                    )
+                    is_rate_limit = "429" in err_msg or "RESOURCE_EXHAUSTED" in err_msg or "quota" in err_msg.lower()
                     is_server_err = any(
                         term in err_msg.lower()
                         for term in [
@@ -378,22 +334,14 @@ class MockGemini(Gemini):
                         ]
                     )
 
-                    if (is_rate_limit or is_server_err) and attempt < (
-                        max_attempts - 1
-                    ):
+                    if (is_rate_limit or is_server_err) and attempt < (max_attempts - 1):
                         delay = 15.0
-                        delay_match = re.search(
-                            r"retry(?:ing)? in (\d+(?:\.\d+)?)s", err_msg, re.IGNORECASE
-                        )
+                        delay_match = re.search(r"retry(?:ing)? in (\d+(?:\.\d+)?)s", err_msg, re.IGNORECASE)
                         if not delay_match:
-                            delay_match = re.search(
-                                r"retryDelay':\s*'(\d+s?)'", err_msg, re.IGNORECASE
-                            )
+                            delay_match = re.search(r"retryDelay':\s*'(\d+s?)'", err_msg, re.IGNORECASE)
                         if delay_match:
                             try:
-                                delay = (
-                                    float(delay_match.group(1).replace("s", "")) + 1.5
-                                )
+                                delay = float(delay_match.group(1).replace("s", "")) + 1.5
                             except Exception:
                                 pass
                         else:
@@ -419,9 +367,7 @@ model = MockGemini(
 def log_audit(event_type: str, severity: str, details: dict):
     """Write structured JSON audit log."""
     log_entry = {
-        "timestamp": datetime.datetime.now(datetime.timezone.utc)
-        .isoformat()
-        .replace("+00:00", "Z"),
+        "timestamp": datetime.datetime.now(datetime.timezone.utc).isoformat().replace("+00:00", "Z"),
         "event_type": event_type,
         "severity": severity,
         **details,
@@ -462,47 +408,29 @@ class ExpenseDetails(BaseModel):
     amount: float = Field(description="The total amount of the expense.")
     currency: str = Field(description="The currency code (e.g. USD, EUR, INR).")
     category: str = Field(description="The category of the expense.")
-    items: List[str] = Field(
-        default=[], description="List of individual items purchased."
-    )
+    items: List[str] = Field(default=[], description="List of individual items purchased.")
     items_list: List[IndividualItem] = Field(
         default=[],
         description="Structured list of individual items with their specific amounts and categories.",
     )
-    ocr_confidence_score: float = Field(
-        default=1.0, description="OCR confidence score from 0.0 to 1.0."
-    )
-    readability_issues: List[str] = Field(
-        default=[], description="List of readability issues (e.g. blurry, rotated)."
-    )
+    ocr_confidence_score: float = Field(default=1.0, description="OCR confidence score from 0.0 to 1.0.")
+    readability_issues: List[str] = Field(default=[], description="List of readability issues (e.g. blurry, rotated).")
     manipulated_receipt: bool = Field(
         default=False,
         description="Flag indicating if receipt has been tampered/edited.",
     )
-    employee_id: str = Field(
-        default="EMP102", description="The employee ID submitting the expense."
-    )
-    department: str = Field(
-        default="Engineering", description="The department of the employee."
-    )
+    employee_id: str = Field(default="EMP102", description="The employee ID submitting the expense.")
+    department: str = Field(default="Engineering", description="The department of the employee.")
 
 
 class ExpenseList(BaseModel):
-    expenses: List[ExpenseDetails] = Field(
-        description="The list of extracted expenses."
-    )
+    expenses: List[ExpenseDetails] = Field(description="The list of extracted expenses.")
 
 
 class PolicyVerification(BaseModel):
-    compliant: bool = Field(
-        description="True if the expense complies with all policies, False otherwise."
-    )
-    violations: List[str] = Field(
-        description="List of specific policy violations found (empty if compliant)."
-    )
-    audit_notes: str = Field(
-        description="Detailed notes explaining the compliance check."
-    )
+    compliant: bool = Field(description="True if the expense complies with all policies, False otherwise.")
+    violations: List[str] = Field(description="List of specific policy violations found (empty if compliant).")
+    audit_notes: str = Field(description="Detailed notes explaining the compliance check.")
 
 
 class IntentClassification(BaseModel):
@@ -510,22 +438,14 @@ class IntentClassification(BaseModel):
 
 
 class StructuredQuerySchema(BaseModel):
-    action: str = Field(
-        description="Action to perform: FILTER, COMPARE_DEPTS, SUMMARIZE_EMPLOYEE, EXPLAIN"
-    )
+    action: str = Field(description="Action to perform: FILTER, COMPARE_DEPTS, SUMMARIZE_EMPLOYEE, EXPLAIN")
     category: Optional[str] = Field(default=None, description="Category filter")
-    amount_min: Optional[float] = Field(
-        default=None, description="Minimum amount filter"
-    )
-    amount_max: Optional[float] = Field(
-        default=None, description="Maximum amount filter"
-    )
+    amount_min: Optional[float] = Field(default=None, description="Minimum amount filter")
+    amount_max: Optional[float] = Field(default=None, description="Maximum amount filter")
     currency: Optional[str] = Field(default=None, description="Currency filter")
     employee_id: Optional[str] = Field(default=None, description="Employee ID filter")
     department: Optional[str] = Field(default=None, description="Department filter")
-    target_expense_id: Optional[str] = Field(
-        default=None, description="Expense ID to explain"
-    )
+    target_expense_id: Optional[str] = Field(default=None, description="Expense ID to explain")
 
 
 # -----------------------------------------------------------------------------
@@ -611,9 +531,7 @@ Identify:
 
 
 # Helper function to run agents programmatically
-async def run_agent_helper(
-    agent: Agent, text: str, session_id: Optional[str] = None
-) -> Any:
+async def run_agent_helper(agent: Agent, text: str, session_id: Optional[str] = None) -> Any:
     from google.adk.runners import Runner
     from google.adk.sessions.in_memory_session_service import InMemorySessionService
     from google.adk.memory.in_memory_memory_service import InMemoryMemoryService
@@ -639,9 +557,7 @@ async def run_agent_helper(
     )
 
     last_content = None
-    async for event in runner.run_async(
-        user_id=session.user_id, session_id=session.id, new_message=content
-    ):
+    async for event in runner.run_async(user_id=session.user_id, session_id=session.id, new_message=content):
         if event.content:
             last_content = event.content
 
@@ -703,9 +619,7 @@ def extract_custom_limits(text: str) -> dict:
             in_limits_section = True
             continue
         if in_limits_section:
-            match = re.search(
-                r"([a-zA-Z\s]+)\s*(?:[\$₹£€]|\bUSD\b|\bINR\b)?\s*([\d,]+)", line
-            )
+            match = re.search(r"([a-zA-Z\s]+)\s*(?:[\$₹£€]|\bUSD\b|\bINR\b)?\s*([\d,]+)", line)
             if match:
                 cat = match.group(1).strip().capitalize()
                 val = float(match.group(2).replace(",", ""))
@@ -731,22 +645,15 @@ def detect_business_exceptions(text: str) -> Optional[str]:
     ):
         return "Executive Approval Justification"
     # 2. Conference justification
-    if any(
-        phrase in text_lower
-        for phrase in ["conference", "seminar", "summit", "workshop"]
-    ):
+    if any(phrase in text_lower for phrase in ["conference", "seminar", "summit", "workshop"]):
         return "Conference Justification"
     # 3. Emergency justification
-    if any(
-        phrase in text_lower for phrase in ["emergency", "urgent medical", "crisis"]
-    ):
+    if any(phrase in text_lower for phrase in ["emergency", "urgent medical", "crisis"]):
         return "Emergency Justification"
     return None
 
 
-def check_human_review_trigger(
-    details: dict, total_claimed: float, currency: str
-) -> Optional[str]:
+def check_human_review_trigger(details: dict, total_claimed: float, currency: str) -> Optional[str]:
     # 1. Required information is missing
     missing_fields = []
     for field in ["merchant", "date", "amount", "currency"]:
@@ -761,9 +668,7 @@ def check_human_review_trigger(
         return f"Unsupported currency detected: {currency}"
 
     # 3. Expense exceeds configurable approval limits ($200 USD or ₹16,600 INR)
-    if (currency == "USD" and total_claimed >= 200.0) or (
-        currency == "INR" and total_claimed >= 16600.0
-    ):
+    if (currency == "USD" and total_claimed >= 200.0) or (currency == "INR" and total_claimed >= 16600.0):
         return f"Total claimed amount {currency} {total_claimed:,.2f} exceeds configurable approval limit."
 
     # 4. Low OCR readability triggers review
@@ -788,9 +693,7 @@ def check_human_review_trigger(
                 field_confs.append(prov.confidence)
             elif isinstance(prov, dict):
                 field_confs.append(prov.get("confidence", 1.0))
-    calibrated_conf = calculate_calibrated_confidence(
-        intent_conf, ocr_conf, field_confs
-    )
+    calibrated_conf = calculate_calibrated_confidence(intent_conf, ocr_conf, field_confs)
     if calibrated_conf < 0.65:
         return f"Low Calibrated Confidence ({calibrated_conf:.2f}) [Limit < 0.65]"
 
@@ -901,10 +804,7 @@ def security_checkpoint(ctx: Context, node_input: Any = None) -> Event:
             if o < 32 and char not in "\r\n\t":
                 has_control = True
                 break
-        if has_control or any(
-            esc in text
-            for esc in ["\\u0000", "\\u0001", "\\u0002", "\\x00", "\\x01", "\\x02"]
-        ):
+        if has_control or any(esc in text for esc in ["\\u0000", "\\u0001", "\\u0002", "\\x00", "\\x01", "\\x02"]):
             injection_detected = True
             matched_keyword = "malicious unicode / control characters"
 
@@ -979,9 +879,7 @@ def security_checkpoint(ctx: Context, node_input: Any = None) -> Event:
 
     return Event(
         output=scrubbed_text,
-        content=types.Content(
-            role="user", parts=[types.Part.from_text(text=scrubbed_text)]
-        ),
+        content=types.Content(role="user", parts=[types.Part.from_text(text=scrubbed_text)]),
     )
 
 
@@ -1024,9 +922,7 @@ async def intent_router(ctx: Context, node_input: str) -> Event:
         if confidence < 0.95:
             if os.getenv("MOCK_LLM", "true").lower() == "false" or True:
                 try:
-                    parsed = await run_agent_helper(
-                        intent_classifier_agent, text, session_id=ctx.session.id
-                    )
+                    parsed = await run_agent_helper(intent_classifier_agent, text, session_id=ctx.session.id)
                     llm_intent = str(parsed.get("intent", intent)).upper()
                     if llm_intent in [
                         "POLICY",
@@ -1168,9 +1064,7 @@ async def query_handler(ctx: Context, node_input: str) -> Event:
                 query_params["currency"] = "INR"
     else:
         try:
-            parsed = await run_agent_helper(
-                query_parser_agent, text, session_id=ctx.session.id
-            )
+            parsed = await run_agent_helper(query_parser_agent, text, session_id=ctx.session.id)
             query_params = parsed.model_dump()
         except Exception:
             pass
@@ -1251,11 +1145,7 @@ async def policy_handler(ctx: Context, node_input: str) -> Event:
 
     if "meal" in text.lower() or "food" in text.lower():
         ans = f"The standard company limit for meals is ${meals_usd:.2f} USD (or ₹{meals_inr:,.0f} INR)."
-    elif (
-        "hotel" in text.lower()
-        or "accommodation" in text.lower()
-        or "stay" in text.lower()
-    ):
+    elif "hotel" in text.lower() or "accommodation" in text.lower() or "stay" in text.lower():
         ans = f"The standard limit for Hotel / Accommodation is ${hotel_usd:.2f} USD (or ₹{hotel_inr:,.0f} INR)."
     elif "travel" in text.lower() or "flight" in text.lower():
         ans = f"The standard limit for Travel is ${travel_usd:.2f} USD (or ₹{travel_inr:,.0f} INR)."
@@ -1290,9 +1180,7 @@ Information provided matches general corporate policy guidelines."""
 
 async def extract_handler(ctx: Context, node_input: str) -> Event:
     """Extract details from receipt/image."""
-    extracted = await run_agent_helper(
-        receipt_extractor, node_input, session_id=ctx.session.id
-    )
+    extracted = await run_agent_helper(receipt_extractor, node_input, session_id=ctx.session.id)
     expenses = extracted.get("expenses", [])
 
     if not expenses:
@@ -1339,9 +1227,7 @@ async def calculator(ctx: Context, node_input: str) -> Event:
     text = node_input
 
     currency = "USD"
-    currency_match = re.search(
-        r"\b(USD|INR|EUR|CAD|GBP|JPY|₹|\$)\b", text, re.IGNORECASE
-    )
+    currency_match = re.search(r"\b(USD|INR|EUR|CAD|GBP|JPY|₹|\$)\b", text, re.IGNORECASE)
     if currency_match:
         curr = currency_match.group(1).upper()
         if curr == "₹":
@@ -1366,9 +1252,7 @@ async def calculator(ctx: Context, node_input: str) -> Event:
             }
         )
 
-    validation_errs = validate_expenses(
-        simulated_expenses, text, session_id=ctx.session.id
-    )
+    validation_errs = validate_expenses(simulated_expenses, text, session_id=ctx.session.id)
     ctx.state["validation_errors"] = validation_errs
     if validation_errs:
         formatted_response = f"""### Expense Summary
@@ -1429,9 +1313,7 @@ None
         allowed_amount += allowed
 
         violations.extend(item_violations)
-        summary_lines.append(
-            f"* {name}: Claimed {currency} {claimed:,.2f}, Reimbursable: {currency} {reimb:,.2f}"
-        )
+        summary_lines.append(f"* {name}: Claimed {currency} {claimed:,.2f}, Reimbursable: {currency} {reimb:,.2f}")
 
     summary = "\n".join(summary_lines)
     if not summary:
@@ -1444,11 +1326,7 @@ None
         if amount_match:
             total_claimed = float(amount_match.group(2).replace(",", ""))
         else:
-            nums = [
-                float(n.replace(",", ""))
-                for n in re.findall(r"\b-?\d+(?:,\d+)*(?:\.\d+)?\b", text)
-                if len(n) < 10
-            ]
+            nums = [float(n.replace(",", "")) for n in re.findall(r"\b-?\d+(?:,\d+)*(?:\.\d+)?\b", text) if len(n) < 10]
             filtered_nums = [n for n in nums if n not in [2026.0, 2025.0, 2024.0]]
             if filtered_nums:
                 total_claimed = filtered_nums[0]
@@ -1467,7 +1345,9 @@ None
     elif justification is not None:
         decision = "Approved with Exception"
 
-    reasoning = f"Calculated reimbursement based on company limits. Justification: {justification or 'Standard Policy'}."
+    reasoning = (
+        f"Calculated reimbursement based on company limits. Justification: {justification or 'Standard Policy'}."
+    )
 
     # Arithmetic verification
     if abs((reimbursable_amount + rejected_amount) - total_claimed) > 0.01:
@@ -1535,9 +1415,7 @@ async def audit_orchestrator_node(ctx: Context, node_input: str) -> Event:
     # Step 5: Extraction
     # -------------------------------------------------------------------------
     try:
-        extracted = await run_agent_helper(
-            receipt_extractor, raw_text, session_id=ctx.session.id
-        )
+        extracted = await run_agent_helper(receipt_extractor, raw_text, session_id=ctx.session.id)
     except Exception as e:
         import traceback
 
@@ -1558,9 +1436,7 @@ async def audit_orchestrator_node(ctx: Context, node_input: str) -> Event:
                 exp["subtotal"] = float(subtotal_match.group(1))
             else:
                 if exp.get("items_list"):
-                    exp["subtotal"] = sum(
-                        item.get("amount", 0.0) for item in exp["items_list"]
-                    )
+                    exp["subtotal"] = sum(item.get("amount", 0.0) for item in exp["items_list"])
                 else:
                     exp["subtotal"] = float(exp.get("amount", 0.0))
 
@@ -1578,18 +1454,14 @@ async def audit_orchestrator_node(ctx: Context, node_input: str) -> Event:
     # -------------------------------------------------------------------------
     # Step 6: Validation
     # -------------------------------------------------------------------------
-    validation_errs = validate_expenses(
-        expenses_raw, raw_text, full_history, session_id=ctx.session.id
-    )
+    validation_errs = validate_expenses(expenses_raw, raw_text, full_history, session_id=ctx.session.id)
     ctx.state["validation_errors"] = validation_errs
     if validation_errs:
         currency = "USD"
         if expenses_raw:
             currency = expenses_raw[0].get("currency", "USD")
         else:
-            currency_match = re.search(
-                r"\b(USD|INR|EUR|CAD|GBP|JPY|₹|\$)\b", raw_text, re.IGNORECASE
-            )
+            currency_match = re.search(r"\b(USD|INR|EUR|CAD|GBP|JPY|₹|\$)\b", raw_text, re.IGNORECASE)
             if currency_match:
                 curr = currency_match.group(1).upper()
                 currency = "INR" if curr == "₹" else "USD" if curr == "$" else curr
@@ -1639,9 +1511,7 @@ None
     # -------------------------------------------------------------------------
     fraud_results = []
     for exp in expenses_raw:
-        fraud_score, fraud_reason = calculate_fraud_score(
-            exp, full_history, expenses_raw
-        )
+        fraud_score, fraud_reason = calculate_fraud_score(exp, full_history, expenses_raw)
         fraud_results.append((fraud_score, fraud_reason))
 
     # -------------------------------------------------------------------------
@@ -1723,9 +1593,7 @@ None
     review_reasons = []
     for idx, exp in enumerate(expenses_raw):
         audited_exp = audited_expenses[idx]
-        review_trigger = check_human_review_trigger(
-            exp, audited_exp["amount"], currency
-        )
+        review_trigger = check_human_review_trigger(exp, audited_exp["amount"], currency)
         if review_trigger:
             needs_review = True
             review_reasons.append(review_trigger)
@@ -1747,36 +1615,20 @@ None
             reasoning = f"Approved with Exception: Rigorous limits bypassed under {justification}."
         else:
             cats = set(e.get("category", "Other") for e in audited_expenses)
-            cat_policies = (
-                ", ".join(f"{cat.capitalize()} policy" for cat in cats)
-                if cats
-                else "Standard policy"
-            )
-            reasoning = (
-                f"The expense is fully compliant and approved under the {cat_policies}."
-            )
+            cat_policies = ", ".join(f"{cat.capitalize()} policy" for cat in cats) if cats else "Standard policy"
+            reasoning = f"The expense is fully compliant and approved under the {cat_policies}."
 
     # Human Review escalation override
     if needs_review:
         decision = "Needs Human Review"
         reasoning = f"Escalated for Human Review: {', '.join(review_reasons)}. Audit details: {reasoning}"
 
-    max_fraud_score = (
-        max(e["fraud_score"] for e in audited_expenses) if audited_expenses else 0
-    )
+    max_fraud_score = max(e["fraud_score"] for e in audited_expenses) if audited_expenses else 0
     fraud_reasons = "; ".join(
-        e["fraud_reason"]
-        for e in audited_expenses
-        if e["fraud_reason"] != "No suspicious anomalies detected."
+        e["fraud_reason"] for e in audited_expenses if e["fraud_reason"] != "No suspicious anomalies detected."
     )
     if max_fraud_score > 0:
-        risk_level = (
-            "High"
-            if max_fraud_score >= 60
-            else "Medium"
-            if max_fraud_score >= 30
-            else "Low"
-        )
+        risk_level = "High" if max_fraud_score >= 60 else "Medium" if max_fraud_score >= 30 else "Low"
         reasoning += f"\n* **Fraud Analysis**: Risk Score = {max_fraud_score} (Risk Level: {risk_level}). Findings: {fraud_reasons}"
 
     # -------------------------------------------------------------------------
@@ -1793,8 +1645,7 @@ None
             sum(
                 1
                 for e in audited_expenses
-                if e["status"]
-                in ["Approved", "Approved with Exception", "Approved by Auditor"]
+                if e["status"] in ["Approved", "Approved with Exception", "Approved by Auditor"]
             )
             / len(audited_expenses)
         ) * 100.0
@@ -1842,9 +1693,7 @@ def route_decision(ctx: Context, node_input: str) -> Event:
             state={"orchestrator_decision": decision},
         )
     elif "denied" in decision or "reject" in decision:
-        return Event(
-            output=node_input, route="denied", state={"orchestrator_decision": decision}
-        )
+        return Event(output=node_input, route="denied", state={"orchestrator_decision": decision})
     else:
         return Event(
             output=node_input,
@@ -1900,9 +1749,7 @@ def finalize_expense(ctx: Context, node_input: str):
             "fraud_score": exp.get("fraud_score", 0),
             "reimbursable": exp.get("reimbursable", exp.get("amount")),
             "rejected": exp.get("rejected", 0.0),
-            "claimed_at": datetime.datetime.now(datetime.timezone.utc)
-            .isoformat()
-            .replace("+00:00", "Z"),
+            "claimed_at": datetime.datetime.now(datetime.timezone.utc).isoformat().replace("+00:00", "Z"),
         }
 
         # Only persist to database.json if approved/finalized
@@ -1948,19 +1795,18 @@ def finalize_expense(ctx: Context, node_input: str):
             updated_response,
             flags=re.DOTALL,
         )
-        yield Event(
-            content=types.Content(
-                role="model", parts=[types.Part.from_text(text=updated_response)]
-            )
-        )
+        yield Event(content=types.Content(role="model", parts=[types.Part.from_text(text=updated_response)]))
         yield Event(output=updated_response)
     else:
         # Run DPL (Deterministic Decision Policy Layer) validator & Schema Healing
-        max_fraud = (
-            max(e.get("fraud_score", 0.0) for e in audited_expenses)
-            if audited_expenses
-            else 0.0
-        )
+        flow_intent = ctx.state.get("flow_intent", "AUDIT")
+        validation_errs = ctx.state.get("validation_errors", [])
+        if flow_intent != "AUDIT" or validation_errs:
+            yield Event(content=types.Content(role="model", parts=[types.Part.from_text(text=node_input)]))
+            yield Event(output=node_input)
+            return
+
+        max_fraud = max(e.get("fraud_score", 0.0) for e in audited_expenses) if audited_expenses else 0.0
 
         dpl_escalated = False
         dpl_rejected = False
@@ -1968,9 +1814,7 @@ def finalize_expense(ctx: Context, node_input: str):
 
         if max_fraud > 80.0:
             dpl_escalated = True
-            dpl_reasons.append(
-                f"Fraud score ({max_fraud:.0f}) exceeds threshold (> 80.0)"
-            )
+            dpl_reasons.append(f"Fraud score ({max_fraud:.0f}) exceeds threshold (> 80.0)")
 
         # 2. Check missing receipt for AUDIT intent
         flow_intent = ctx.state.get("flow_intent", "AUDIT")
@@ -1982,9 +1826,7 @@ def finalize_expense(ctx: Context, node_input: str):
         for exp in audited_expenses:
             if exp.get("status") == "Rejected":
                 dpl_rejected = True
-                dpl_reasons.append(
-                    f"Policy violated: {', '.join(exp.get('violations', []))}"
-                )
+                dpl_reasons.append(f"Policy violated: {', '.join(exp.get('violations', []))}")
 
         # 4. Check Calibrated Confidence < 0.65 -> HITL
         ocr_conf = ctx.state.get("ocr_confidence_score", 1.0)
@@ -2005,14 +1847,10 @@ def finalize_expense(ctx: Context, node_input: str):
                         field_confs.append(prov.get("confidence", 1.0))
         from app.utils.finance import calculate_calibrated_confidence
 
-        calibrated_conf = calculate_calibrated_confidence(
-            intent_conf, ocr_conf, field_confs
-        )
+        calibrated_conf = calculate_calibrated_confidence(intent_conf, ocr_conf, field_confs)
         if calibrated_conf < 0.65:
             dpl_escalated = True
-            dpl_reasons.append(
-                f"Calibrated confidence {calibrated_conf:.2f} is below 0.65"
-            )
+            dpl_reasons.append(f"Calibrated confidence {calibrated_conf:.2f} is below 0.65")
 
         decision = ctx.state.get("orchestrator_decision", "Approved")
         reasoning = "The expense is fully compliant."
@@ -2034,21 +1872,17 @@ def finalize_expense(ctx: Context, node_input: str):
             report_data = {
                 "expenses": audited_expenses,
                 "total_claimed": sum(e.get("amount", 0.0) for e in audited_expenses),
-                "total_reimbursable": sum(
-                    e.get("reimbursable", 0.0) for e in audited_expenses
-                ),
+                "total_reimbursable": sum(e.get("reimbursable", 0.0) for e in audited_expenses),
                 "total_rejected": sum(e.get("rejected", 0.0) for e in audited_expenses),
                 "compliance_score": (
-                    sum(
-                        1
-                        for e in audited_expenses
-                        if e["status"] in ["Approved", "Approved with Exception"]
+                    (
+                        sum(1 for e in audited_expenses if e["status"] in ["Approved", "Approved with Exception"])
+                        / len(audited_expenses)
+                        * 100.0
                     )
-                    / len(audited_expenses)
-                    * 100.0
-                )
-                if audited_expenses
-                else 100.0,
+                    if audited_expenses
+                    else 100.0
+                ),
                 "currency": currency,
                 "decision": decision,
                 "reasoning": reasoning,
@@ -2071,11 +1905,7 @@ def finalize_expense(ctx: Context, node_input: str):
         ctx.state["orchestrator_decision"] = decision
         ctx.state["formatted_response"] = output_str
 
-        yield Event(
-            content=types.Content(
-                role="model", parts=[types.Part.from_text(text=output_str)]
-            )
-        )
+        yield Event(content=types.Content(role="model", parts=[types.Part.from_text(text=output_str)]))
         yield Event(output=output_str)
 
 

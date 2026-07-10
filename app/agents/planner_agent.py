@@ -1,22 +1,16 @@
-from core.agents.base_agent import BaseAgent, AgentResult, WorkflowContext
-from core.metadata.capability import capability
-from app.models.domain import DecisionTrace
 from app.core.config_manager import config
-import time
+from core.agents.base_agent import AgentResult, BaseAgent, WorkflowContext
+from core.metadata.capability import capability
 
-@capability(
-    name="planner_agent",
-    version="1.0.0",
-    inputs=["input"],
-    outputs=["workflow_plan"]
-)
+
+@capability(name="planner_agent", version="1.0.0", inputs=["input"], outputs=["workflow_plan"])
 class PlannerAgent(BaseAgent):
     """Planner Agent decides which workflow, tools, and reflection settings are required."""
 
     def execute(self, context: WorkflowContext) -> AgentResult:
         self.logger.info("Planner Agent executing.")
         text = (context.input or "").lower()
-        
+
         # 1. Determine workflow based on intent keywords
         workflow = "AUDIT"
         if any(w in text for w in ["policy", "limit", "rule", "allowed"]):
@@ -44,7 +38,7 @@ class PlannerAgent(BaseAgent):
             "required_capabilities": capabilities,
             "reflection_required": reflection_required,
             "model_version": config.model,
-            "prompt_version": config.prompt_versions.get("planner_agent", "v1")
+            "prompt_version": config.prompt_versions.get("planner_agent", "v1"),
         }
 
         # Store in context metadata
@@ -54,5 +48,5 @@ class PlannerAgent(BaseAgent):
         return AgentResult(
             success=True,
             output=plan,
-            explanation=f"Planner selected workflow '{workflow}' with capabilities {capabilities}."
+            explanation=f"Planner selected workflow '{workflow}' with capabilities {capabilities}.",
         )

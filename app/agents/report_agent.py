@@ -1,31 +1,32 @@
-import uuid
 import datetime
+import uuid
+
+from app.report_generator import generate_csv_report, generate_markdown_report
 from core.agents.base_agent import BaseAgent
-from core.validation.schemas import AgentResult, WorkflowContext
 from core.metadata.capability import capability
-from app.report_generator import generate_markdown_report, generate_csv_report
-from domain.report import Report
+from core.validation.schemas import AgentResult, WorkflowContext
 from domain.expense import Expense
-from typing import Optional
+from domain.report import Report
+
 
 @capability(
     name="report_agent",
     version="1.0.0",
     inputs=["receipt", "policy_res", "fraud_res", "validation_errors"],
-    outputs=["report"]
+    outputs=["report"],
 )
 class ReportAgent(BaseAgent):
     """Report Agent generates final reports in Markdown or CSV formats."""
 
     def execute(self, context: WorkflowContext) -> AgentResult:
         self.logger.info("Report Agent generating output reports.")
-        
+
         # 1. Retrieve elements from context/metadata
         receipt = context.get("receipt")
         policy_res = context.get("policy_res")
         fraud_res = context.get("fraud_res")
         validation_errors = context.get("validation_errors", [])
-        
+
         # Convert policy_res to dict if it's a PolicyResult object
         if hasattr(policy_res, "model_dump"):
             policy_res_dict = policy_res.model_dump()
@@ -61,7 +62,7 @@ class ReportAgent(BaseAgent):
             amount=amount,
             currency=currency,
             date=date_val,
-            category=getattr(receipt, "category", "Other") if receipt else "Other"
+            category=getattr(receipt, "category", "Other") if receipt else "Other",
         )
 
         # 2. Build explanation summary
@@ -84,13 +85,13 @@ class ReportAgent(BaseAgent):
 
         # 3. Generate outputs
         report_format = context.metadata.get("report_format", "markdown").lower()
-        
+
         claimed = receipt.amount if receipt else 0.0
         reimbursable = policy_res_dict.get("reimbursable_amount", claimed) if policy_res_dict else claimed
         rejected = policy_res_dict.get("rejected_amount", 0.0) if policy_res_dict else 0.0
         fraud_score = int(fraud_res.score * 100) if fraud_res else 0
         violations = policy_res_dict.get("violations", []) if policy_res_dict else []
-        
+
         expense_item = {
             "merchant": merchant,
             "date": date_val,
@@ -101,7 +102,7 @@ class ReportAgent(BaseAgent):
             "fraud_score": fraud_score,
             "fraud_reason": fraud_res.explanation if fraud_res else "",
             "status": status_str,
-            "violations": violations
+            "violations": violations,
         }
 
         audit_result = {
@@ -112,7 +113,7 @@ class ReportAgent(BaseAgent):
             "currency": currency,
             "compliance_score": max(0.0, min(100.0, 100.0 - (10.0 * len(violations)) - (fraud_score * 0.5))),
             "decision": status_str,
-            "reasoning": summary
+            "reasoning": summary,
         }
 
         if report_format == "csv":
@@ -124,18 +125,13 @@ class ReportAgent(BaseAgent):
         report = Report(
             id=str(uuid.uuid4()),
             audit_id=context.metadata.get("audit_id", str(uuid.uuid4())),
-            created_at=datetime.datetime.now(datetime.timezone.utc).isoformat(),
+            created_at=datetime.datetime.now(datetime.UTC).isoformat(),
             format=report_format,
             content=report_content,
-            status="APPROVED" if is_approved and not needs_review else "REJECTED"
+            status="APPROVED" if is_approved and not needs_review else "REJECTED",
         )
 
         context.metadata["report"] = report.model_dump()
         context.metadata["response"] = summary
 
-        return AgentResult(
-            status="SUCCESS",
-            output=report,
-            confidence=1.0,
-            explanation=summary
-        )
+        return AgentResult(status="SUCCESS", output=report, confidence=1.0, explanation=summary)

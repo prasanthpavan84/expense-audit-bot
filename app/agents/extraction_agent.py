@@ -1,19 +1,14 @@
 import re
-from typing import Dict
+
 from core.agents.base_agent import BaseAgent
 from core.metadata.capability import capability
-from core.validation.schemas import WorkflowContext, AgentResult
+from core.validation.schemas import AgentResult, WorkflowContext
 from domain.receipt import Receipt
 
-_EXTRACTION_CACHE: Dict[str, Receipt] = {}
+_EXTRACTION_CACHE: dict[str, Receipt] = {}
 
 
-@capability(
-    name="receipt_extractor",
-    version="1.0.0",
-    inputs=["input"],
-    outputs=["receipt"]
-)
+@capability(name="receipt_extractor", version="1.0.0", inputs=["input"], outputs=["receipt"])
 class ExtractionAgent(BaseAgent):
     """OCR and receipt field extraction agent."""
 
@@ -26,10 +21,7 @@ class ExtractionAgent(BaseAgent):
         if raw_input in _EXTRACTION_CACHE:
             receipt = _EXTRACTION_CACHE[raw_input]
             return AgentResult(
-                status="SUCCESS",
-                output=receipt,
-                confidence=1.0,
-                explanation="Cache hit: receipt details extracted."
+                status="SUCCESS", output=receipt, confidence=1.0, explanation="Cache hit: receipt details extracted."
             )
 
         text = raw_input.lower()
@@ -37,7 +29,9 @@ class ExtractionAgent(BaseAgent):
 
         amount = 0.0
         neg_match = re.search(r"(?<!\d)-\s*[\$₹£€]?\s*(\d+(?:\.\d+)?)", txt_clean)
-        amt_match = re.search(r"[-+]?\s*[\$₹£€]?\s*(\d+(?:\.\d+)?)\s*(?:USD|INR|EUR|CAD|GBP|JPY|₹|\$)?", txt_clean, re.IGNORECASE)
+        amt_match = re.search(
+            r"[-+]?\s*[\$₹£€]?\s*(\d+(?:\.\d+)?)\s*(?:USD|INR|EUR|CAD|GBP|JPY|₹|\$)?", txt_clean, re.IGNORECASE
+        )
 
         if neg_match:
             amount = -float(neg_match.group(1))
@@ -55,10 +49,16 @@ class ExtractionAgent(BaseAgent):
             merchant = "Burger King"
 
         category = "Travel"
-        if "meal" in text or "food" in text:
+        if "meal" in text or "food" in text or "starbucks" in text or "mcdonald" in text or "pizza" in text or "burger" in text:
             category = "Meals"
-        elif "hotel" in text or "stay" in text:
+        elif "hotel" in text or "stay" in text or "hilton" in text:
             category = "Hotel"
+        elif "software" in text or "license" in text:
+            category = "Software"
+        elif "flight" in text or "airline" in text:
+            category = "Flight"
+        elif "taxi" in text or "ride" in text or "cab" in text or "uber" in text:
+            category = "Taxi"
 
         currency = "USD"
         if "₹" in text or "inr" in text:
@@ -82,7 +82,8 @@ class ExtractionAgent(BaseAgent):
                 date="2026-06-26",
                 amount=200.0,
                 currency="USD",
-                items=["Room", "Meals"]
+                items=["Room", "Meals"],
+                category="Hotel",
             )
         else:
             receipt = Receipt(
@@ -94,7 +95,8 @@ class ExtractionAgent(BaseAgent):
                 date=date_val,
                 amount=amount,
                 currency=currency,
-                items=["Item 1"]
+                items=["Item 1"],
+                category=category,
             )
 
         _EXTRACTION_CACHE[raw_input] = receipt
@@ -102,5 +104,5 @@ class ExtractionAgent(BaseAgent):
             status="SUCCESS",
             output=receipt,
             confidence=receipt.ocr_confidence_score,
-            explanation=f"Successfully extracted receipt for merchant {receipt.merchant_name}."
+            explanation=f"Successfully extracted receipt for merchant {receipt.merchant_name}.",
         )
