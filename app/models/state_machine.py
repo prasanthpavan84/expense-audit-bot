@@ -1,5 +1,6 @@
 from enum import Enum
 
+
 class ConversationState(Enum):
     GREETING = "GREETING"
     WAITING_FOR_RECEIPT = "WAITING_FOR_RECEIPT"

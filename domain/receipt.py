@@ -18,3 +18,4 @@ class Receipt(BaseModel):
     amount: float
     currency: str = "USD"
     items: list[str] = Field(default_factory=list)
+    category: str = "Other"

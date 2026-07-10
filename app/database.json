@@ -1,28 +1,10 @@
 [
   {
-    "id": "exp-2026-07-05-1",
-    "employee_id": "EMP102",
-    "department": "Engineering",
-    "merchant": "Subway",
-    "date": "2026-06-25",
-    "amount": 15.5,
-    "currency": "USD",
-    "category": "Meals",
-    "items": [
-      "Item 1"
-    ],
-    "status": "Approved",
-    "fraud_score": 85.0,
-    "reimbursable": 15.5,
-    "rejected": 0.0,
-    "claimed_at": "2026-07-05T09:06:13.048300Z"
-  },
-  {
-    "id": "exp-2026-07-06-1",
+    "id": "exp-2026-07-10-1",
     "employee_id": "EMP102",
     "department": "Engineering",
     "merchant": "Pizza Hut",
-    "date": "Unknown",
+    "date": "2026-06-25",
     "amount": 35.5,
     "currency": "USD",
     "category": "Meals",
@@ -33,24 +15,6 @@
     "fraud_score": 0,
     "reimbursable": 35.5,
     "rejected": 0.0,
-    "claimed_at": "2026-07-06T11:18:45.468968Z"
-  },
-  {
-    "id": "exp-2026-07-07-1",
-    "employee_id": "EMP102",
-    "department": "Engineering",
-    "merchant": "Subway",
-    "date": "2026-06-25",
-    "amount": 15.5,
-    "currency": "USD",
-    "category": "Meals",
-    "items": [
-      "Item 1"
-    ],
-    "status": "Approved",
-    "fraud_score": 85.0,
-    "reimbursable": 15.5,
-    "rejected": 0.0,
-    "claimed_at": "2026-07-07T10:07:39.418199Z"
+    "claimed_at": "2026-07-10T14:32:00.323375Z"
   }
 ]

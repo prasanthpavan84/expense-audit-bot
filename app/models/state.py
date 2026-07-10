@@ -1,6 +1,8 @@
-from typing import Dict, Any, List, Optional
-from pydantic import BaseModel, Field, field_validator
 import re
+from typing import Any
+
+from pydantic import BaseModel, Field, field_validator
+
 
 class ExpenseItem(BaseModel):
     category: str = ""
@@ -9,15 +11,15 @@ class ExpenseItem(BaseModel):
     date: str = ""
     description: str = ""
     merchant: str = ""
-    confidence_score: float = 1.0 # default to high confidence
-    
+    confidence_score: float = 1.0  # default to high confidence
+
     @field_validator("amount")
     @classmethod
     def validate_amount(cls, v):
         if v < 0:
             raise ValueError("Amount cannot be negative")
         return v
-        
+
     @field_validator("currency")
     @classmethod
     def validate_currency(cls, v):
@@ -32,24 +34,26 @@ class ExpenseItem(BaseModel):
             if not re.match(r"^\d{4}-\d{2}-\d{2}$", v):
                 raise ValueError(f"Date '{v}' must be in YYYY-MM-DD format")
         return v
-    
+
+
 class AuditResult(BaseModel):
     is_approved: bool = False
     reason: str = ""
     fraud_score: float = 0.0
-    policy_violations: List[str] = Field(default_factory=list)
+    policy_violations: list[str] = Field(default_factory=list)
     reasoning_trace: str = ""
-    evidence_links: List[str] = Field(default_factory=list)
+    evidence_links: list[str] = Field(default_factory=list)
+
 
 class WorkflowState(BaseModel):
     status: str = ""
     intent: str = ""
-    expenses: List[ExpenseItem] = Field(default_factory=list)
-    audit_results: Dict[str, AuditResult] = Field(default_factory=dict)
+    expenses: list[ExpenseItem] = Field(default_factory=list)
+    audit_results: dict[str, AuditResult] = Field(default_factory=dict)
     raw_input: str = ""
     report_format: str = "markdown"
-    metadata: Dict[str, Any] = Field(default_factory=dict)
-    _history: List[Dict[str, Any]] = []
+    metadata: dict[str, Any] = Field(default_factory=dict)
+    _history: list[dict[str, Any]] = []
 
     def create_snapshot(self):
         """Creates a snapshot of the current state and appends to history."""
@@ -62,4 +66,3 @@ class WorkflowState(BaseModel):
         last_state = self._history.pop()
         for key, value in last_state.items():
             setattr(self, key, value)
-

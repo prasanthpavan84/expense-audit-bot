@@ -11,18 +11,19 @@ from __future__ import annotations
 
 import uuid
 
+from core.agent_executor import SimpleAgentExecutor
+from core.artifact_manager import SimpleArtifactManager
+
 # Core services
 from core.container import ServiceContainer
-from core.scheduler import ThreadScheduler
 from core.planner import SimplePlanner
-from core.artifact_manager import SimpleArtifactManager
+from core.scheduler import ThreadScheduler
 from core.workflow_executor import SimpleWorkflowExecutor
-from core.agent_executor import SimpleAgentExecutor
 
 # Runtime infrastructure
 from framework.runtime.runtime_context import RuntimeContext
-from framework.runtime.state_manager import StateManager
 from framework.runtime.runtime_engine import RuntimeEngine
+from framework.runtime.state_manager import StateManager
 
 
 def main() -> None:
