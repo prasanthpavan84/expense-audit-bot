@@ -8,14 +8,14 @@ intent format.
 import json
 from pathlib import Path
 
-from app.models.state import WorkflowState
 from app.core.agent_base import BaseExpenseAgent
 from app.intents.intent_engine import IntentEngine
 from app.intents.nlu import NLU
+from app.models.state import WorkflowState
 
 # Load intent taxonomy once at module load
 _TAXONOMY_PATH = Path(__file__).resolve().parents[1] / "intents" / "intent_taxonomy.json"
-with open(_TAXONOMY_PATH, "r", encoding="utf-8") as f:
+with open(_TAXONOMY_PATH, encoding="utf-8") as f:
     INTENT_TAXONOMY = json.load(f)
 
 

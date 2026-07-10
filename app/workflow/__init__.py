@@ -1,9 +1,5 @@
 from .engine.workflow_engine import WorkflowEngine
-from .validators.workflow_validator import WorkflowValidator
 from .executors.checkpoint_executor import CheckpointExecutor
+from .validators.workflow_validator import WorkflowValidator
 
-__all__ = [
-    "WorkflowEngine",
-    "WorkflowValidator",
-    "CheckpointExecutor"
-]
+__all__ = ["CheckpointExecutor", "WorkflowEngine", "WorkflowValidator"]

@@ -10,33 +10,39 @@ PLANNER CONTRACT:
 Core principle: THE AI MUST NEVER GUESS.
 """
 
-from dataclasses import dataclass, field
-from typing import Any, Dict, List, Optional
+from dataclasses import dataclass
+from typing import Any
 
-from app.models.state import WorkflowState
 from app.engine.cognitive_engine import CognitiveDecision, ExecutionAuthorization
 from app.engine.exceptions import PlannerValidationError
 from app.intents.intent_engine import IntentEngine
+from app.models.state import WorkflowState
 
 
 @dataclass
 class WorkflowPlan:
     """Dataclass holding the workflow execution plan."""
-    steps: List[str]
+
+    steps: list[str]
     intent: str
     reason: str
     suitability_score: float
     preconditions_met: bool
-    readiness: Dict[str, Any]
+    readiness: dict[str, Any]
     decision_explanation: str
-    authorization: Optional[ExecutionAuthorization] = None
+    authorization: ExecutionAuthorization | None = None
 
 
 # Valid agent sequences per workflow
-_WORKFLOW_SEQUENCES: Dict[str, List[str]] = {
+_WORKFLOW_SEQUENCES: dict[str, list[str]] = {
     "AUDIT": [
-        "receipt_extractor", "hallucination_agent", "validation_agent",
-        "policy_agent", "fraud_agent", "reflection_agent", "report_agent",
+        "receipt_extractor",
+        "hallucination_agent",
+        "validation_agent",
+        "policy_agent",
+        "fraud_agent",
+        "reflection_agent",
+        "report_agent",
     ],
     "POLICY": ["policy_agent"],
     "QUERY": ["query_agent"],
@@ -168,8 +174,8 @@ def select_workflow(state: WorkflowState) -> WorkflowPlan:
     This is called by the orchestrator. It runs the full cognitive pipeline
     internally to produce a WorkflowPlan.
     """
-    from app.intents.intent_engine import IntentEngine as IE
     from app.engine.cognitive_engine import CognitiveEngine
+    from app.intents.intent_engine import IntentEngine as IE
 
     # Get the intent decision from state metadata (set by router)
     intent_decision = state.metadata.get("intent_decision")

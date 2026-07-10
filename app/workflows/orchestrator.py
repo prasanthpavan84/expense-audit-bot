@@ -13,31 +13,28 @@ No stage may be skipped. Every stage returns structured metadata.
 
 import asyncio
 import time
-import uuid
 import traceback
-from typing import Optional
+import uuid
 
-from app.models.state import WorkflowState
-from app.core.agent_registry import registry
-from app.utils.logger import get_logger, TraceLogger
-from app.workflows.router import IntentRouterAgent
 from app.agents.extraction_agent import ExtractionAgent
-from app.agents.policy_agent import PolicyAgent
 from app.agents.fraud_agent import FraudAgent
-from app.agents.validation_agent import ValidationAgent
-from app.agents.report_agent import ReportAgent
-from app.agents.query_agent import QueryAgent
 from app.agents.hallucination_agent import HallucinationAgent
+from app.agents.policy_agent import PolicyAgent
+from app.agents.query_agent import QueryAgent
 from app.agents.reflection_agent import ReflectionAgent
+from app.agents.report_agent import ReportAgent
 from app.agents.security_agent import SecurityAgent
-from app.validation.response_validator import validate_response
-from app.engine.cognitive_engine import CognitiveEngine, CognitiveDecision
+from app.agents.validation_agent import ValidationAgent
+from app.core.agent_registry import registry
+from app.engine.cognitive_engine import CognitiveEngine
 from app.engine.exceptions import (
-    ConversationFirewallViolation,
     WorkflowAuthorizationError,
 )
-from app.intents.intent_engine import IntentEngine, CONVERSATION_INTENTS
-
+from app.intents.intent_engine import CONVERSATION_INTENTS
+from app.models.state import WorkflowState
+from app.utils.logger import TraceLogger, get_logger, log_pipeline_stage
+from app.validation.response_validator import validate_response
+from app.workflows.router import IntentRouterAgent
 
 # Register all agents
 registry.register("intent_router", IntentRouterAgent())
@@ -52,11 +49,18 @@ registry.register("reflection_agent", ReflectionAgent())
 registry.register("security_agent", SecurityAgent())
 
 # Expense agents that are guarded by the conversation firewall
-_EXPENSE_AGENTS = frozenset({
-    "receipt_extractor", "validation_agent", "policy_agent",
-    "fraud_agent", "reflection_agent", "report_agent",
-    "hallucination_agent", "query_agent",
-})
+_EXPENSE_AGENTS = frozenset(
+    {
+        "receipt_extractor",
+        "validation_agent",
+        "policy_agent",
+        "fraud_agent",
+        "reflection_agent",
+        "report_agent",
+        "hallucination_agent",
+        "query_agent",
+    }
+)
 
 
 class WorkflowOrchestrator:
@@ -169,9 +173,7 @@ class WorkflowOrchestrator:
         # ===== GATE 16: Execution =====
         for step in plan.steps:
             # Firewall check before each agent
-            CognitiveEngine.validate_firewall(
-                plan.intent, step
-            )
+            CognitiveEngine.validate_firewall(plan.intent, step)
             state = await self._execute_agent(step, state)
 
         # Clear pending intent upon successful execution
@@ -187,8 +189,11 @@ class WorkflowOrchestrator:
         return state
 
     async def _execute_agent(
-        self, agent_name: str, state: WorkflowState,
-        timeout: float = 10.0, retries: int = 1,
+        self,
+        agent_name: str,
+        state: WorkflowState,
+        timeout: float = 10.0,
+        retries: int = 1,
     ) -> WorkflowState:
         agent = registry.get_agent(agent_name)
         trace_id = state.metadata.get("trace_id", "unknown")
@@ -205,14 +210,49 @@ class WorkflowOrchestrator:
                     state.metadata["performance"] = {}
                 state.metadata["performance"][agent_name] = duration
                 logger.info(f"Completed agent: {agent_name} in {duration:.3f}s")
+
+                # Structured Stage Logging
+                warnings_count = len(state.metadata.get("policy_violations", [])) + len(
+                    state.metadata.get("fraud_indicators", [])
+                )
+                log_pipeline_stage(
+                    session_id=trace_id,
+                    audit_id=state.metadata.get("audit_id", "unknown"),
+                    stage=agent_name,
+                    duration=duration,
+                    decision=state.status or "SUCCESS",
+                    confidence=state.metadata.get("intent_confidence", 1.0),
+                    errors=[],
+                    warning_count=warnings_count,
+                )
                 return state
 
-            except TimeoutError:
+            except TimeoutError as e:
                 logger.error(f"Agent {agent_name} timed out after {timeout}s")
+                log_pipeline_stage(
+                    session_id=trace_id,
+                    audit_id=state.metadata.get("audit_id", "unknown"),
+                    stage=agent_name,
+                    duration=timeout,
+                    decision="TIMEOUT",
+                    confidence=0.0,
+                    errors=[str(e)],
+                    warning_count=0,
+                )
                 if attempt == retries:
                     raise
             except Exception as e:
-                logger.error(f"Agent {agent_name} failed: {str(e)}\n{traceback.format_exc()}")
+                logger.error(f"Agent {agent_name} failed: {e!s}\n{traceback.format_exc()}")
+                log_pipeline_stage(
+                    session_id=trace_id,
+                    audit_id=state.metadata.get("audit_id", "unknown"),
+                    stage=agent_name,
+                    duration=0.0,
+                    decision="FAILED",
+                    confidence=0.0,
+                    errors=[str(e)],
+                    warning_count=0,
+                )
                 if attempt == retries:
                     raise
         return state
@@ -262,9 +302,14 @@ class WorkflowOrchestrator:
 
         # Clear stale workflow state
         stale_keys = [
-            "extraction_results", "validation_errors", "policy_results",
-            "fraud_results", "reflection_results", "report",
-            "hallucination_errors", "hallucinations_detected",
+            "extraction_results",
+            "validation_errors",
+            "policy_results",
+            "fraud_results",
+            "reflection_results",
+            "report",
+            "hallucination_errors",
+            "hallucinations_detected",
         ]
         for key in stale_keys:
             state.metadata.pop(key, None)

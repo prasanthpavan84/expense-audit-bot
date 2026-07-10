@@ -4,18 +4,28 @@ Loads workflow definitions from `config/workflows.yaml`.
 Each workflow defines a DAG of agent nodes and directed edges.
 Provides a singleton `WorkflowRegistry` with lookup helpers.
 """
+
 import os
+from typing import Any
+
 import yaml
-from typing import Dict, List, Tuple, Any
+
 
 class WorkflowSpec:
-    def __init__(self, workflow_id: str, version: str, nodes: Dict[str, dict],
-                 edges: List[Tuple[str, str]], parallel_groups: List[List[str]] = None,
-                 retries: int = 0, timeout_seconds: Any = None):
+    def __init__(
+        self,
+        workflow_id: str,
+        version: str,
+        nodes: dict[str, dict],
+        edges: list[tuple[str, str]],
+        parallel_groups: list[list[str]] = None,
+        retries: int = 0,
+        timeout_seconds: Any = None,
+    ):
         self.workflow_id = workflow_id
         self.version = version
-        self.nodes = nodes          # node_id -> metadata (agent, version, etc.)
-        self.edges = edges          # list of (from, to)
+        self.nodes = nodes  # node_id -> metadata (agent, version, etc.)
+        self.edges = edges  # list of (from, to)
         self.parallel_groups = parallel_groups or []
         self.retries = retries
         self.timeout_seconds = timeout_seconds
@@ -37,10 +47,10 @@ class WorkflowRegistry:
         """Load workflows from `config/workflows.yaml`.
         The file is optional – if missing we start with an empty registry.
         """
-        self._workflows: Dict[str, WorkflowSpec] = {}
+        self._workflows: dict[str, WorkflowSpec] = {}
         config_path = os.path.join(os.getcwd(), "config", "workflows.yaml")
         if os.path.exists(config_path):
-            with open(config_path, "r", encoding="utf-8") as f:
+            with open(config_path, encoding="utf-8") as f:
                 data = yaml.safe_load(f) or {}
             for wid, spec in data.get("workflows", {}).items():
                 self._workflows[wid] = WorkflowSpec(
@@ -56,8 +66,9 @@ class WorkflowRegistry:
     def get(self, workflow_id: str) -> WorkflowSpec:
         return self._workflows.get(workflow_id)
 
-    def list_all(self) -> Dict[str, WorkflowSpec]:
+    def list_all(self) -> dict[str, WorkflowSpec]:
         return dict(self._workflows)
+
 
 # Export a ready‑to‑use singleton
 workflow_registry = WorkflowRegistry()

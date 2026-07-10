@@ -1,28 +1,26 @@
-from typing import Optional, Dict, Any, Tuple
+from typing import Any
+
 from app.repositories.checkpoint_repository import CheckpointRepository
+
 
 class CheckpointExecutor:
     """Manages saving and restoring workflow state checkpoints in SQLite for resiliency."""
 
-    def __init__(self, checkpoint_repository: Optional[CheckpointRepository] = None):
+    def __init__(self, checkpoint_repository: CheckpointRepository | None = None):
         self.repository = checkpoint_repository or CheckpointRepository()
 
     def save_checkpoint(
-        self,
-        audit_id: str,
-        correlation_id: str,
-        last_completed_step: str,
-        context_data: Dict[str, Any]
+        self, audit_id: str, correlation_id: str, last_completed_step: str, context_data: dict[str, Any]
     ) -> None:
         """Checkpoint current context to the database."""
         self.repository.save_checkpoint(
             audit_id=audit_id,
             correlation_id=correlation_id,
             last_completed_step=last_completed_step,
-            state_data=context_data
+            state_data=context_data,
         )
 
-    def restore_checkpoint(self, audit_id: str) -> Optional[Tuple[str, Dict[str, Any]]]:
+    def restore_checkpoint(self, audit_id: str) -> tuple[str, dict[str, Any]] | None:
         """Fetch the checkpoint and return (last_completed_step, state_data)."""
         checkpoint = self.repository.get_checkpoint(audit_id)
         if not checkpoint:

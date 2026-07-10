@@ -1,12 +1,21 @@
-import os
-import yaml
 import importlib
-from typing import Dict, Any, Optional
+import os
+from typing import Any
+
+import yaml
+
 
 class AgentMeta:
-    def __init__(self, agent_id: str, version: str, description: str, class_path: str,
-                 max_concurrency: int = 5, timeout_seconds: float = 30.0,
-                 retry_policy: Dict[str, Any] = None):
+    def __init__(
+        self,
+        agent_id: str,
+        version: str,
+        description: str,
+        class_path: str,
+        max_concurrency: int = 5,
+        timeout_seconds: float = 30.0,
+        retry_policy: dict[str, Any] = None,
+    ):
         self.agent_id = agent_id
         self.version = version
         self.description = description
@@ -18,9 +27,10 @@ class AgentMeta:
     @property
     def agent_class(self):
         """Lazily import and return the concrete agent class."""
-        module_path, _, class_name = self.class_path.rpartition('.')
+        module_path, _, class_name = self.class_path.rpartition(".")
         module = importlib.import_module(module_path)
         return getattr(module, class_name)
+
 
 class AgentRegistry:
     _instance = None
@@ -33,11 +43,11 @@ class AgentRegistry:
         return cls._instance
 
     def _load(self):
-        self._agents: Dict[str, AgentMeta] = {}
+        self._agents: dict[str, AgentMeta] = {}
         config_path = os.path.join(os.getcwd(), "config", "agents.yaml")
         if os.path.exists(config_path):
             try:
-                with open(config_path, "r", encoding="utf-8") as f:
+                with open(config_path, encoding="utf-8") as f:
                     data = yaml.safe_load(f) or {}
                 for aid, meta in data.get("agents", {}).items():
                     self._agents[aid] = AgentMeta(
@@ -52,17 +62,17 @@ class AgentRegistry:
             except Exception:
                 pass
 
-    def get(self, agent_id: str) -> Optional[AgentMeta]:
+    def get(self, agent_id: str) -> AgentMeta | None:
         return self._agents.get(agent_id)
 
-    def list_all(self) -> Dict[str, AgentMeta]:
+    def list_all(self) -> dict[str, AgentMeta]:
         return dict(self._agents)
 
     def get_agent(self, agent_id: str) -> Any:
         """Helper to get a cached instance of the agent."""
         if agent_id in self._instances:
             return self._instances[agent_id]
-        
+
         meta = self.get(agent_id)
         if not meta:
             # Fallback direct discovery of standard names
@@ -73,7 +83,7 @@ class AgentRegistry:
                 "fraud_agent": "app.agents.fraud_agent.FraudAgent",
                 "reasoning_agent": "app.agents.reasoning_agent.ReasoningAgent",
                 "reflection_agent": "app.agents.reflection_agent.ReflectionAgent",
-                "report_agent": "app.agents.report_agent.ReportAgent"
+                "report_agent": "app.agents.report_agent.ReportAgent",
             }
             if agent_id in fallback_map:
                 meta = AgentMeta(agent_id, "1.0.0", "", fallback_map[agent_id])
@@ -87,6 +97,7 @@ class AgentRegistry:
         except Exception as e:
             print(f"FAILED TO LOAD AGENT '{agent_id}': {e}")
             raise e
+
 
 # Export singleton
 agent_registry = AgentRegistry()

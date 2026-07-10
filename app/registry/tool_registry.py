@@ -1,11 +1,18 @@
-from typing import Dict, Any, Callable, Optional, List
-from app.mcp_server import get_corporate_limits, get_exchange_rate, check_vendor_restrictions
+from collections.abc import Callable
+from typing import Any
+
+from app.mcp_server import (
+    check_vendor_restrictions,
+    get_corporate_limits,
+    get_exchange_rate,
+)
+
 
 class ToolRegistry:
     """Capability-Based Tool Registry resolving abstract needs to specific tool implementations."""
 
     def __init__(self):
-        self._capabilities: Dict[str, List[Callable[..., Any]]] = {}
+        self._capabilities: dict[str, list[Callable[..., Any]]] = {}
         self._register_default_mcp_tools()
 
     def register(self, capability: str, tool_func: Callable[..., Any]) -> None:
@@ -14,7 +21,7 @@ class ToolRegistry:
             self._capabilities[capability] = []
         self._capabilities[capability].append(tool_func)
 
-    def resolve(self, capability: str) -> Optional[Callable[..., Any]]:
+    def resolve(self, capability: str) -> Callable[..., Any] | None:
         """Resolve a capability to the first registered active tool."""
         tools = self._capabilities.get(capability)
         if not tools:
@@ -36,6 +43,7 @@ class ToolRegistry:
         elif capability == "READ_POLICY":
             return lambda category: {}
         return lambda *args, **kwargs: None
+
 
 # Global Tool Registry
 tool_registry = ToolRegistry()

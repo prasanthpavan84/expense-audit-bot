@@ -1,7 +1,6 @@
 import sqlite3
-import os
-from typing import Dict, Any, List, Optional
 from datetime import datetime
+from typing import Any
 
 
 class ReviewQueue:
@@ -32,7 +31,7 @@ class ReviewQueue:
         with sqlite3.connect(self.db_path) as conn:
             conn.execute(
                 "INSERT OR REPLACE INTO review_items (id, raw_input, risk_score, status, created_at) VALUES (?, ?, ?, ?, ?)",
-                (item_id, raw_input, risk_score, "PENDING", datetime.utcnow().isoformat())
+                (item_id, raw_input, risk_score, "PENDING", datetime.utcnow().isoformat()),
             )
             conn.commit()
 
@@ -41,18 +40,18 @@ class ReviewQueue:
         with sqlite3.connect(self.db_path) as conn:
             conn.execute(
                 "UPDATE review_items SET status = ?, resolution = ?, reviewed_by = ?, reviewed_at = ? WHERE id = ?",
-                ("RESOLVED", resolution, reviewer, datetime.utcnow().isoformat(), item_id)
+                ("RESOLVED", resolution, reviewer, datetime.utcnow().isoformat(), item_id),
             )
             conn.commit()
 
-    def get_pending(self) -> List[Dict[str, Any]]:
+    def get_pending(self) -> list[dict[str, Any]]:
         """Retrieve all pending items."""
         with sqlite3.connect(self.db_path) as conn:
             conn.row_factory = sqlite3.Row
             cursor = conn.execute("SELECT * FROM review_items WHERE status = 'PENDING'")
             return [dict(row) for row in cursor.fetchall()]
 
-    def get_all(self) -> List[Dict[str, Any]]:
+    def get_all(self) -> list[dict[str, Any]]:
         """Retrieve all items (pending and resolved)."""
         with sqlite3.connect(self.db_path) as conn:
             conn.row_factory = sqlite3.Row

@@ -1,4 +1,4 @@
-from .review_queue import ReviewQueue
 from .human_review_agent import HumanReviewAgent
+from .review_queue import ReviewQueue
 
-__all__ = ["ReviewQueue", "HumanReviewAgent"]
+__all__ = ["HumanReviewAgent", "ReviewQueue"]
