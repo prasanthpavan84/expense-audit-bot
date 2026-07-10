@@ -6,7 +6,7 @@ Zero LLM calls.
 """
 
 from dataclasses import dataclass, field
-from typing import Dict, List
+
 from app.models.state import WorkflowState
 
 # Default weights for confidence signals
@@ -23,19 +23,18 @@ DEFAULT_WEIGHTS = {
 @dataclass
 class ConfidenceResult:
     """Dataclass holding calibrated confidence details."""
+
     overall: float
     explanation: str
-    factors: Dict[str, float]
-    penalties: List[str] = field(default_factory=list)
+    factors: dict[str, float]
+    penalties: list[str] = field(default_factory=list)
 
 
 class ConfidenceCalibrationEngine:
     """Deterministic engine to calculate calibrated confidence scores."""
 
     @staticmethod
-    def calibrate_confidence(
-        state: WorkflowState, weights: Dict[str, float] = None
-    ) -> ConfidenceResult:
+    def calibrate_confidence(state: WorkflowState, weights: dict[str, float] = None) -> ConfidenceResult:
         """Calculates overall calibrated confidence with explainable breakdown and penalties."""
         if weights is None:
             weights = DEFAULT_WEIGHTS
@@ -114,7 +113,7 @@ class ConfidenceCalibrationEngine:
         # Penalty: Validation errors (-0.2)
         if val_errors:
             calibrated_score -= 0.2
-            penalties.append(f"Validation errors present (-0.20)")
+            penalties.append("Validation errors present (-0.20)")
 
         # Penalty: Clarification retry cycles
         clar_session = state.metadata.get("clarification_session", {})
@@ -128,20 +127,12 @@ class ConfidenceCalibrationEngine:
         calibrated_score = max(0.0, min(calibrated_score, 1.0))
         calibrated_score = round(calibrated_score, 3)
 
-        explanation = (
-            f"Base Score: {baseline:.2f}. " +
-            " | ".join(explanation_parts)
-        )
+        explanation = f"Base Score: {baseline:.2f}. " + " | ".join(explanation_parts)
         if penalties:
             explanation += " [Penalties: " + " ; ".join(penalties) + "]"
         explanation += f" -> Calibrated Confidence: {calibrated_score:.2f}"
 
-        return ConfidenceResult(
-            overall=calibrated_score,
-            explanation=explanation,
-            factors=factors,
-            penalties=penalties
-        )
+        return ConfidenceResult(overall=calibrated_score, explanation=explanation, factors=factors, penalties=penalties)
 
 
 def calibrate_confidence(state: WorkflowState) -> ConfidenceResult:

@@ -17,19 +17,20 @@ Core principle: THE AI MUST NEVER GUESS.
 import time
 import uuid
 from dataclasses import dataclass
-from typing import Any, Dict, Literal, Optional
+from typing import Any
 
-from app.intents.intent_engine import IntentDecision, IntentEngine, CONVERSATION_INTENTS
 from app.engine.exceptions import ConversationFirewallViolation
-
+from app.intents.intent_engine import CONVERSATION_INTENTS, IntentDecision, IntentEngine
 
 # ---------------------------------------------------------------------------
 # Immutable Decision Objects
 # ---------------------------------------------------------------------------
 
+
 @dataclass(frozen=True)
 class ExecutionAuthorization:
     """Immutable token required before any expense agent can run."""
+
     decision_id: str
     conversation_id: str
     workflow_id: str
@@ -44,30 +45,40 @@ class ExecutionAuthorization:
 @dataclass(frozen=True)
 class CognitiveDecision:
     """Immutable cognitive decision — single source of truth for the planner."""
+
     decision_id: str
     intent: IntentDecision
     context_ready: bool
     clarification_required: bool
     clarification_reason: str
     execution_allowed: bool
-    authorization: Optional[ExecutionAuthorization]
+    authorization: ExecutionAuthorization | None
     safety_checks_passed: bool
     firewall_passed: bool
     next_action: str  # "PLAN", "CLARIFY", "RESPOND", "BLOCK"
     planner_permission: bool
-    cognitive_health: Dict[str, Any]
+    cognitive_health: dict[str, Any]
 
 
 # Conversation intents that MUST NEVER trigger expense workflows
-_FIREWALL_BLOCKED_INTENTS = CONVERSATION_INTENTS | frozenset({
-    "RESTART", "CANCEL",
-})
+_FIREWALL_BLOCKED_INTENTS = CONVERSATION_INTENTS | frozenset(
+    {
+        "RESTART",
+        "CANCEL",
+    }
+)
 
 # Expense agent names — the firewall protects these from conversational intents
-_EXPENSE_AGENTS = frozenset({
-    "receipt_extractor", "validation_agent", "policy_agent",
-    "fraud_agent", "reflection_agent", "report_agent",
-})
+_EXPENSE_AGENTS = frozenset(
+    {
+        "receipt_extractor",
+        "validation_agent",
+        "policy_agent",
+        "fraud_agent",
+        "reflection_agent",
+        "report_agent",
+    }
+)
 
 
 class CognitiveEngine:
@@ -79,7 +90,7 @@ class CognitiveEngine:
     @staticmethod
     def decide(
         intent_decision: IntentDecision,
-        state_metadata: Dict[str, Any],
+        state_metadata: dict[str, Any],
         conversation_id: str = "",
     ) -> CognitiveDecision:
         """Produce an immutable ``CognitiveDecision``.
@@ -161,9 +172,7 @@ class CognitiveEngine:
         # --- 7. Build authorization token ---
         authorization = None
         if execution_allowed:
-            workflow = IntentEngine.map_to_workflow_intent(
-                pending_intent if inherited_intent else stage2
-            )
+            workflow = IntentEngine.map_to_workflow_intent(pending_intent if inherited_intent else stage2)
             authorization = ExecutionAuthorization(
                 decision_id=decision_id,
                 conversation_id=conversation_id or str(uuid.uuid4()),
@@ -225,7 +234,6 @@ class CognitiveEngine:
         """
         if intent in _FIREWALL_BLOCKED_INTENTS and agent_name in _EXPENSE_AGENTS:
             raise ConversationFirewallViolation(
-                f"FIREWALL VIOLATION: intent '{intent}' attempted to execute "
-                f"expense agent '{agent_name}'",
+                f"FIREWALL VIOLATION: intent '{intent}' attempted to execute " f"expense agent '{agent_name}'",
                 context={"intent": intent, "agent": agent_name},
             )

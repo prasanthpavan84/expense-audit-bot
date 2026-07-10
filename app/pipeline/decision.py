@@ -1,19 +1,20 @@
 import uuid
 from dataclasses import dataclass, field
-from typing import Any, Dict, List
+from typing import Any
 
-from .validator import ValidationError
 from .fraud import FraudEngine
 from .policy import PolicyEngine
+from .validator import ValidationError
 
 
 @dataclass
 class DecisionTrace:
     """Tracks the sequential steps and results of the audit pipeline."""
+
     audit_id: str
-    validation_errors: List[ValidationError] = field(default_factory=list)
-    fraud_result: Dict[str, Any] = field(default_factory=dict)
-    policy_result: Dict[str, Any] = field(default_factory=dict)
+    validation_errors: list[ValidationError] = field(default_factory=list)
+    fraud_result: dict[str, Any] = field(default_factory=dict)
+    policy_result: dict[str, Any] = field(default_factory=dict)
 
 
 class DecisionEngine:
@@ -40,8 +41,8 @@ class DecisionEngine:
         # Decision logic
         decision = "approved"
         confidence = 1.0
-        reasons: Dict[str, Any] = {}
-        
+        reasons: dict[str, Any] = {}
+
         # Fraud checks return a dict of checks. Let's see if any check is True.
         # fraud_output is Dict[str, bool] from run_fraud_checks.
         # e.g., {'duplicate_receipt': bool, 'split_expense': bool, 'amount_anomaly': bool}
@@ -50,14 +51,14 @@ class DecisionEngine:
             decision = "rejected"
             confidence = 0.5
             reasons["fraud"] = fraud_output
-            
+
         # Policy checks return a dict. policy_output is Dict[str, bool] from evaluate.
         # e.g., {'within_limit': bool}
         if not policy_output.get("within_limit", True):
             decision = "rejected"
             confidence = 0.0
             reasons["policy"] = policy_output
-            
+
         return {
             "audit_id": audit_id,
             "decision": decision,
